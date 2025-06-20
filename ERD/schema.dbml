@@ -85,8 +85,10 @@ Table ManualSchoolEntry {
 
 Table Class {
   id int [pk]
-  name varchar
+  school_id int
+  archived boolean
   grade int
+  name varchar
   teacher_profile_id int
 }
 
@@ -119,7 +121,8 @@ Table TaskCard {
   title varchar
   description text
   owner_type enum('expert','teacher')
-  owner_id int
+  expert_profile_id int
+  teacher_profile_id int
   original_task_card_id int [null]
   status varchar
 
@@ -132,7 +135,21 @@ Table Task {
   prompt text
   answer_key text
   difficulty varchar
+  is_ai_generated boolean
 }
+
+Table TrainerTaskSet {
+  id int [pk]
+  user_id int
+  topic_id int
+  difficulty varchar
+  generated_at datetime
+  expires_at datetime
+  task_ids_json text
+
+  Note: 'task_ids_json содержит список ID задач в JSON'
+}
+
 
 Table CardSubmissionRequest {
   id int [pk]
@@ -211,10 +228,10 @@ Table ActivityLog {
   student_profile_id int
   action_type varchar
   entity_type varchar
-  entity_id int
+  assignment_id int
+  topic_id  int
+  submission_id int
   timestamp datetime
-
-  Note: 'Polymorphic link to various entities by type + ID'
 }
 
 Table ExperiencePoint {
@@ -223,10 +240,10 @@ Table ExperiencePoint {
   points int
   reason text
   related_entity_type varchar
-  related_entity_id int
+  assignment_id int
+  topic_id  int
+  submission_id int
   awarded_at datetime
-
-  Note: 'Polymorphic reference to Assignment, Task, etc.'
 }
 Table Badge {
   id int [pk]
@@ -305,7 +322,12 @@ Ref: Class.teacher_profile_id > TeacherProfile.id
 Ref: ClassStudent.class_id > Class.id
 Ref: ClassStudent.student_profile_id > StudentProfile.id
 Ref: TaskCard.topic_id > Topic.id
+Ref: TaskCard.expert_profile_id > ExpertProfile.id
+Ref: TaskCard.teacher_profile_id > TeacherProfile.id
 Ref: Task.task_card_id > TaskCard.id
+Ref: TrainerTaskSet.user_id > User.id
+Ref: TrainerTaskSet.topic_id > Topic.id	
+Ref: TaskCard.original_task_card_id > TaskCard.id	
 Ref: Assignment.task_card_id > TaskCard.id
 Ref: Assignment.class_id > Class.id
 Ref: Assignment.teacher_profile_id > TeacherProfile.id
