@@ -111,8 +111,6 @@ Table Topic {
   title varchar
   description text
   grade_level int
-
-  Note: 'Belongs to Section'
 }
 
 Table TaskCard {
@@ -120,13 +118,11 @@ Table TaskCard {
   topic_id int
   title varchar
   description text
-  owner_type enum('expert','teacher')
+  owner_type varchar  // values: 'expert', 'teacher'
   expert_profile_id int
   teacher_profile_id int
   original_task_card_id int [null]
   status varchar
-
- Note: 'Polymorphic relation to ExpertProfile.id or TeacherProfile.id'
 }
 
 Table Task {
@@ -146,10 +142,7 @@ Table TrainerTaskSet {
   generated_at datetime
   expires_at datetime
   task_ids_json text
-
-  Note: 'task_ids_json содержит список ID задач в JSON'
 }
-
 
 Table CardSubmissionRequest {
   id int [pk]
@@ -183,7 +176,7 @@ Table DiagnosticTemplate {
   id int [pk]
   grade_level int
   subject varchar
-  type enum('initial', 'final')
+  type varchar  // values: 'initial', 'final'
   created_at datetime
 }
 
@@ -229,7 +222,7 @@ Table ActivityLog {
   action_type varchar
   entity_type varchar
   assignment_id int
-  topic_id  int
+  topic_id int
   submission_id int
   timestamp datetime
 }
@@ -241,10 +234,11 @@ Table ExperiencePoint {
   reason text
   related_entity_type varchar
   assignment_id int
-  topic_id  int
+  topic_id int
   submission_id int
   awarded_at datetime
 }
+
 Table Badge {
   id int [pk]
   student_profile_id int
@@ -270,7 +264,7 @@ Table TheoryMaterial {
   id int [pk]
   topic_id int
   content text
-  order int
+  "order" int
 }
 
 Table Conversation {
@@ -319,33 +313,32 @@ Ref: School.city_id > City.id
 Ref: ManualSchoolEntry.user_id > User.id
 Ref: ManualSchoolEntry.city_id > City.id
 Ref: Class.teacher_profile_id > TeacherProfile.id
+Ref: Class.school_id > School.id
 Ref: ClassStudent.class_id > Class.id
 Ref: ClassStudent.student_profile_id > StudentProfile.id
 Ref: TaskCard.topic_id > Topic.id
 Ref: TaskCard.expert_profile_id > ExpertProfile.id
 Ref: TaskCard.teacher_profile_id > TeacherProfile.id
+Ref: TaskCard.original_task_card_id > TaskCard.id
 Ref: Task.task_card_id > TaskCard.id
 Ref: TrainerTaskSet.user_id > User.id
-Ref: TrainerTaskSet.topic_id > Topic.id	
-Ref: TaskCard.original_task_card_id > TaskCard.id	
-Ref: Assignment.task_card_id > TaskCard.id
-Ref: Assignment.class_id > Class.id
-Ref: Assignment.teacher_profile_id > TeacherProfile.id
+Ref: TrainerTaskSet.topic_id > Topic.id
 Ref: CardSubmissionRequest.teacher_profile_id > TeacherProfile.id
 Ref: CardSubmissionRequest.task_card_id > TaskCard.id
 Ref: CardSubmissionRequest.reviewed_by_admin_id > User.id
+Ref: Assignment.task_card_id > TaskCard.id
+Ref: Assignment.class_id > Class.id
+Ref: Assignment.teacher_profile_id > TeacherProfile.id
 Ref: Submission.assignment_id > Assignment.id
 Ref: Submission.student_profile_id > StudentProfile.id
 Ref: DiagnosticTemplateTask.template_id > DiagnosticTemplate.id
 Ref: InitialAssessment.student_profile_id > StudentProfile.id
 Ref: FinalAssessment.student_profile_id > StudentProfile.id
 Ref: DiagnosticResult.assessment_id > InitialAssessment.id
-Ref: DiagnosticResult.assessment_id > FinalAssessment.id
 Ref: DiagnosticResult.topic_id > Topic.id
 Ref: LearningProgress.student_profile_id > StudentProfile.id
 Ref: LearningProgress.topic_id > Topic.id
 Ref: ActivityLog.student_profile_id > StudentProfile.id
-Ref: ExperiencePoint.student_profile_id > StudentProfile.id
 Ref: Badge.student_profile_id > StudentProfile.id
 Ref: MVPTag.student_profile_id > StudentProfile.id
 Ref: MVPTag.assignment_id > Assignment.id
@@ -354,5 +347,5 @@ Ref: TheoryMaterial.topic_id > Topic.id
 Ref: Message.conversation_id > Conversation.id
 Ref: Message.sender_user_id > User.id
 Ref: Feedback.user_id > User.id
+Ref: ExperiencePoint.student_profile_id > StudentProfile.id
 Ref: Topic.section_id > Section.id
-
