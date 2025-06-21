@@ -1,0 +1,38 @@
+ManualSchoolEntry:
+  type: object
+  description: |
+    A request made by a user to manually add a school not found in the database.
+  properties:
+    id:
+      type: integer
+      description: Unique request ID.
+      example: 1301
+    user_id:
+      type: integer
+      description: ID of the requesting user.
+      example: 1001
+    school_name:
+      type: string
+      description: Proposed school name.
+      example: "Школа №2020"
+    city_id:
+      type: integer
+      description: ID of the city where the school is located.
+      example: 10
+    status:
+      type: string
+      enum: [pending, approved, rejected]
+      description: Status of the school entry request.
+      example: pending
+    created_at:
+      type: string
+      format: date-time
+      description: Date of submission.
+      example: "2025-06-05T11:45:00Z"
+  required:
+    - id
+    - user_id
+    - school_name
+    - city_id
+    - status
+    - created_at

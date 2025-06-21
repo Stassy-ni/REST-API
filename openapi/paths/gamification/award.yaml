@@ -1,0 +1,22 @@
+paths:
+  /gamification/award:
+    post:
+      summary: Award MVP tag
+      description: Allows teachers to award MVP tag to a student.
+      tags:
+        - Gamification
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/gamification/MVPTag.yaml'
+      responses:
+        '201':
+          description: Tag awarded
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/gamification/MVPTag.yaml'

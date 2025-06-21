@@ -1,0 +1,5 @@
+Ordering:
+  type: string
+  description: |
+    Field by which the result should be ordered. Prefix with '-' for descending.
+  example: "-created_at"

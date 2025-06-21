@@ -1,0 +1,27 @@
+paths:
+  /diagnostics/results:
+    get:
+      summary: Get diagnostic results
+      description: Lists diagnostic results for a student or class.
+      tags:
+        - Diagnostics
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: student_profile_id
+          in: query
+          schema:
+            type: integer
+        - name: class_id
+          in: query
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Diagnostic results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../components/schemas/diagnostics/DiagnosticResult.yaml'

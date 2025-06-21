@@ -1,0 +1,16 @@
+paths:
+  /tasks/trainer:
+    get:
+      summary: Get trainer task set
+      description: Returns a set of training tasks for the user.
+      tags:
+        - Tasks
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Trainer task set
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/tasks/TrainerTaskSet.yaml'

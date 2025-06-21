@@ -1,0 +1,22 @@
+InitialAssessment:
+  type: object
+  description: |
+    Record of a student starting the initial diagnostic assessment.
+  properties:
+    id:
+      type: integer
+      description: Unique ID of the assessment.
+      example: 601
+    student_profile_id:
+      type: integer
+      description: ID of the student.
+      example: 1001
+    conducted_at:
+      type: string
+      format: date-time
+      description: When the assessment was taken.
+      example: "2025-06-03T09:30:00Z"
+  required:
+    - id
+    - student_profile_id
+    - conducted_at

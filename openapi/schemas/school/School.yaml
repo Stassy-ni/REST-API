@@ -1,0 +1,31 @@
+School:
+  type: object
+  description: |
+    Represents an educational institution a student or teacher may belong to.
+  properties:
+    id:
+      type: integer
+      description: Unique school ID.
+      example: 21
+    name:
+      type: string
+      description: Name of the school.
+      example: "Гимназия №5"
+    city_id:
+      type: integer
+      description: City where the school is located.
+      example: 3
+    manual:
+      type: boolean
+      description: Whether the school was added manually.
+      example: false
+    verified:
+      type: boolean
+      description: Whether the school was verified by an admin.
+      example: true
+  required:
+    - id
+    - name
+    - city_id
+    - manual
+    - verified

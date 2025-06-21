@@ -1,0 +1,42 @@
+TrainerTaskSet:
+  type: object
+  description: |
+    A generated set of tasks for a student to practice independently on a topic.
+  properties:
+    id:
+      type: integer
+      description: Unique ID of the task set.
+      example: 601
+    user_id:
+      type: integer
+      description: ID of the user for whom the set is generated.
+      example: 1001
+    topic_id:
+      type: integer
+      description: Related topic ID.
+      example: 401
+    difficulty:
+      type: string
+      enum: [easy, medium, hard]
+      description: Difficulty level of the tasks.
+      example: easy
+    generated_at:
+      type: string
+      format: date-time
+      description: Timestamp of task generation.
+      example: "2025-06-19T12:00:00Z"
+    expires_at:
+      type: string
+      format: date-time
+      description: Expiration date/time of the trainer session.
+      example: "2025-06-21T12:00:00Z"
+    task_ids_json:
+      type: string
+      description: JSON-encoded list of task IDs included in this set.
+      example: "[101, 102, 103]"
+  required:
+    - id
+    - user_id
+    - topic_id
+    - generated_at
+    - task_ids_json

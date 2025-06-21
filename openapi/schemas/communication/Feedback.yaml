@@ -1,0 +1,36 @@
+Feedback:
+  type: object
+  description: |
+    Represents user feedback sent to the platform for improvements or issues.
+  properties:
+    id:
+      type: integer
+      description: Unique ID of the feedback.
+      example: 1501
+    user_id:
+      type: integer
+      description: ID of the user submitting the feedback.
+      example: 1001
+    text:
+      type: string
+      description: Feedback message content.
+      example: "Очень понравился интерфейс, но не хватает отчётов."
+    email_at_time:
+      type: string
+      format: email
+      description: Email of the user at the time of feedback.
+      example: user@example.com
+    fio_at_time:
+      type: string
+      description: Full name of the user at the time of feedback.
+      example: "Иван Петров"
+    created_at:
+      type: string
+      format: date-time
+      description: Date/time when feedback was submitted.
+      example: "2025-06-20T08:00:00Z"
+  required:
+    - id
+    - user_id
+    - text
+    - created_at

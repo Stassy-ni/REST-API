@@ -1,0 +1,26 @@
+TheoryMaterial:
+  type: object
+  description: |
+    Theoretical content associated with a topic, ordered for presentation.
+  properties:
+    id:
+      type: integer
+      description: Unique ID of the material.
+      example: 901
+    topic_id:
+      type: integer
+      description: ID of the related topic.
+      example: 401
+    content:
+      type: string
+      description: Textual theoretical explanation or examples.
+      example: "Чтобы сложить дроби с разными знаменателями, найдите общий знаменатель..."
+    order:
+      type: integer
+      description: Order number for sequential display.
+      example: 1
+  required:
+    - id
+    - topic_id
+    - content
+    - order

@@ -1,0 +1,35 @@
+Class:
+  type: object
+  description: |
+    A class represents a group of students, often taught by one teacher, within a school.
+  properties:
+    id:
+      type: integer
+      description: Unique class ID.
+      example: 101
+    school_id:
+      type: integer
+      description: School ID this class belongs to.
+      example: 21
+    archived:
+      type: boolean
+      description: Whether the class is archived.
+      example: false
+    grade:
+      type: integer
+      description: Grade level of the class.
+      example: 5
+    name:
+      type: string
+      description: Class name or letter.
+      example: "5А"
+    teacher_profile_id:
+      type: integer
+      description: Teacher profile associated with the class.
+      example: 301
+  required:
+    - id
+    - school_id
+    - grade
+    - name
+    - teacher_profile_id

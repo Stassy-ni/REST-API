@@ -1,0 +1,22 @@
+paths:
+  /auth/me:
+    get:
+      summary: Get current user profile
+      description: Returns the authenticated user's profile.
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Current authenticated user
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/auth/User.yaml'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/shared/ErrorResponse.yaml'

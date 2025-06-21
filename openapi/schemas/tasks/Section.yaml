@@ -1,0 +1,26 @@
+Section:
+  type: object
+  description: |
+    A higher-level category that groups topics within a subject and grade range.
+  properties:
+    id:
+      type: integer
+      description: Unique ID of the section.
+      example: 301
+    subject:
+      type: string
+      description: Subject of the section.
+      example: "math"
+    grade_range:
+      type: string
+      description: Grades covered by the section.
+      example: "5-6"
+    title:
+      type: string
+      description: Title of the section.
+      example: "Арифметика дробей"
+  required:
+    - id
+    - subject
+    - grade_range
+    - title

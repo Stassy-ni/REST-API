@@ -1,0 +1,41 @@
+User:
+  type: object
+  description: |
+    Represents a platform user. Users can be teachers, experts, students, or system accounts.
+  properties:
+    id:
+      type: integer
+      description: Unique identifier for the user.
+      example: 101
+    email:
+      type: string
+      format: email
+      description: Email address of the user.
+      example: user@example.com
+    password:
+      type: string
+      format: password
+      description: Hashed user password.
+      writeOnly: true
+    role_id:
+      type: integer
+      description: Foreign key referencing the user's role.
+      example: 2
+    is_system_generated:
+      type: boolean
+      description: Flag to mark accounts created by the system (not manual registration).
+      example: false
+    created_at:
+      type: string
+      format: date-time
+      description: Timestamp when the user was created.
+      example: "2025-06-21T10:00:00Z"
+    updated_at:
+      type: string
+      format: date-time
+      description: Timestamp when the user was last updated.
+      example: "2025-06-22T08:30:00Z"
+  required:
+    - id
+    - email
+    - password

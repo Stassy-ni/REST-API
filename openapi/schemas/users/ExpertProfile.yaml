@@ -1,0 +1,26 @@
+ExpertProfile:
+  type: object
+  description: |
+    Profile data for expert users who contribute educational content.
+  properties:
+    id:
+      type: integer
+      description: Unique ID of the expert profile.
+      example: 401
+    user_id:
+      type: integer
+      description: Linked user ID.
+      example: 2001
+    fio:
+      type: string
+      description: Full name of the expert.
+      example: "Мария Смирнова"
+    verified:
+      type: boolean
+      description: Whether the expert is verified by moderators.
+      example: true
+  required:
+    - id
+    - user_id
+    - fio
+    - verified

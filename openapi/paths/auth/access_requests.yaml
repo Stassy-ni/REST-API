@@ -1,0 +1,36 @@
+paths:
+  /auth/access-requests:
+    post:
+      summary: Request elevated access
+      description: Submit a request to become an expert or teacher.
+      tags:
+        - Auth
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requested_role:
+                  type: string
+                  enum: [teacher, expert]
+                  description: Role being requested
+                  example: "expert"
+              required:
+                - requested_role
+      responses:
+        '201':
+          description: Access request submitted
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/auth/AccessRequest.yaml'
+        '400':
+          description: Invalid role or duplicate request
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/shared/ErrorResponse.yaml'

@@ -1,0 +1,22 @@
+paths:
+  /assignments/submissions:
+    post:
+      summary: Submit completed assignment
+      description: Allows a student to submit their work.
+      tags:
+        - Assignments
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/assignments/Submission.yaml'
+      responses:
+        '201':
+          description: Submission recorded
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/assignments/Submission.yaml'

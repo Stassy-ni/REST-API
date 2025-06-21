@@ -1,0 +1,16 @@
+paths:
+  /tasks/sections:
+    get:
+      summary: List sections
+      description: Returns a list of curriculum sections.
+      tags:
+        - Tasks
+      responses:
+        '200':
+          description: List of sections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../components/schemas/tasks/Section.yaml'

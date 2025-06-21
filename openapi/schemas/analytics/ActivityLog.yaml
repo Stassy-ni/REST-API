@@ -1,0 +1,47 @@
+ActivityLog:
+  type: object
+  description: |
+    Tracks student activity across assignments and topics.
+  properties:
+    id:
+      type: integer
+      description: Unique activity log ID.
+      example: 1401
+    student_profile_id:
+      type: integer
+      description: ID of the student whose activity is logged.
+      example: 1001
+    action_type:
+      type: string
+      description: Type of action performed.
+      example: "submitted_assignment"
+    entity_type:
+      type: string
+      description: Type of the entity involved.
+      example: "assignment"
+    assignment_id:
+      type: integer
+      nullable: true
+      description: Related assignment ID if applicable.
+      example: 1001
+    topic_id:
+      type: integer
+      nullable: true
+      description: Related topic ID if applicable.
+      example: 401
+    submission_id:
+      type: integer
+      nullable: true
+      description: Related submission ID if applicable.
+      example: 8001
+    timestamp:
+      type: string
+      format: date-time
+      description: Time of the action.
+      example: "2025-06-20T16:00:00Z"
+  required:
+    - id
+    - student_profile_id
+    - action_type
+    - entity_type
+    - timestamp

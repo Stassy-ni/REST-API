@@ -1,0 +1,22 @@
+paths:
+  /classroom/class-students:
+    post:
+      summary: Add student to class
+      description: Assigns a student to a specific class.
+      tags:
+        - Classroom
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/classroom/ClassStudent.yaml'
+      responses:
+        '201':
+          description: Student added to class
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/classroom/ClassStudent.yaml'

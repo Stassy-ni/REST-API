@@ -1,0 +1,71 @@
+paths:
+  /auth/login:
+    post:
+      summary: User login
+      description: Authenticates a user with email and password, returns access and refresh tokens.
+      tags:
+        - Auth
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                  description: Registered email address
+                  example: user@example.com
+                password:
+                  type: string
+                  format: password
+                  description: Account password
+                  example: "mypassword123"
+              required:
+                - email
+                - password
+
+      responses:
+        '200':
+          description: Successfully authenticated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '../../components/schemas/auth/User.yaml'
+                  access_token:
+                    type: string
+                    description: JWT access token
+                    example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+                  refresh_token:
+                    type: string
+                    description: JWT refresh token
+                    example: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+        '400':
+          description: Invalid email or password format
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/shared/ErrorResponse.yaml'
+              examples:
+                InvalidFormat:
+                  summary: Email format incorrect
+                  value:
+                    detail: "Enter a valid email address."
+                    code: "invalid_email"
+        '401':
+          description: Authentication failed
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/shared/ErrorResponse.yaml'
+              examples:
+                WrongCredentials:
+                  summary: Incorrect login or password
+                  value:
+                    detail: "Invalid login credentials."
+                    code: "authentication_failed"

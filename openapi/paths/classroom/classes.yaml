@@ -1,0 +1,54 @@
+paths:
+  /classroom/classes:
+    get:
+      summary: List of classes
+      description: Returns a paginated list of classes managed by the user.
+      tags:
+        - Classroom
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: 1
+        - name: page_size
+          in: query
+          schema:
+            type: integer
+          example: 20
+      responses:
+        '200':
+          description: List of classes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '../../components/schemas/classroom/Class.yaml'
+                  pagination:
+                    $ref: '../../components/schemas/shared/Pagination.yaml'
+    post:
+      summary: Create class
+      description: Creates a new class linked to a school and teacher.
+      tags:
+        - Classroom
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/classroom/Class.yaml'
+      responses:
+        '201':
+          description: Class created
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/classroom/Class.yaml'

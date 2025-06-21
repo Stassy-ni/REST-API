@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: MathPlatform API
+  version: 1.0.0
+  description: |
+    Backend API for managing users, classroom, diagnostics, assignments, gamification, and internal communication.
+
+servers:
+  - url: https://api.mathplatform.local/v1
+
+tags:
+  - name: Auth
+  - name: Users
+  - name: School
+  - name: Classroom
+  - name: Tasks
+  - name: Assignments
+  - name: Diagnostics
+  - name: Gamification
+  - name: Analytics
+  - name: Communication
+
+paths:
+  $ref: "./paths/auth/login.yaml"
+  $ref: "./paths/auth/register.yaml"
+  $ref: "./paths/auth/refresh.yaml"
+  $ref: "./paths/auth/logout.yaml"
+  $ref: "./paths/auth/me.yaml"
+  $ref: "./paths/auth/access_requests.yaml"
+
+  $ref: "./paths/users/me.yaml"
+  $ref: "./paths/users/teacher_update.yaml"
+  $ref: "./paths/users/expert_update.yaml"
+
+  $ref: "./paths/school/cities.yaml"
+  $ref: "./paths/school/schools.yaml"
+  $ref: "./paths/school/school_requests.yaml"
+  $ref: "./paths/school/school_groups.yaml"
+
+  $ref: "./paths/classroom/classes.yaml"
+  $ref: "./paths/classroom/class_students.yaml"
+
+  $ref: "./paths/tasks/task_cards.yaml"
+  $ref: "./paths/tasks/tasks.yaml"
+  $ref: "./paths/tasks/theory.yaml"
+  $ref: "./paths/tasks/section.yaml"
+  $ref: "./paths/tasks/topic.yaml"
+  $ref: "./paths/tasks/trainer_tasks.yaml"
+  $ref: "./paths/tasks/card_submissions.yaml"
+
+  $ref: "./paths/assignments/assignments.yaml"
+  $ref: "./paths/assignments/submissions.yaml"
+
+  $ref: "./paths/diagnostics/templates.yaml"
+  $ref: "./paths/diagnostics/initial.yaml"
+  $ref: "./paths/diagnostics/final.yaml"
+  $ref: "./paths/diagnostics/results.yaml"
+
+  $ref: "./paths/gamification/gamification.yaml"
+  $ref: "./paths/gamification/award.yaml"
+  $ref: "./paths/gamification/leaderboard.yaml"
+
+  $ref: "./paths/analytics/student.yaml"
+  $ref: "./paths/analytics/class.yaml"
+
+  $ref: "./paths/communication/conversations.yaml"
+  $ref: "./paths/communication/messages.yaml"
+  $ref: "./paths/communication/feedback.yaml"
+
+components:
+  schemas:
+    ErrorResponse:         $ref: "./components/schemas/shared/ErrorResponse.yaml"
+    Pagination:            $ref: "./components/schemas/shared/Pagination.yaml"
+    Ordering:              $ref: "./components/schemas/shared/Ordering.yaml"
+
+    User:                  $ref: "./components/schemas/auth/User.yaml"
+    Role:                  $ref: "./components/schemas/auth/Role.yaml"
+    AccessRequest:         $ref: "./components/schemas/auth/AccessRequest.yaml"
+    Token:                 $ref: "./components/schemas/auth/Token.yaml"
+    PasswordResetToken:    $ref: "./components/schemas/auth/PasswordResetToken.yaml"
+
+    StudentProfile:        $ref: "./components/schemas/users/StudentProfile.yaml"
+    TeacherProfile:        $ref: "./components/schemas/users/TeacherProfile.yaml"
+    ExpertProfile:         $ref: "./components/schemas/users/ExpertProfile.yaml"
+    ManualSchoolEntry:     $ref: "./components/schemas/users/ManualSchoolEntry.yaml"
+
+    City:                  $ref: "./components/schemas/school/City.yaml"
+    School:                $ref: "./components/schemas/school/School.yaml"
+    SchoolGroup:           $ref: "./components/schemas/school/SchoolGroup.yaml"
+
+    Class:                 $ref: "./components/schemas/classroom/Class.yaml"
+    ClassStudent:          $ref: "./components/schemas/classroom/ClassStudent.yaml"
+
+    TaskCard:              $ref: "./components/schemas/tasks/TaskCard.yaml"
+    Task:                  $ref: "./components/schemas/tasks/Task.yaml"
+    TheoryMaterial:        $ref: "./components/schemas/tasks/TheoryMaterial.yaml"
+    Section:               $ref: "./components/schemas/tasks/Section.yaml"
+    Topic:                 $ref: "./components/schemas/tasks/Topic.yaml"
+    TrainerTaskSet:        $ref: "./components/schemas/tasks/TrainerTaskSet.yaml"
+    CardSubmissionRequest: $ref: "./components/schemas/tasks/CardSubmissionRequest.yaml"
+
+    Assignment:            $ref: "./components/schemas/assignments/Assignment.yaml"
+    Submission:            $ref: "./components/schemas/assignments/Submission.yaml"
+
+    DiagnosticTemplate:    $ref: "./components/schemas/diagnostics/DiagnosticTemplate.yaml"
+    DiagnosticTemplateTask: $ref: "./components/schemas/diagnostics/DiagnosticTemplateTask.yaml"
+    InitialAssessment:     $ref: "./components/schemas/diagnostics/InitialAssessment.yaml"
+    FinalAssessment:       $ref: "./components/schemas/diagnostics/FinalAssessment.yaml"
+    DiagnosticResult:      $ref: "./components/schemas/diagnostics/DiagnosticResult.yaml"
+
+    ExperiencePoint:       $ref: "./components/schemas/gamification/ExperiencePoint.yaml"
+    Badge:                 $ref: "./components/schemas/gamification/Badge.yaml"
+    MVPTag:                $ref: "./components/schemas/gamification/MVPTag.yaml"
+    Rank:                  $ref: "./components/schemas/gamification/Rank.yaml"
+
+    LearningProgress:      $ref: "./components/schemas/analytics/LearningProgress.yaml"
+    ActivityLog:           $ref: "./components/schemas/analytics/ActivityLog.yaml"
+
+    Conversation:          $ref: "./components/schemas/communication/Conversation.yaml"
+    Message:               $ref: "./components/schemas/communication/Message.yaml"
+    Feedback:              $ref: "./components/schemas/communication/Feedback.yaml"
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

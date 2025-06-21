@@ -1,0 +1,23 @@
+paths:
+  /tasks/topics:
+    get:
+      summary: List topics
+      description: Returns topics under a given section.
+      tags:
+        - Tasks
+      parameters:
+        - name: section_id
+          in: query
+          schema:
+            type: integer
+          required: false
+          description: Filter topics by section
+      responses:
+        '200':
+          description: List of topics
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../components/schemas/tasks/Topic.yaml'

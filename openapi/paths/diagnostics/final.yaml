@@ -1,0 +1,22 @@
+paths:
+  /diagnostics/final:
+    post:
+      summary: Start final diagnostic
+      description: Starts a final assessment for a student.
+      tags:
+        - Diagnostics
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/diagnostics/FinalAssessment.yaml'
+      responses:
+        '201':
+          description: Final assessment started
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/diagnostics/FinalAssessment.yaml'

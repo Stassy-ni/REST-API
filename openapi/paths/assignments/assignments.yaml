@@ -1,0 +1,58 @@
+paths:
+  /assignments:
+    get:
+      summary: List assignments
+      description: Returns assignments created by the authenticated teacher.
+      tags:
+        - Assignments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: class_id
+          in: query
+          schema:
+            type: integer
+          description: Filter by class
+        - name: page
+          in: query
+          schema:
+            type: integer
+        - name: ordering
+          in: query
+          schema:
+            $ref: '../../components/schemas/shared/Ordering.yaml'
+      responses:
+        '200':
+          description: Assignment list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '../../components/schemas/assignments/Assignment.yaml'
+                  pagination:
+                    $ref: '../../components/schemas/shared/Pagination.yaml'
+
+    post:
+      summary: Create assignment
+      description: Assigns a task card to a class.
+      tags:
+        - Assignments
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/assignments/Assignment.yaml'
+      responses:
+        '201':
+          description: Assignment created
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/assignments/Assignment.yaml'

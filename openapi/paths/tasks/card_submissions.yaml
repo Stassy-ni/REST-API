@@ -1,0 +1,22 @@
+paths:
+  /tasks/card-submissions:
+    post:
+      summary: Submit card for expert review
+      description: Sends a teacher's card to moderators.
+      tags:
+        - Tasks
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/tasks/CardSubmissionRequest.yaml'
+      responses:
+        '201':
+          description: Card submission created
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/tasks/CardSubmissionRequest.yaml'

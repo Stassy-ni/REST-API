@@ -1,0 +1,52 @@
+paths:
+  /tasks/task-cards:
+    get:
+      summary: List task cards
+      description: Returns filtered list of task cards.
+      tags:
+        - Tasks
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, published]
+          description: Filter by card status
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: 1
+        - name: ordering
+          in: query
+          schema:
+            $ref: '../../components/schemas/shared/Ordering.yaml'
+      responses:
+        '200':
+          description: List of task cards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '../../components/schemas/tasks/TaskCard.yaml'
+    post:
+      summary: Create task card
+      description: Creates a new task card.
+      tags:
+        - Tasks
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '../../components/schemas/tasks/TaskCard.yaml'
+      responses:
+        '201':
+          description: Task card created
+          content:
+            application/json:
+              schema:
+                $ref: '../../components/schemas/tasks/TaskCard.yaml'
