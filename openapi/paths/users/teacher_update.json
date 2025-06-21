@@ -1,18 +1,28 @@
 {
-  "/users/me/teacher": {
-    "patch": {
-      "summary": "Update teacher profile",
-      "description": "Updates fields specific to a teacher profile.",
-      "tags": [
-        "Users"
-      ],
-      "security": [
-        {
-          "bearerAuth": []
+  "patch": {
+    "summary": "Update teacher profile",
+    "description": "Updates fields specific to a teacher profile.",
+    "tags": [
+      "Users"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../schemas/users/TeacherProfile.json"
+          }
         }
-      ],
-      "requestBody": {
-        "required": true,
+      }
+    },
+    "responses": {
+      "200": {
+        "description": "Profile updated",
         "content": {
           "application/json": {
             "schema": {
@@ -21,24 +31,12 @@
           }
         }
       },
-      "responses": {
-        "200": {
-          "description": "Profile updated",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "../../schemas/users/TeacherProfile.json"
-              }
-            }
-          }
-        },
-        "400": {
-          "description": "Invalid update data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "../../schemas/shared/ErrorResponse.json"
-              }
+      "400": {
+        "description": "Invalid update data",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../../schemas/shared/ErrorResponse.json"
             }
           }
         }
