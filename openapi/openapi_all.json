@@ -61,7 +61,54 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "description": "Represents a platform user. Users can be teachers, experts, students, or system accounts.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique identifier for the user.",
+                      "example": 101
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Email address of the user.",
+                      "example": "user@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "format": "password",
+                      "description": "Hashed user password.",
+                      "writeOnly": true
+                    },
+                    "role_id": {
+                      "type": "integer",
+                      "description": "Foreign key referencing the user's role.",
+                      "example": 2
+                    },
+                    "is_system_generated": {
+                      "type": "boolean",
+                      "description": "Flag to mark accounts created by the system (not manual registration).",
+                      "example": false
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user was created.",
+                      "example": "2025-06-21T10:00:00Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user was last updated.",
+                      "example": "2025-06-22T08:30:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email",
+                    "password"
+                  ]
                 }
               }
             }
@@ -71,7 +118,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -128,7 +191,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -178,7 +257,48 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AccessRequest"
+                  "type": "object",
+                  "description": "Represents a user's request for elevated access (e.g., to become a teacher or expert).\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the request.",
+                      "example": 1201
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "description": "ID of the user submitting the request.",
+                      "example": 1001
+                    },
+                    "requested_role": {
+                      "type": "string",
+                      "description": "Role being requested (e.g., \"expert\").",
+                      "example": "expert"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "approved",
+                        "rejected"
+                      ],
+                      "description": "Status of the request.",
+                      "example": "pending"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date when the request was made.",
+                      "example": "2025-06-10T09:00:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "user_id",
+                    "requested_role",
+                    "status",
+                    "created_at"
+                  ]
                 }
               }
             }
@@ -188,7 +308,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -217,7 +353,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -271,7 +423,54 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "description": "Represents a platform user. Users can be teachers, experts, students, or system accounts.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique identifier for the user.",
+                      "example": 101
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Email address of the user.",
+                      "example": "user@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "format": "password",
+                      "description": "Hashed user password.",
+                      "writeOnly": true
+                    },
+                    "role_id": {
+                      "type": "integer",
+                      "description": "Foreign key referencing the user's role.",
+                      "example": 2
+                    },
+                    "is_system_generated": {
+                      "type": "boolean",
+                      "description": "Flag to mark accounts created by the system (not manual registration).",
+                      "example": false
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user was created.",
+                      "example": "2025-06-21T10:00:00Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user was last updated.",
+                      "example": "2025-06-22T08:30:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email",
+                    "password"
+                  ]
                 }
               }
             }
@@ -281,7 +480,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -333,7 +548,54 @@
                   "type": "object",
                   "properties": {
                     "user": {
-                      "$ref": "#/components/schemas/User"
+                      "type": "object",
+                      "description": "Represents a platform user. Users can be teachers, experts, students, or system accounts.\n",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "Unique identifier for the user.",
+                          "example": 101
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email",
+                          "description": "Email address of the user.",
+                          "example": "user@example.com"
+                        },
+                        "password": {
+                          "type": "string",
+                          "format": "password",
+                          "description": "Hashed user password.",
+                          "writeOnly": true
+                        },
+                        "role_id": {
+                          "type": "integer",
+                          "description": "Foreign key referencing the user's role.",
+                          "example": 2
+                        },
+                        "is_system_generated": {
+                          "type": "boolean",
+                          "description": "Flag to mark accounts created by the system (not manual registration).",
+                          "example": false
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp when the user was created.",
+                          "example": "2025-06-21T10:00:00Z"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp when the user was last updated.",
+                          "example": "2025-06-22T08:30:00Z"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "password"
+                      ]
                     },
                     "access_token": {
                       "type": "string",
@@ -355,7 +617,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 },
                 "examples": {
                   "InvalidFormat": {
@@ -374,7 +652,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 },
                 "examples": {
                   "WrongCredentials": {
@@ -406,7 +700,24 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/City"
+                    "type": "object",
+                    "description": "Represents a city used to categorize schools and users.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique city ID.",
+                        "example": 11
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the city.",
+                        "example": "Санкт-Петербург"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name"
+                    ]
                   }
                 }
               }
@@ -430,7 +741,29 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SchoolGroup"
+                    "type": "object",
+                    "description": "Logical grouping of schools for administrative or analytical purposes.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique ID of the school group.",
+                        "example": 701
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the school group.",
+                        "example": "Московский кластер"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Detailed description of the group.",
+                        "example": "Группа школ по Москве и Московской области"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name"
+                    ]
                   }
                 }
               }
@@ -464,7 +797,42 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/School"
+                    "type": "object",
+                    "description": "Represents an educational institution a student or teacher may belong to.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique school ID.",
+                        "example": 21
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "Name of the school.",
+                        "example": "Гимназия №5"
+                      },
+                      "city_id": {
+                        "type": "integer",
+                        "description": "City where the school is located.",
+                        "example": 3
+                      },
+                      "manual": {
+                        "type": "boolean",
+                        "description": "Whether the school was added manually.",
+                        "example": false
+                      },
+                      "verified": {
+                        "type": "boolean",
+                        "description": "Whether the school was verified by an admin.",
+                        "example": true
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "city_id",
+                      "manual",
+                      "verified"
+                    ]
                   }
                 }
               }
@@ -485,7 +853,54 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ManualSchoolEntry"
+                "type": "object",
+                "description": "A request made by a user to manually add a school not found in the database.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique request ID.",
+                    "example": 1301
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "ID of the requesting user.",
+                    "example": 1001
+                  },
+                  "school_name": {
+                    "type": "string",
+                    "description": "Proposed school name.",
+                    "example": "Школа №2020"
+                  },
+                  "city_id": {
+                    "type": "integer",
+                    "description": "ID of the city where the school is located.",
+                    "example": 10
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "approved",
+                      "rejected"
+                    ],
+                    "description": "Status of the school entry request.",
+                    "example": "pending"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date of submission.",
+                    "example": "2025-06-05T11:45:00Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "user_id",
+                  "school_name",
+                  "city_id",
+                  "status",
+                  "created_at"
+                ]
               }
             }
           }
@@ -496,7 +911,54 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ManualSchoolEntry"
+                  "type": "object",
+                  "description": "A request made by a user to manually add a school not found in the database.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique request ID.",
+                      "example": 1301
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "description": "ID of the requesting user.",
+                      "example": 1001
+                    },
+                    "school_name": {
+                      "type": "string",
+                      "description": "Proposed school name.",
+                      "example": "Школа №2020"
+                    },
+                    "city_id": {
+                      "type": "integer",
+                      "description": "ID of the city where the school is located.",
+                      "example": 10
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "approved",
+                        "rejected"
+                      ],
+                      "description": "Status of the school entry request.",
+                      "example": "pending"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date of submission.",
+                      "example": "2025-06-05T11:45:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "user_id",
+                    "school_name",
+                    "city_id",
+                    "status",
+                    "created_at"
+                  ]
                 }
               }
             }
@@ -522,7 +984,54 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "type": "object",
+                  "description": "Represents a platform user. Users can be teachers, experts, students, or system accounts.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique identifier for the user.",
+                      "example": 101
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Email address of the user.",
+                      "example": "user@example.com"
+                    },
+                    "password": {
+                      "type": "string",
+                      "format": "password",
+                      "description": "Hashed user password.",
+                      "writeOnly": true
+                    },
+                    "role_id": {
+                      "type": "integer",
+                      "description": "Foreign key referencing the user's role.",
+                      "example": 2
+                    },
+                    "is_system_generated": {
+                      "type": "boolean",
+                      "description": "Flag to mark accounts created by the system (not manual registration).",
+                      "example": false
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user was created.",
+                      "example": "2025-06-21T10:00:00Z"
+                    },
+                    "updated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the user was last updated.",
+                      "example": "2025-06-22T08:30:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "email",
+                    "password"
+                  ]
                 }
               }
             }
@@ -532,7 +1041,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -557,7 +1082,42 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TeacherProfile"
+                "type": "object",
+                "description": "Represents a teacher's profile including full name and school affiliation.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique identifier for the teacher profile.",
+                    "example": 101
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "Foreign key linking to the user.",
+                    "example": 301
+                  },
+                  "fio": {
+                    "type": "string",
+                    "description": "Full name of the teacher.",
+                    "example": "Анна Петрова"
+                  },
+                  "school_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Associated school ID.",
+                    "example": 11
+                  },
+                  "city_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Associated city ID.",
+                    "example": 2
+                  }
+                },
+                "required": [
+                  "id",
+                  "user_id",
+                  "fio"
+                ]
               }
             }
           }
@@ -568,7 +1128,42 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TeacherProfile"
+                  "type": "object",
+                  "description": "Represents a teacher's profile including full name and school affiliation.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique identifier for the teacher profile.",
+                      "example": 101
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "description": "Foreign key linking to the user.",
+                      "example": 301
+                    },
+                    "fio": {
+                      "type": "string",
+                      "description": "Full name of the teacher.",
+                      "example": "Анна Петрова"
+                    },
+                    "school_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "Associated school ID.",
+                      "example": 11
+                    },
+                    "city_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "Associated city ID.",
+                      "example": 2
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "user_id",
+                    "fio"
+                  ]
                 }
               }
             }
@@ -578,7 +1173,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -603,7 +1214,36 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ExpertProfile"
+                "type": "object",
+                "description": "Profile data for expert users who contribute educational content.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the expert profile.",
+                    "example": 401
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "Linked user ID.",
+                    "example": 2001
+                  },
+                  "fio": {
+                    "type": "string",
+                    "description": "Full name of the expert.",
+                    "example": "Мария Смирнова"
+                  },
+                  "verified": {
+                    "type": "boolean",
+                    "description": "Whether the expert is verified by moderators.",
+                    "example": true
+                  }
+                },
+                "required": [
+                  "id",
+                  "user_id",
+                  "fio",
+                  "verified"
+                ]
               }
             }
           }
@@ -614,7 +1254,36 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ExpertProfile"
+                  "type": "object",
+                  "description": "Profile data for expert users who contribute educational content.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the expert profile.",
+                      "example": 401
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "description": "Linked user ID.",
+                      "example": 2001
+                    },
+                    "fio": {
+                      "type": "string",
+                      "description": "Full name of the expert.",
+                      "example": "Мария Смирнова"
+                    },
+                    "verified": {
+                      "type": "boolean",
+                      "description": "Whether the expert is verified by moderators.",
+                      "example": true
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "user_id",
+                    "fio",
+                    "verified"
+                  ]
                 }
               }
             }
@@ -624,7 +1293,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "type": "object",
+                  "description": "Standard error response schema.",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "description": "Error message.",
+                      "example": "Not found."
+                    },
+                    "code": {
+                      "type": "string",
+                      "description": "Error code (optional).",
+                      "example": "not_found"
+                    }
+                  },
+                  "required": [
+                    "detail"
+                  ]
                 }
               }
             }
@@ -664,7 +1349,9 @@
             "name": "ordering",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/Ordering"
+              "type": "string",
+              "description": "Field by which the result should be ordered. Prefix with '-' for descending.\n",
+              "example": "-created_at"
             }
           }
         ],
@@ -679,11 +1366,77 @@
                     "results": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Assignment"
+                        "type": "object",
+                        "description": "Represents a task assignment given to a class by a teacher.\n",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Unique identifier for the assignment.",
+                            "example": 1001
+                          },
+                          "task_card_id": {
+                            "type": "integer",
+                            "description": "ID of the associated task card.",
+                            "example": 201
+                          },
+                          "class_id": {
+                            "type": "integer",
+                            "description": "ID of the class receiving the assignment.",
+                            "example": 301
+                          },
+                          "teacher_profile_id": {
+                            "type": "integer",
+                            "description": "ID of the teacher assigning the task.",
+                            "example": 401
+                          },
+                          "assigned_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Date and time when the task was assigned.",
+                            "example": "2025-06-10T09:00:00Z"
+                          },
+                          "due_date": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Deadline for the assignment submission.",
+                            "example": "2025-06-15T23:59:59Z"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "task_card_id",
+                          "class_id",
+                          "teacher_profile_id",
+                          "assigned_at",
+                          "due_date"
+                        ]
                       }
                     },
                     "pagination": {
-                      "$ref": "#/components/schemas/Pagination"
+                      "type": "object",
+                      "description": "Pagination metadata included in list responses.",
+                      "properties": {
+                        "count": {
+                          "type": "integer",
+                          "description": "Total number of items available.",
+                          "example": 125
+                        },
+                        "page": {
+                          "type": "integer",
+                          "description": "Current page number.",
+                          "example": 1
+                        },
+                        "page_size": {
+                          "type": "integer",
+                          "description": "Number of items per page.",
+                          "example": 20
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "description": "Total number of pages.",
+                          "example": 7
+                        }
+                      }
                     }
                   }
                 }
@@ -708,7 +1461,50 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Assignment"
+                "type": "object",
+                "description": "Represents a task assignment given to a class by a teacher.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique identifier for the assignment.",
+                    "example": 1001
+                  },
+                  "task_card_id": {
+                    "type": "integer",
+                    "description": "ID of the associated task card.",
+                    "example": 201
+                  },
+                  "class_id": {
+                    "type": "integer",
+                    "description": "ID of the class receiving the assignment.",
+                    "example": 301
+                  },
+                  "teacher_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the teacher assigning the task.",
+                    "example": 401
+                  },
+                  "assigned_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time when the task was assigned.",
+                    "example": "2025-06-10T09:00:00Z"
+                  },
+                  "due_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Deadline for the assignment submission.",
+                    "example": "2025-06-15T23:59:59Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "task_card_id",
+                  "class_id",
+                  "teacher_profile_id",
+                  "assigned_at",
+                  "due_date"
+                ]
               }
             }
           }
@@ -719,7 +1515,50 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Assignment"
+                  "type": "object",
+                  "description": "Represents a task assignment given to a class by a teacher.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique identifier for the assignment.",
+                      "example": 1001
+                    },
+                    "task_card_id": {
+                      "type": "integer",
+                      "description": "ID of the associated task card.",
+                      "example": 201
+                    },
+                    "class_id": {
+                      "type": "integer",
+                      "description": "ID of the class receiving the assignment.",
+                      "example": 301
+                    },
+                    "teacher_profile_id": {
+                      "type": "integer",
+                      "description": "ID of the teacher assigning the task.",
+                      "example": 401
+                    },
+                    "assigned_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date and time when the task was assigned.",
+                      "example": "2025-06-10T09:00:00Z"
+                    },
+                    "due_date": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Deadline for the assignment submission.",
+                      "example": "2025-06-15T23:59:59Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "task_card_id",
+                    "class_id",
+                    "teacher_profile_id",
+                    "assigned_at",
+                    "due_date"
+                  ]
                 }
               }
             }
@@ -744,7 +1583,52 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Submission"
+                "type": "object",
+                "description": "Represents a student's answer submission for a given assignment.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique submission ID.",
+                    "example": 8001
+                  },
+                  "assignment_id": {
+                    "type": "integer",
+                    "description": "ID of the assignment.",
+                    "example": 1001
+                  },
+                  "student_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the submitting student.",
+                    "example": 1001
+                  },
+                  "submitted_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date and time of submission.",
+                    "example": "2025-06-12T15:34:22Z"
+                  },
+                  "result_json": {
+                    "type": "string",
+                    "description": "JSON result of the submission (task-by-task details).",
+                    "example": "{\"task_1\": true, \"task_2\": false}"
+                  },
+                  "attempt_count": {
+                    "type": "integer",
+                    "description": "Number of submission attempts.",
+                    "example": 2
+                  },
+                  "time_spent": {
+                    "type": "integer",
+                    "description": "Time spent on the assignment in seconds.",
+                    "example": 780
+                  }
+                },
+                "required": [
+                  "id",
+                  "assignment_id",
+                  "student_profile_id",
+                  "submitted_at"
+                ]
               }
             }
           }
@@ -755,7 +1639,52 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Submission"
+                  "type": "object",
+                  "description": "Represents a student's answer submission for a given assignment.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique submission ID.",
+                      "example": 8001
+                    },
+                    "assignment_id": {
+                      "type": "integer",
+                      "description": "ID of the assignment.",
+                      "example": 1001
+                    },
+                    "student_profile_id": {
+                      "type": "integer",
+                      "description": "ID of the submitting student.",
+                      "example": 1001
+                    },
+                    "submitted_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date and time of submission.",
+                      "example": "2025-06-12T15:34:22Z"
+                    },
+                    "result_json": {
+                      "type": "string",
+                      "description": "JSON result of the submission (task-by-task details).",
+                      "example": "{\"task_1\": true, \"task_2\": false}"
+                    },
+                    "attempt_count": {
+                      "type": "integer",
+                      "description": "Number of submission attempts.",
+                      "example": 2
+                    },
+                    "time_spent": {
+                      "type": "integer",
+                      "description": "Time spent on the assignment in seconds.",
+                      "example": 780
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "assignment_id",
+                    "student_profile_id",
+                    "submitted_at"
+                  ]
                 }
               }
             }
@@ -780,7 +1709,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/FinalAssessment"
+                "type": "object",
+                "description": "Record of a student's completion of the final diagnostic.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the final assessment.",
+                    "example": 701
+                  },
+                  "student_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the student.",
+                    "example": 1001
+                  },
+                  "conducted_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when the assessment was completed.",
+                    "example": "2025-06-20T12:00:00Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "student_profile_id",
+                  "conducted_at"
+                ]
               }
             }
           }
@@ -791,7 +1744,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FinalAssessment"
+                  "type": "object",
+                  "description": "Record of a student's completion of the final diagnostic.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the final assessment.",
+                      "example": 701
+                    },
+                    "student_profile_id": {
+                      "type": "integer",
+                      "description": "ID of the student.",
+                      "example": 1001
+                    },
+                    "conducted_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp when the assessment was completed.",
+                      "example": "2025-06-20T12:00:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "student_profile_id",
+                    "conducted_at"
+                  ]
                 }
               }
             }
@@ -830,7 +1807,46 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/DiagnosticTemplate"
+                    "type": "object",
+                    "description": "Template for diagnostics, containing predefined tasks by subject, grade, and type.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique ID of the diagnostic template.",
+                        "example": 1601
+                      },
+                      "grade_level": {
+                        "type": "integer",
+                        "description": "Target grade level.",
+                        "example": 5
+                      },
+                      "subject": {
+                        "type": "string",
+                        "description": "Subject of the diagnostic.",
+                        "example": "math"
+                      },
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "initial",
+                          "final"
+                        ],
+                        "description": "Type of diagnostic (entry or exit).",
+                        "example": "initial"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp when template was created.",
+                        "example": "2025-06-01T10:00:00Z"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "grade_level",
+                      "subject",
+                      "type"
+                    ]
                   }
                 }
               }
@@ -875,7 +1891,41 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/DiagnosticResult"
+                    "type": "object",
+                    "description": "Result of a diagnostic assessment for a topic.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique ID of the result.",
+                        "example": 701
+                      },
+                      "assessment_id": {
+                        "type": "integer",
+                        "description": "ID of the assessment (initial or final).",
+                        "example": 801
+                      },
+                      "topic_id": {
+                        "type": "integer",
+                        "description": "ID of the assessed topic.",
+                        "example": 401
+                      },
+                      "score": {
+                        "type": "integer",
+                        "description": "Raw score (e.g., number of correct answers).",
+                        "example": 5
+                      },
+                      "details_json": {
+                        "type": "string",
+                        "description": "JSON-encoded details of question results.",
+                        "example": "{\"q1\": true, \"q2\": false}"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "assessment_id",
+                      "topic_id",
+                      "score"
+                    ]
                   }
                 }
               }
@@ -901,7 +1951,31 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/InitialAssessment"
+                "type": "object",
+                "description": "Record of a student starting the initial diagnostic assessment.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the assessment.",
+                    "example": 601
+                  },
+                  "student_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the student.",
+                    "example": 1001
+                  },
+                  "conducted_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the assessment was taken.",
+                    "example": "2025-06-03T09:30:00Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "student_profile_id",
+                  "conducted_at"
+                ]
               }
             }
           }
@@ -912,7 +1986,31 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/InitialAssessment"
+                  "type": "object",
+                  "description": "Record of a student starting the initial diagnostic assessment.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the assessment.",
+                      "example": 601
+                    },
+                    "student_profile_id": {
+                      "type": "integer",
+                      "description": "ID of the student.",
+                      "example": 1001
+                    },
+                    "conducted_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "When the assessment was taken.",
+                      "example": "2025-06-03T09:30:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "student_profile_id",
+                    "conducted_at"
+                  ]
                 }
               }
             }
@@ -938,7 +2036,59 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TrainerTaskSet"
+                  "type": "object",
+                  "description": "A generated set of tasks for a student to practice independently on a topic.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the task set.",
+                      "example": 601
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "description": "ID of the user for whom the set is generated.",
+                      "example": 1001
+                    },
+                    "topic_id": {
+                      "type": "integer",
+                      "description": "Related topic ID.",
+                      "example": 401
+                    },
+                    "difficulty": {
+                      "type": "string",
+                      "enum": [
+                        "easy",
+                        "medium",
+                        "hard"
+                      ],
+                      "description": "Difficulty level of the tasks.",
+                      "example": "easy"
+                    },
+                    "generated_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Timestamp of task generation.",
+                      "example": "2025-06-19T12:00:00Z"
+                    },
+                    "expires_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Expiration date/time of the trainer session.",
+                      "example": "2025-06-21T12:00:00Z"
+                    },
+                    "task_ids_json": {
+                      "type": "string",
+                      "description": "JSON-encoded list of task IDs included in this set.",
+                      "example": "[101, 102, 103]"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "user_id",
+                    "topic_id",
+                    "generated_at",
+                    "task_ids_json"
+                  ]
                 }
               }
             }
@@ -963,7 +2113,52 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Task"
+                "type": "object",
+                "description": "Represents a single task/question within a task card.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the task.",
+                    "example": 5001
+                  },
+                  "task_card_id": {
+                    "type": "integer",
+                    "description": "Associated task card ID.",
+                    "example": 2001
+                  },
+                  "prompt": {
+                    "type": "string",
+                    "description": "Question or instruction for the student.",
+                    "example": "Сложите 2/3 и 3/4"
+                  },
+                  "answer_key": {
+                    "type": "string",
+                    "description": "Correct answer to the task.",
+                    "example": "17/12"
+                  },
+                  "difficulty": {
+                    "type": "string",
+                    "enum": [
+                      "easy",
+                      "medium",
+                      "hard"
+                    ],
+                    "description": "Difficulty level of the task.",
+                    "example": "medium"
+                  },
+                  "is_ai_generated": {
+                    "type": "boolean",
+                    "description": "Indicates whether the task was generated by AI.",
+                    "example": false
+                  }
+                },
+                "required": [
+                  "id",
+                  "task_card_id",
+                  "prompt",
+                  "answer_key",
+                  "difficulty"
+                ]
               }
             }
           }
@@ -974,7 +2169,52 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Task"
+                  "type": "object",
+                  "description": "Represents a single task/question within a task card.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the task.",
+                      "example": 5001
+                    },
+                    "task_card_id": {
+                      "type": "integer",
+                      "description": "Associated task card ID.",
+                      "example": 2001
+                    },
+                    "prompt": {
+                      "type": "string",
+                      "description": "Question or instruction for the student.",
+                      "example": "Сложите 2/3 и 3/4"
+                    },
+                    "answer_key": {
+                      "type": "string",
+                      "description": "Correct answer to the task.",
+                      "example": "17/12"
+                    },
+                    "difficulty": {
+                      "type": "string",
+                      "enum": [
+                        "easy",
+                        "medium",
+                        "hard"
+                      ],
+                      "description": "Difficulty level of the task.",
+                      "example": "medium"
+                    },
+                    "is_ai_generated": {
+                      "type": "boolean",
+                      "description": "Indicates whether the task was generated by AI.",
+                      "example": false
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "task_card_id",
+                    "prompt",
+                    "answer_key",
+                    "difficulty"
+                  ]
                 }
               }
             }
@@ -1008,7 +2248,41 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Topic"
+                    "type": "object",
+                    "description": "Specific educational topic under a section with detailed description and grade level.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique ID of the topic.",
+                        "example": 401
+                      },
+                      "section_id": {
+                        "type": "integer",
+                        "description": "ID of the parent section.",
+                        "example": 301
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Name of the topic.",
+                        "example": "Сложение дробей"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of what the topic covers.",
+                        "example": "Обучение сложению дробей с разными знаменателями."
+                      },
+                      "grade_level": {
+                        "type": "integer",
+                        "description": "Grade level for which the topic is designed.",
+                        "example": 5
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "section_id",
+                      "title",
+                      "grade_level"
+                    ]
                   }
                 }
               }
@@ -1034,7 +2308,36 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TheoryMaterial"
+                "type": "object",
+                "description": "Theoretical content associated with a topic, ordered for presentation.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the material.",
+                    "example": 901
+                  },
+                  "topic_id": {
+                    "type": "integer",
+                    "description": "ID of the related topic.",
+                    "example": 401
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Textual theoretical explanation or examples.",
+                    "example": "Чтобы сложить дроби с разными знаменателями, найдите общий знаменатель..."
+                  },
+                  "order": {
+                    "type": "integer",
+                    "description": "Order number for sequential display.",
+                    "example": 1
+                  }
+                },
+                "required": [
+                  "id",
+                  "topic_id",
+                  "content",
+                  "order"
+                ]
               }
             }
           }
@@ -1045,7 +2348,36 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TheoryMaterial"
+                  "type": "object",
+                  "description": "Theoretical content associated with a topic, ordered for presentation.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the material.",
+                      "example": 901
+                    },
+                    "topic_id": {
+                      "type": "integer",
+                      "description": "ID of the related topic.",
+                      "example": 401
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "Textual theoretical explanation or examples.",
+                      "example": "Чтобы сложить дроби с разными знаменателями, найдите общий знаменатель..."
+                    },
+                    "order": {
+                      "type": "integer",
+                      "description": "Order number for sequential display.",
+                      "example": 1
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "topic_id",
+                    "content",
+                    "order"
+                  ]
                 }
               }
             }
@@ -1068,7 +2400,36 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Section"
+                    "type": "object",
+                    "description": "A higher-level category that groups topics within a subject and grade range.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique ID of the section.",
+                        "example": 301
+                      },
+                      "subject": {
+                        "type": "string",
+                        "description": "Subject of the section.",
+                        "example": "math"
+                      },
+                      "grade_range": {
+                        "type": "string",
+                        "description": "Grades covered by the section.",
+                        "example": "5-6"
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Title of the section.",
+                        "example": "Арифметика дробей"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "subject",
+                      "grade_range",
+                      "title"
+                    ]
                   }
                 }
               }
@@ -1094,7 +2455,53 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CardSubmissionRequest"
+                "type": "object",
+                "description": "Submission of a task card by a teacher for expert review and possible publication.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the submission request.",
+                    "example": 1401
+                  },
+                  "teacher_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the teacher submitting the card.",
+                    "example": 301
+                  },
+                  "task_card_id": {
+                    "type": "integer",
+                    "description": "ID of the task card being submitted.",
+                    "example": 2001
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pending",
+                      "approved",
+                      "rejected"
+                    ],
+                    "description": "Current moderation status of the request.",
+                    "example": "pending"
+                  },
+                  "reviewed_by_admin_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "ID of the admin who reviewed the request."
+                  },
+                  "reviewed_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Timestamp of moderation.",
+                    "example": "2025-06-21T13:00:00Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "teacher_profile_id",
+                  "task_card_id",
+                  "status"
+                ]
               }
             }
           }
@@ -1105,7 +2512,53 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CardSubmissionRequest"
+                  "type": "object",
+                  "description": "Submission of a task card by a teacher for expert review and possible publication.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the submission request.",
+                      "example": 1401
+                    },
+                    "teacher_profile_id": {
+                      "type": "integer",
+                      "description": "ID of the teacher submitting the card.",
+                      "example": 301
+                    },
+                    "task_card_id": {
+                      "type": "integer",
+                      "description": "ID of the task card being submitted.",
+                      "example": 2001
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "pending",
+                        "approved",
+                        "rejected"
+                      ],
+                      "description": "Current moderation status of the request.",
+                      "example": "pending"
+                    },
+                    "reviewed_by_admin_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "ID of the admin who reviewed the request."
+                    },
+                    "reviewed_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "nullable": true,
+                      "description": "Timestamp of moderation.",
+                      "example": "2025-06-21T13:00:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "teacher_profile_id",
+                    "task_card_id",
+                    "status"
+                  ]
                 }
               }
             }
@@ -1145,7 +2598,9 @@
             "name": "ordering",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/Ordering"
+              "type": "string",
+              "description": "Field by which the result should be ordered. Prefix with '-' for descending.\n",
+              "example": "-created_at"
             }
           }
         ],
@@ -1157,7 +2612,71 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TaskCard"
+                    "type": "object",
+                    "description": "A container for educational tasks grouped by topic, created by teachers or experts.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique ID of the task card.",
+                        "example": 2001
+                      },
+                      "topic_id": {
+                        "type": "integer",
+                        "description": "ID of the topic associated with the card.",
+                        "example": 105
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Title of the task card.",
+                        "example": "Сложение дробей"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Detailed description of the card.",
+                        "example": "Карточка с заданиями по теме сложения дробей для 5 класса."
+                      },
+                      "owner_type": {
+                        "type": "string",
+                        "enum": [
+                          "expert",
+                          "teacher"
+                        ],
+                        "description": "The type of owner who created the card.",
+                        "example": "teacher"
+                      },
+                      "expert_profile_id": {
+                        "type": "integer",
+                        "nullable": true,
+                        "description": "Expert profile ID if owned by expert."
+                      },
+                      "teacher_profile_id": {
+                        "type": "integer",
+                        "nullable": true,
+                        "description": "Teacher profile ID if owned by teacher."
+                      },
+                      "original_task_card_id": {
+                        "type": "integer",
+                        "nullable": true,
+                        "description": "ID of the original card if this is a copy."
+                      },
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "draft",
+                          "published",
+                          "archived"
+                        ],
+                        "description": "Publication status of the card.",
+                        "example": "draft"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "topic_id",
+                      "title",
+                      "owner_type",
+                      "status"
+                    ]
                   }
                 }
               }
@@ -1181,7 +2700,71 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TaskCard"
+                "type": "object",
+                "description": "A container for educational tasks grouped by topic, created by teachers or experts.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the task card.",
+                    "example": 2001
+                  },
+                  "topic_id": {
+                    "type": "integer",
+                    "description": "ID of the topic associated with the card.",
+                    "example": 105
+                  },
+                  "title": {
+                    "type": "string",
+                    "description": "Title of the task card.",
+                    "example": "Сложение дробей"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Detailed description of the card.",
+                    "example": "Карточка с заданиями по теме сложения дробей для 5 класса."
+                  },
+                  "owner_type": {
+                    "type": "string",
+                    "enum": [
+                      "expert",
+                      "teacher"
+                    ],
+                    "description": "The type of owner who created the card.",
+                    "example": "teacher"
+                  },
+                  "expert_profile_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Expert profile ID if owned by expert."
+                  },
+                  "teacher_profile_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "Teacher profile ID if owned by teacher."
+                  },
+                  "original_task_card_id": {
+                    "type": "integer",
+                    "nullable": true,
+                    "description": "ID of the original card if this is a copy."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "draft",
+                      "published",
+                      "archived"
+                    ],
+                    "description": "Publication status of the card.",
+                    "example": "draft"
+                  }
+                },
+                "required": [
+                  "id",
+                  "topic_id",
+                  "title",
+                  "owner_type",
+                  "status"
+                ]
               }
             }
           }
@@ -1192,7 +2775,71 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TaskCard"
+                  "type": "object",
+                  "description": "A container for educational tasks grouped by topic, created by teachers or experts.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the task card.",
+                      "example": 2001
+                    },
+                    "topic_id": {
+                      "type": "integer",
+                      "description": "ID of the topic associated with the card.",
+                      "example": 105
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Title of the task card.",
+                      "example": "Сложение дробей"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Detailed description of the card.",
+                      "example": "Карточка с заданиями по теме сложения дробей для 5 класса."
+                    },
+                    "owner_type": {
+                      "type": "string",
+                      "enum": [
+                        "expert",
+                        "teacher"
+                      ],
+                      "description": "The type of owner who created the card.",
+                      "example": "teacher"
+                    },
+                    "expert_profile_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "Expert profile ID if owned by expert."
+                    },
+                    "teacher_profile_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "Teacher profile ID if owned by teacher."
+                    },
+                    "original_task_card_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "ID of the original card if this is a copy."
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "draft",
+                        "published",
+                        "archived"
+                      ],
+                      "description": "Publication status of the card.",
+                      "example": "draft"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "topic_id",
+                    "title",
+                    "owner_type",
+                    "status"
+                  ]
                 }
               }
             }
@@ -1221,15 +2868,133 @@
                   "type": "object",
                   "properties": {
                     "experience": {
-                      "$ref": "#/components/schemas/ExperiencePoint"
+                      "type": "object",
+                      "description": "Experience points awarded to students for specific actions.\n",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "Unique XP record ID.",
+                          "example": 1601
+                        },
+                        "student_profile_id": {
+                          "type": "integer",
+                          "description": "Student receiving the XP.",
+                          "example": 1001
+                        },
+                        "points": {
+                          "type": "integer",
+                          "description": "Number of points awarded.",
+                          "example": 10
+                        },
+                        "reason": {
+                          "type": "string",
+                          "description": "Reason or event for which points are awarded.",
+                          "example": "Completed assignment ahead of deadline"
+                        },
+                        "related_entity_type": {
+                          "type": "string",
+                          "description": "Type of related entity (assignment, trainer, etc.)",
+                          "example": "assignment"
+                        },
+                        "assignment_id": {
+                          "type": "integer",
+                          "nullable": true,
+                          "description": "Related assignment ID, if applicable.",
+                          "example": 1001
+                        },
+                        "topic_id": {
+                          "type": "integer",
+                          "nullable": true,
+                          "description": "Related topic ID, if applicable.",
+                          "example": 401
+                        },
+                        "submission_id": {
+                          "type": "integer",
+                          "nullable": true,
+                          "description": "Related submission ID, if applicable.",
+                          "example": 8001
+                        },
+                        "awarded_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp of awarding.",
+                          "example": "2025-06-21T09:15:00Z"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "student_profile_id",
+                        "points",
+                        "awarded_at"
+                      ]
                     },
                     "rank": {
-                      "$ref": "#/components/schemas/Rank"
+                      "type": "object",
+                      "description": "Represents a student's rank based on total experience points.\n",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "Unique ID of the rank record.",
+                          "example": 601
+                        },
+                        "student_profile_id": {
+                          "type": "integer",
+                          "description": "Student who holds the rank.",
+                          "example": 1001
+                        },
+                        "rank_name": {
+                          "type": "string",
+                          "description": "Title of the rank (e.g., Новичок, Мыслитель).",
+                          "example": "Гений"
+                        },
+                        "awarded_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Date when the rank was earned.",
+                          "example": "2025-06-15T10:00:00Z"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "student_profile_id",
+                        "rank_name",
+                        "awarded_at"
+                      ]
                     },
                     "badges": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Badge"
+                        "type": "object",
+                        "description": "Represents a gamified badge awarded to a student.\n",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Unique ID of the badge.",
+                            "example": 1701
+                          },
+                          "student_profile_id": {
+                            "type": "integer",
+                            "description": "ID of the student receiving the badge.",
+                            "example": 1001
+                          },
+                          "badge_type": {
+                            "type": "string",
+                            "description": "Type/category of the badge.",
+                            "example": "Speed Master"
+                          },
+                          "awarded_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Timestamp when badge was awarded.",
+                            "example": "2025-06-15T17:30:00Z"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "student_profile_id",
+                          "badge_type",
+                          "awarded_at"
+                        ]
                       }
                     }
                   }
@@ -1265,7 +3030,42 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/StudentProfile"
+                    "type": "object",
+                    "description": "Represents a student's extended profile including personal and academic information.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique identifier for the student profile.",
+                        "example": 1001
+                      },
+                      "user_id": {
+                        "type": "integer",
+                        "description": "Foreign key linking to the user.",
+                        "example": 301
+                      },
+                      "fio": {
+                        "type": "string",
+                        "description": "Full name of the student.",
+                        "example": "Иван Иванов"
+                      },
+                      "school_id": {
+                        "type": "integer",
+                        "nullable": true,
+                        "description": "Associated school ID, if available.",
+                        "example": 12
+                      },
+                      "city_id": {
+                        "type": "integer",
+                        "nullable": true,
+                        "description": "City where the student is located.",
+                        "example": 5
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "user_id",
+                      "fio"
+                    ]
                   }
                 }
               }
@@ -1291,7 +3091,37 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MVPTag"
+                "type": "object",
+                "description": "A special recognition tag given to a student for outstanding performance in a specific assignment.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the MVP tag.",
+                    "example": 701
+                  },
+                  "student_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the student recognized.",
+                    "example": 1001
+                  },
+                  "assignment_id": {
+                    "type": "integer",
+                    "description": "ID of the assignment where MVP was earned.",
+                    "example": 1001
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Time when the tag was awarded.",
+                    "example": "2025-06-18T14:20:00Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "student_profile_id",
+                  "assignment_id",
+                  "timestamp"
+                ]
               }
             }
           }
@@ -1302,7 +3132,37 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MVPTag"
+                  "type": "object",
+                  "description": "A special recognition tag given to a student for outstanding performance in a specific assignment.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the MVP tag.",
+                      "example": 701
+                    },
+                    "student_profile_id": {
+                      "type": "integer",
+                      "description": "ID of the student recognized.",
+                      "example": 1001
+                    },
+                    "assignment_id": {
+                      "type": "integer",
+                      "description": "ID of the assignment where MVP was earned.",
+                      "example": 1001
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Time when the tag was awarded.",
+                      "example": "2025-06-18T14:20:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "student_profile_id",
+                    "assignment_id",
+                    "timestamp"
+                  ]
                 }
               }
             }
@@ -1327,7 +3187,48 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Feedback"
+                "type": "object",
+                "description": "Represents user feedback sent to the platform for improvements or issues.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the feedback.",
+                    "example": 1501
+                  },
+                  "user_id": {
+                    "type": "integer",
+                    "description": "ID of the user submitting the feedback.",
+                    "example": 1001
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Feedback message content.",
+                    "example": "Очень понравился интерфейс, но не хватает отчётов."
+                  },
+                  "email_at_time": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email of the user at the time of feedback.",
+                    "example": "user@example.com"
+                  },
+                  "fio_at_time": {
+                    "type": "string",
+                    "description": "Full name of the user at the time of feedback.",
+                    "example": "Иван Петров"
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Date/time when feedback was submitted.",
+                    "example": "2025-06-20T08:00:00Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "user_id",
+                  "text",
+                  "created_at"
+                ]
               }
             }
           }
@@ -1338,7 +3239,48 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Feedback"
+                  "type": "object",
+                  "description": "Represents user feedback sent to the platform for improvements or issues.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the feedback.",
+                      "example": 1501
+                    },
+                    "user_id": {
+                      "type": "integer",
+                      "description": "ID of the user submitting the feedback.",
+                      "example": 1001
+                    },
+                    "text": {
+                      "type": "string",
+                      "description": "Feedback message content.",
+                      "example": "Очень понравился интерфейс, но не хватает отчётов."
+                    },
+                    "email_at_time": {
+                      "type": "string",
+                      "format": "email",
+                      "description": "Email of the user at the time of feedback.",
+                      "example": "user@example.com"
+                    },
+                    "fio_at_time": {
+                      "type": "string",
+                      "description": "Full name of the user at the time of feedback.",
+                      "example": "Иван Петров"
+                    },
+                    "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Date/time when feedback was submitted.",
+                      "example": "2025-06-20T08:00:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "user_id",
+                    "text",
+                    "created_at"
+                  ]
                 }
               }
             }
@@ -1363,7 +3305,43 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Message"
+                "type": "object",
+                "description": "Represents a message in a conversation between users.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique message ID.",
+                    "example": 501
+                  },
+                  "conversation_id": {
+                    "type": "integer",
+                    "description": "ID of the related conversation.",
+                    "example": 301
+                  },
+                  "sender_user_id": {
+                    "type": "integer",
+                    "description": "ID of the user who sent the message.",
+                    "example": 1001
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Message content.",
+                    "example": "Здравствуйте, задание получил."
+                  },
+                  "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Time when the message was sent.",
+                    "example": "2025-06-20T14:45:00Z"
+                  }
+                },
+                "required": [
+                  "id",
+                  "conversation_id",
+                  "sender_user_id",
+                  "content",
+                  "timestamp"
+                ]
               }
             }
           }
@@ -1374,7 +3352,43 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Message"
+                  "type": "object",
+                  "description": "Represents a message in a conversation between users.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique message ID.",
+                      "example": 501
+                    },
+                    "conversation_id": {
+                      "type": "integer",
+                      "description": "ID of the related conversation.",
+                      "example": 301
+                    },
+                    "sender_user_id": {
+                      "type": "integer",
+                      "description": "ID of the user who sent the message.",
+                      "example": 1001
+                    },
+                    "content": {
+                      "type": "string",
+                      "description": "Message content.",
+                      "example": "Здравствуйте, задание получил."
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time",
+                      "description": "Time when the message was sent.",
+                      "example": "2025-06-20T14:45:00Z"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "conversation_id",
+                    "sender_user_id",
+                    "content",
+                    "timestamp"
+                  ]
                 }
               }
             }
@@ -1402,7 +3416,43 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Conversation"
+                    "type": "object",
+                    "description": "Represents a communication thread between participants.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique conversation ID.",
+                        "example": 301
+                      },
+                      "type": {
+                        "type": "string",
+                        "description": "Type of the conversation (e.g., student-teacher, admin-user).",
+                        "example": "student-teacher"
+                      },
+                      "related_entity_type": {
+                        "type": "string",
+                        "description": "Type of entity the conversation relates to.",
+                        "example": "assignment"
+                      },
+                      "related_entity_id": {
+                        "type": "integer",
+                        "description": "ID of the related entity.",
+                        "example": 1001
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp of creation.",
+                        "example": "2025-06-19T08:30:00Z"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "type",
+                      "related_entity_type",
+                      "related_entity_id",
+                      "created_at"
+                    ]
                   }
                 }
               }
@@ -1441,12 +3491,102 @@
                   "type": "object",
                   "properties": {
                     "progress": {
-                      "$ref": "#/components/schemas/LearningProgress"
+                      "type": "object",
+                      "description": "Represents a student's mastery level of a topic based on assignments and diagnostics.\n",
+                      "properties": {
+                        "id": {
+                          "type": "integer",
+                          "description": "Unique ID of the learning progress record.",
+                          "example": 801
+                        },
+                        "student_profile_id": {
+                          "type": "integer",
+                          "description": "ID of the student.",
+                          "example": 1001
+                        },
+                        "topic_id": {
+                          "type": "integer",
+                          "description": "ID of the topic.",
+                          "example": 401
+                        },
+                        "progress_percent": {
+                          "type": "number",
+                          "format": "float",
+                          "description": "Percentage of mastery for the topic.",
+                          "example": 78.5
+                        },
+                        "last_updated": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Last time this progress was updated.",
+                          "example": "2025-06-20T15:00:00Z"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "student_profile_id",
+                        "topic_id",
+                        "progress_percent"
+                      ]
                     },
                     "activity": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/ActivityLog"
+                        "type": "object",
+                        "description": "Tracks student activity across assignments and topics.\n",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Unique activity log ID.",
+                            "example": 1401
+                          },
+                          "student_profile_id": {
+                            "type": "integer",
+                            "description": "ID of the student whose activity is logged.",
+                            "example": 1001
+                          },
+                          "action_type": {
+                            "type": "string",
+                            "description": "Type of action performed.",
+                            "example": "submitted_assignment"
+                          },
+                          "entity_type": {
+                            "type": "string",
+                            "description": "Type of the entity involved.",
+                            "example": "assignment"
+                          },
+                          "assignment_id": {
+                            "type": "integer",
+                            "nullable": true,
+                            "description": "Related assignment ID if applicable.",
+                            "example": 1001
+                          },
+                          "topic_id": {
+                            "type": "integer",
+                            "nullable": true,
+                            "description": "Related topic ID if applicable.",
+                            "example": 401
+                          },
+                          "submission_id": {
+                            "type": "integer",
+                            "nullable": true,
+                            "description": "Related submission ID if applicable.",
+                            "example": 8001
+                          },
+                          "timestamp": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Time of the action.",
+                            "example": "2025-06-20T16:00:00Z"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "student_profile_id",
+                          "action_type",
+                          "entity_type",
+                          "timestamp"
+                        ]
                       }
                     }
                   }
@@ -1486,7 +3626,43 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/LearningProgress"
+                    "type": "object",
+                    "description": "Represents a student's mastery level of a topic based on assignments and diagnostics.\n",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "description": "Unique ID of the learning progress record.",
+                        "example": 801
+                      },
+                      "student_profile_id": {
+                        "type": "integer",
+                        "description": "ID of the student.",
+                        "example": 1001
+                      },
+                      "topic_id": {
+                        "type": "integer",
+                        "description": "ID of the topic.",
+                        "example": 401
+                      },
+                      "progress_percent": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Percentage of mastery for the topic.",
+                        "example": 78.5
+                      },
+                      "last_updated": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Last time this progress was updated.",
+                        "example": "2025-06-20T15:00:00Z"
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "student_profile_id",
+                      "topic_id",
+                      "progress_percent"
+                    ]
                   }
                 }
               }
@@ -1536,11 +3712,74 @@
                     "results": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/Class"
+                        "type": "object",
+                        "description": "A class represents a group of students, often taught by one teacher, within a school.\n",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Unique class ID.",
+                            "example": 101
+                          },
+                          "school_id": {
+                            "type": "integer",
+                            "description": "School ID this class belongs to.",
+                            "example": 21
+                          },
+                          "archived": {
+                            "type": "boolean",
+                            "description": "Whether the class is archived.",
+                            "example": false
+                          },
+                          "grade": {
+                            "type": "integer",
+                            "description": "Grade level of the class.",
+                            "example": 5
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Class name or letter.",
+                            "example": "5А"
+                          },
+                          "teacher_profile_id": {
+                            "type": "integer",
+                            "description": "Teacher profile associated with the class.",
+                            "example": 301
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "school_id",
+                          "grade",
+                          "name",
+                          "teacher_profile_id"
+                        ]
                       }
                     },
                     "pagination": {
-                      "$ref": "#/components/schemas/Pagination"
+                      "type": "object",
+                      "description": "Pagination metadata included in list responses.",
+                      "properties": {
+                        "count": {
+                          "type": "integer",
+                          "description": "Total number of items available.",
+                          "example": 125
+                        },
+                        "page": {
+                          "type": "integer",
+                          "description": "Current page number.",
+                          "example": 1
+                        },
+                        "page_size": {
+                          "type": "integer",
+                          "description": "Number of items per page.",
+                          "example": 20
+                        },
+                        "total_pages": {
+                          "type": "integer",
+                          "description": "Total number of pages.",
+                          "example": 7
+                        }
+                      }
                     }
                   }
                 }
@@ -1565,7 +3804,47 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Class"
+                "type": "object",
+                "description": "A class represents a group of students, often taught by one teacher, within a school.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique class ID.",
+                    "example": 101
+                  },
+                  "school_id": {
+                    "type": "integer",
+                    "description": "School ID this class belongs to.",
+                    "example": 21
+                  },
+                  "archived": {
+                    "type": "boolean",
+                    "description": "Whether the class is archived.",
+                    "example": false
+                  },
+                  "grade": {
+                    "type": "integer",
+                    "description": "Grade level of the class.",
+                    "example": 5
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Class name or letter.",
+                    "example": "5А"
+                  },
+                  "teacher_profile_id": {
+                    "type": "integer",
+                    "description": "Teacher profile associated with the class.",
+                    "example": 301
+                  }
+                },
+                "required": [
+                  "id",
+                  "school_id",
+                  "grade",
+                  "name",
+                  "teacher_profile_id"
+                ]
               }
             }
           }
@@ -1576,7 +3855,47 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Class"
+                  "type": "object",
+                  "description": "A class represents a group of students, often taught by one teacher, within a school.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique class ID.",
+                      "example": 101
+                    },
+                    "school_id": {
+                      "type": "integer",
+                      "description": "School ID this class belongs to.",
+                      "example": 21
+                    },
+                    "archived": {
+                      "type": "boolean",
+                      "description": "Whether the class is archived.",
+                      "example": false
+                    },
+                    "grade": {
+                      "type": "integer",
+                      "description": "Grade level of the class.",
+                      "example": 5
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "Class name or letter.",
+                      "example": "5А"
+                    },
+                    "teacher_profile_id": {
+                      "type": "integer",
+                      "description": "Teacher profile associated with the class.",
+                      "example": 301
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "school_id",
+                    "grade",
+                    "name",
+                    "teacher_profile_id"
+                  ]
                 }
               }
             }
@@ -1601,7 +3920,30 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ClassStudent"
+                "type": "object",
+                "description": "Represents the assignment of a student to a specific class.\n",
+                "properties": {
+                  "id": {
+                    "type": "integer",
+                    "description": "Unique ID of the class-student relation.",
+                    "example": 401
+                  },
+                  "class_id": {
+                    "type": "integer",
+                    "description": "ID of the class the student belongs to.",
+                    "example": 101
+                  },
+                  "student_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the student profile.",
+                    "example": 1001
+                  }
+                },
+                "required": [
+                  "id",
+                  "class_id",
+                  "student_profile_id"
+                ]
               }
             }
           }
@@ -1612,1549 +3954,35 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ClassStudent"
+                  "type": "object",
+                  "description": "Represents the assignment of a student to a specific class.\n",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "Unique ID of the class-student relation.",
+                      "example": 401
+                    },
+                    "class_id": {
+                      "type": "integer",
+                      "description": "ID of the class the student belongs to.",
+                      "example": 101
+                    },
+                    "student_profile_id": {
+                      "type": "integer",
+                      "description": "ID of the student profile.",
+                      "example": 1001
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "class_id",
+                    "student_profile_id"
+                  ]
                 }
               }
             }
           }
         }
-      }
-    }
-  },
-  "components": {
-    "schemas": {
-      "User": {
-        "type": "object",
-        "description": "Represents a platform user. Users can be teachers, experts, students, or system accounts.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique identifier for the user.",
-            "example": 101
-          },
-          "email": {
-            "type": "string",
-            "format": "email",
-            "description": "Email address of the user.",
-            "example": "user@example.com"
-          },
-          "password": {
-            "type": "string",
-            "format": "password",
-            "description": "Hashed user password.",
-            "writeOnly": true
-          },
-          "role_id": {
-            "type": "integer",
-            "description": "Foreign key referencing the user's role.",
-            "example": 2
-          },
-          "is_system_generated": {
-            "type": "boolean",
-            "description": "Flag to mark accounts created by the system (not manual registration).",
-            "example": false
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp when the user was created.",
-            "example": "2025-06-21T10:00:00Z"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp when the user was last updated.",
-            "example": "2025-06-22T08:30:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "email",
-          "password"
-        ]
-      },
-      "PasswordResetToken": {
-        "type": "object",
-        "description": "A token sent to the user for resetting their password. One-time use and time-limited.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique identifier for the reset token.",
-            "example": 501
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "ID of the user who requested password reset.",
-            "example": 1001
-          },
-          "token": {
-            "type": "string",
-            "description": "Secure token value (hash).",
-            "example": "1234-reset-token-abcd"
-          },
-          "expires_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Expiration timestamp for the token.",
-            "example": "2025-06-21T12:00:00Z"
-          },
-          "used": {
-            "type": "boolean",
-            "description": "Whether the token has already been used.",
-            "example": false
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "token",
-          "expires_at",
-          "used"
-        ]
-      },
-      "Role": {
-        "type": "object",
-        "description": "Defines the access level or identity role for a user.",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique identifier for the role.",
-            "example": 1
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the role. Common values include teacher, expert, student, admin.",
-            "example": "teacher"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ]
-      },
-      "AccessRequest": {
-        "type": "object",
-        "description": "Represents a user's request for elevated access (e.g., to become a teacher or expert).\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the request.",
-            "example": 1201
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "ID of the user submitting the request.",
-            "example": 1001
-          },
-          "requested_role": {
-            "type": "string",
-            "description": "Role being requested (e.g., \"expert\").",
-            "example": "expert"
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "approved",
-              "rejected"
-            ],
-            "description": "Status of the request.",
-            "example": "pending"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Date when the request was made.",
-            "example": "2025-06-10T09:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "requested_role",
-          "status",
-          "created_at"
-        ]
-      },
-      "Token": {
-        "type": "object",
-        "description": "Represents an authentication token issued to a user for session management.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the token.",
-            "example": 901
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "ID of the user who owns the token.",
-            "example": 1001
-          },
-          "token": {
-            "type": "string",
-            "description": "The actual token string (e.g., JWT).",
-            "example": "eyJhbGciOiJIUzI1NiIsInR..."
-          },
-          "type": {
-            "type": "string",
-            "description": "Token type (e.g., \"access\", \"refresh\").",
-            "example": "access"
-          },
-          "expires_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Expiration timestamp.",
-            "example": "2025-06-22T10:00:00Z"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the token was created.",
-            "example": "2025-06-21T10:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "token",
-          "type",
-          "expires_at"
-        ]
-      },
-      "School": {
-        "type": "object",
-        "description": "Represents an educational institution a student or teacher may belong to.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique school ID.",
-            "example": 21
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the school.",
-            "example": "Гимназия №5"
-          },
-          "city_id": {
-            "type": "integer",
-            "description": "City where the school is located.",
-            "example": 3
-          },
-          "manual": {
-            "type": "boolean",
-            "description": "Whether the school was added manually.",
-            "example": false
-          },
-          "verified": {
-            "type": "boolean",
-            "description": "Whether the school was verified by an admin.",
-            "example": true
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "city_id",
-          "manual",
-          "verified"
-        ]
-      },
-      "City": {
-        "type": "object",
-        "description": "Represents a city used to categorize schools and users.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique city ID.",
-            "example": 11
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the city.",
-            "example": "Санкт-Петербург"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ]
-      },
-      "SchoolGroup": {
-        "type": "object",
-        "description": "Logical grouping of schools for administrative or analytical purposes.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the school group.",
-            "example": 701
-          },
-          "name": {
-            "type": "string",
-            "description": "Name of the school group.",
-            "example": "Московский кластер"
-          },
-          "description": {
-            "type": "string",
-            "description": "Detailed description of the group.",
-            "example": "Группа школ по Москве и Московской области"
-          }
-        },
-        "required": [
-          "id",
-          "name"
-        ]
-      },
-      "ExpertProfile": {
-        "type": "object",
-        "description": "Profile data for expert users who contribute educational content.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the expert profile.",
-            "example": 401
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "Linked user ID.",
-            "example": 2001
-          },
-          "fio": {
-            "type": "string",
-            "description": "Full name of the expert.",
-            "example": "Мария Смирнова"
-          },
-          "verified": {
-            "type": "boolean",
-            "description": "Whether the expert is verified by moderators.",
-            "example": true
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "fio",
-          "verified"
-        ]
-      },
-      "StudentProfile": {
-        "type": "object",
-        "description": "Represents a student's extended profile including personal and academic information.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique identifier for the student profile.",
-            "example": 1001
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "Foreign key linking to the user.",
-            "example": 301
-          },
-          "fio": {
-            "type": "string",
-            "description": "Full name of the student.",
-            "example": "Иван Иванов"
-          },
-          "school_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Associated school ID, if available.",
-            "example": 12
-          },
-          "city_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "City where the student is located.",
-            "example": 5
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "fio"
-        ]
-      },
-      "ManualSchoolEntry": {
-        "type": "object",
-        "description": "A request made by a user to manually add a school not found in the database.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique request ID.",
-            "example": 1301
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "ID of the requesting user.",
-            "example": 1001
-          },
-          "school_name": {
-            "type": "string",
-            "description": "Proposed school name.",
-            "example": "Школа №2020"
-          },
-          "city_id": {
-            "type": "integer",
-            "description": "ID of the city where the school is located.",
-            "example": 10
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "approved",
-              "rejected"
-            ],
-            "description": "Status of the school entry request.",
-            "example": "pending"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Date of submission.",
-            "example": "2025-06-05T11:45:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "school_name",
-          "city_id",
-          "status",
-          "created_at"
-        ]
-      },
-      "TeacherProfile": {
-        "type": "object",
-        "description": "Represents a teacher's profile including full name and school affiliation.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique identifier for the teacher profile.",
-            "example": 101
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "Foreign key linking to the user.",
-            "example": 301
-          },
-          "fio": {
-            "type": "string",
-            "description": "Full name of the teacher.",
-            "example": "Анна Петрова"
-          },
-          "school_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Associated school ID.",
-            "example": 11
-          },
-          "city_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Associated city ID.",
-            "example": 2
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "fio"
-        ]
-      },
-      "Submission": {
-        "type": "object",
-        "description": "Represents a student's answer submission for a given assignment.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique submission ID.",
-            "example": 8001
-          },
-          "assignment_id": {
-            "type": "integer",
-            "description": "ID of the assignment.",
-            "example": 1001
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the submitting student.",
-            "example": 1001
-          },
-          "submitted_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Date and time of submission.",
-            "example": "2025-06-12T15:34:22Z"
-          },
-          "result_json": {
-            "type": "string",
-            "description": "JSON result of the submission (task-by-task details).",
-            "example": "{\"task_1\": true, \"task_2\": false}"
-          },
-          "attempt_count": {
-            "type": "integer",
-            "description": "Number of submission attempts.",
-            "example": 2
-          },
-          "time_spent": {
-            "type": "integer",
-            "description": "Time spent on the assignment in seconds.",
-            "example": 780
-          }
-        },
-        "required": [
-          "id",
-          "assignment_id",
-          "student_profile_id",
-          "submitted_at"
-        ]
-      },
-      "Assignment": {
-        "type": "object",
-        "description": "Represents a task assignment given to a class by a teacher.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique identifier for the assignment.",
-            "example": 1001
-          },
-          "task_card_id": {
-            "type": "integer",
-            "description": "ID of the associated task card.",
-            "example": 201
-          },
-          "class_id": {
-            "type": "integer",
-            "description": "ID of the class receiving the assignment.",
-            "example": 301
-          },
-          "teacher_profile_id": {
-            "type": "integer",
-            "description": "ID of the teacher assigning the task.",
-            "example": 401
-          },
-          "assigned_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Date and time when the task was assigned.",
-            "example": "2025-06-10T09:00:00Z"
-          },
-          "due_date": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Deadline for the assignment submission.",
-            "example": "2025-06-15T23:59:59Z"
-          }
-        },
-        "required": [
-          "id",
-          "task_card_id",
-          "class_id",
-          "teacher_profile_id",
-          "assigned_at",
-          "due_date"
-        ]
-      },
-      "Pagination": {
-        "type": "object",
-        "description": "Pagination metadata included in list responses.",
-        "properties": {
-          "count": {
-            "type": "integer",
-            "description": "Total number of items available.",
-            "example": 125
-          },
-          "page": {
-            "type": "integer",
-            "description": "Current page number.",
-            "example": 1
-          },
-          "page_size": {
-            "type": "integer",
-            "description": "Number of items per page.",
-            "example": 20
-          },
-          "total_pages": {
-            "type": "integer",
-            "description": "Total number of pages.",
-            "example": 7
-          }
-        }
-      },
-      "ErrorResponse": {
-        "type": "object",
-        "description": "Standard error response schema.",
-        "properties": {
-          "detail": {
-            "type": "string",
-            "description": "Error message.",
-            "example": "Not found."
-          },
-          "code": {
-            "type": "string",
-            "description": "Error code (optional).",
-            "example": "not_found"
-          }
-        },
-        "required": [
-          "detail"
-        ]
-      },
-      "Ordering": {
-        "type": "string",
-        "description": "Field by which the result should be ordered. Prefix with '-' for descending.\n",
-        "example": "-created_at"
-      },
-      "DiagnosticTemplate": {
-        "type": "object",
-        "description": "Template for diagnostics, containing predefined tasks by subject, grade, and type.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the diagnostic template.",
-            "example": 1601
-          },
-          "grade_level": {
-            "type": "integer",
-            "description": "Target grade level.",
-            "example": 5
-          },
-          "subject": {
-            "type": "string",
-            "description": "Subject of the diagnostic.",
-            "example": "math"
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "initial",
-              "final"
-            ],
-            "description": "Type of diagnostic (entry or exit).",
-            "example": "initial"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp when template was created.",
-            "example": "2025-06-01T10:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "grade_level",
-          "subject",
-          "type"
-        ]
-      },
-      "DiagnosticResult": {
-        "type": "object",
-        "description": "Result of a diagnostic assessment for a topic.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the result.",
-            "example": 701
-          },
-          "assessment_id": {
-            "type": "integer",
-            "description": "ID of the assessment (initial or final).",
-            "example": 801
-          },
-          "topic_id": {
-            "type": "integer",
-            "description": "ID of the assessed topic.",
-            "example": 401
-          },
-          "score": {
-            "type": "integer",
-            "description": "Raw score (e.g., number of correct answers).",
-            "example": 5
-          },
-          "details_json": {
-            "type": "string",
-            "description": "JSON-encoded details of question results.",
-            "example": "{\"q1\": true, \"q2\": false}"
-          }
-        },
-        "required": [
-          "id",
-          "assessment_id",
-          "topic_id",
-          "score"
-        ]
-      },
-      "FinalAssessment": {
-        "type": "object",
-        "description": "Record of a student's completion of the final diagnostic.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the final assessment.",
-            "example": 701
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the student.",
-            "example": 1001
-          },
-          "conducted_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp when the assessment was completed.",
-            "example": "2025-06-20T12:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "conducted_at"
-        ]
-      },
-      "DiagnosticTemplateTask": {
-        "type": "object",
-        "description": "Represents a single task within a diagnostic template.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the diagnostic task.",
-            "example": 501
-          },
-          "template_id": {
-            "type": "integer",
-            "description": "ID of the parent template.",
-            "example": 1601
-          },
-          "prompt": {
-            "type": "string",
-            "description": "Task question.",
-            "example": "Решите уравнение: 2x + 3 = 7"
-          },
-          "answer_key": {
-            "type": "string",
-            "description": "Correct answer.",
-            "example": "x = 2"
-          },
-          "difficulty": {
-            "type": "string",
-            "enum": [
-              "easy",
-              "medium",
-              "hard"
-            ],
-            "description": "Difficulty level.",
-            "example": "medium"
-          }
-        },
-        "required": [
-          "id",
-          "template_id",
-          "prompt",
-          "answer_key",
-          "difficulty"
-        ]
-      },
-      "InitialAssessment": {
-        "type": "object",
-        "description": "Record of a student starting the initial diagnostic assessment.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the assessment.",
-            "example": 601
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the student.",
-            "example": 1001
-          },
-          "conducted_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "When the assessment was taken.",
-            "example": "2025-06-03T09:30:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "conducted_at"
-        ]
-      },
-      "Task": {
-        "type": "object",
-        "description": "Represents a single task/question within a task card.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the task.",
-            "example": 5001
-          },
-          "task_card_id": {
-            "type": "integer",
-            "description": "Associated task card ID.",
-            "example": 2001
-          },
-          "prompt": {
-            "type": "string",
-            "description": "Question or instruction for the student.",
-            "example": "Сложите 2/3 и 3/4"
-          },
-          "answer_key": {
-            "type": "string",
-            "description": "Correct answer to the task.",
-            "example": "17/12"
-          },
-          "difficulty": {
-            "type": "string",
-            "enum": [
-              "easy",
-              "medium",
-              "hard"
-            ],
-            "description": "Difficulty level of the task.",
-            "example": "medium"
-          },
-          "is_ai_generated": {
-            "type": "boolean",
-            "description": "Indicates whether the task was generated by AI.",
-            "example": false
-          }
-        },
-        "required": [
-          "id",
-          "task_card_id",
-          "prompt",
-          "answer_key",
-          "difficulty"
-        ]
-      },
-      "TrainerTaskSet": {
-        "type": "object",
-        "description": "A generated set of tasks for a student to practice independently on a topic.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the task set.",
-            "example": 601
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "ID of the user for whom the set is generated.",
-            "example": 1001
-          },
-          "topic_id": {
-            "type": "integer",
-            "description": "Related topic ID.",
-            "example": 401
-          },
-          "difficulty": {
-            "type": "string",
-            "enum": [
-              "easy",
-              "medium",
-              "hard"
-            ],
-            "description": "Difficulty level of the tasks.",
-            "example": "easy"
-          },
-          "generated_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp of task generation.",
-            "example": "2025-06-19T12:00:00Z"
-          },
-          "expires_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Expiration date/time of the trainer session.",
-            "example": "2025-06-21T12:00:00Z"
-          },
-          "task_ids_json": {
-            "type": "string",
-            "description": "JSON-encoded list of task IDs included in this set.",
-            "example": "[101, 102, 103]"
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "topic_id",
-          "generated_at",
-          "task_ids_json"
-        ]
-      },
-      "TheoryMaterial": {
-        "type": "object",
-        "description": "Theoretical content associated with a topic, ordered for presentation.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the material.",
-            "example": 901
-          },
-          "topic_id": {
-            "type": "integer",
-            "description": "ID of the related topic.",
-            "example": 401
-          },
-          "content": {
-            "type": "string",
-            "description": "Textual theoretical explanation or examples.",
-            "example": "Чтобы сложить дроби с разными знаменателями, найдите общий знаменатель..."
-          },
-          "order": {
-            "type": "integer",
-            "description": "Order number for sequential display.",
-            "example": 1
-          }
-        },
-        "required": [
-          "id",
-          "topic_id",
-          "content",
-          "order"
-        ]
-      },
-      "TaskCard": {
-        "type": "object",
-        "description": "A container for educational tasks grouped by topic, created by teachers or experts.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the task card.",
-            "example": 2001
-          },
-          "topic_id": {
-            "type": "integer",
-            "description": "ID of the topic associated with the card.",
-            "example": 105
-          },
-          "title": {
-            "type": "string",
-            "description": "Title of the task card.",
-            "example": "Сложение дробей"
-          },
-          "description": {
-            "type": "string",
-            "description": "Detailed description of the card.",
-            "example": "Карточка с заданиями по теме сложения дробей для 5 класса."
-          },
-          "owner_type": {
-            "type": "string",
-            "enum": [
-              "expert",
-              "teacher"
-            ],
-            "description": "The type of owner who created the card.",
-            "example": "teacher"
-          },
-          "expert_profile_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Expert profile ID if owned by expert."
-          },
-          "teacher_profile_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Teacher profile ID if owned by teacher."
-          },
-          "original_task_card_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "ID of the original card if this is a copy."
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "draft",
-              "published",
-              "archived"
-            ],
-            "description": "Publication status of the card.",
-            "example": "draft"
-          }
-        },
-        "required": [
-          "id",
-          "topic_id",
-          "title",
-          "owner_type",
-          "status"
-        ]
-      },
-      "Section": {
-        "type": "object",
-        "description": "A higher-level category that groups topics within a subject and grade range.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the section.",
-            "example": 301
-          },
-          "subject": {
-            "type": "string",
-            "description": "Subject of the section.",
-            "example": "math"
-          },
-          "grade_range": {
-            "type": "string",
-            "description": "Grades covered by the section.",
-            "example": "5-6"
-          },
-          "title": {
-            "type": "string",
-            "description": "Title of the section.",
-            "example": "Арифметика дробей"
-          }
-        },
-        "required": [
-          "id",
-          "subject",
-          "grade_range",
-          "title"
-        ]
-      },
-      "CardSubmissionRequest": {
-        "type": "object",
-        "description": "Submission of a task card by a teacher for expert review and possible publication.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the submission request.",
-            "example": 1401
-          },
-          "teacher_profile_id": {
-            "type": "integer",
-            "description": "ID of the teacher submitting the card.",
-            "example": 301
-          },
-          "task_card_id": {
-            "type": "integer",
-            "description": "ID of the task card being submitted.",
-            "example": 2001
-          },
-          "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "approved",
-              "rejected"
-            ],
-            "description": "Current moderation status of the request.",
-            "example": "pending"
-          },
-          "reviewed_by_admin_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "ID of the admin who reviewed the request."
-          },
-          "reviewed_at": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "Timestamp of moderation.",
-            "example": "2025-06-21T13:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "teacher_profile_id",
-          "task_card_id",
-          "status"
-        ]
-      },
-      "Topic": {
-        "type": "object",
-        "description": "Specific educational topic under a section with detailed description and grade level.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the topic.",
-            "example": 401
-          },
-          "section_id": {
-            "type": "integer",
-            "description": "ID of the parent section.",
-            "example": 301
-          },
-          "title": {
-            "type": "string",
-            "description": "Name of the topic.",
-            "example": "Сложение дробей"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description of what the topic covers.",
-            "example": "Обучение сложению дробей с разными знаменателями."
-          },
-          "grade_level": {
-            "type": "integer",
-            "description": "Grade level for which the topic is designed.",
-            "example": 5
-          }
-        },
-        "required": [
-          "id",
-          "section_id",
-          "title",
-          "grade_level"
-        ]
-      },
-      "MVPTag": {
-        "type": "object",
-        "description": "A special recognition tag given to a student for outstanding performance in a specific assignment.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the MVP tag.",
-            "example": 701
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the student recognized.",
-            "example": 1001
-          },
-          "assignment_id": {
-            "type": "integer",
-            "description": "ID of the assignment where MVP was earned.",
-            "example": 1001
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Time when the tag was awarded.",
-            "example": "2025-06-18T14:20:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "assignment_id",
-          "timestamp"
-        ]
-      },
-      "ExperiencePoint": {
-        "type": "object",
-        "description": "Experience points awarded to students for specific actions.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique XP record ID.",
-            "example": 1601
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "Student receiving the XP.",
-            "example": 1001
-          },
-          "points": {
-            "type": "integer",
-            "description": "Number of points awarded.",
-            "example": 10
-          },
-          "reason": {
-            "type": "string",
-            "description": "Reason or event for which points are awarded.",
-            "example": "Completed assignment ahead of deadline"
-          },
-          "related_entity_type": {
-            "type": "string",
-            "description": "Type of related entity (assignment, trainer, etc.)",
-            "example": "assignment"
-          },
-          "assignment_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Related assignment ID, if applicable.",
-            "example": 1001
-          },
-          "topic_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Related topic ID, if applicable.",
-            "example": 401
-          },
-          "submission_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Related submission ID, if applicable.",
-            "example": 8001
-          },
-          "awarded_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp of awarding.",
-            "example": "2025-06-21T09:15:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "points",
-          "awarded_at"
-        ]
-      },
-      "Rank": {
-        "type": "object",
-        "description": "Represents a student's rank based on total experience points.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the rank record.",
-            "example": 601
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "Student who holds the rank.",
-            "example": 1001
-          },
-          "rank_name": {
-            "type": "string",
-            "description": "Title of the rank (e.g., Новичок, Мыслитель).",
-            "example": "Гений"
-          },
-          "awarded_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Date when the rank was earned.",
-            "example": "2025-06-15T10:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "rank_name",
-          "awarded_at"
-        ]
-      },
-      "Badge": {
-        "type": "object",
-        "description": "Represents a gamified badge awarded to a student.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the badge.",
-            "example": 1701
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the student receiving the badge.",
-            "example": 1001
-          },
-          "badge_type": {
-            "type": "string",
-            "description": "Type/category of the badge.",
-            "example": "Speed Master"
-          },
-          "awarded_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp when badge was awarded.",
-            "example": "2025-06-15T17:30:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "badge_type",
-          "awarded_at"
-        ]
-      },
-      "Feedback": {
-        "type": "object",
-        "description": "Represents user feedback sent to the platform for improvements or issues.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the feedback.",
-            "example": 1501
-          },
-          "user_id": {
-            "type": "integer",
-            "description": "ID of the user submitting the feedback.",
-            "example": 1001
-          },
-          "text": {
-            "type": "string",
-            "description": "Feedback message content.",
-            "example": "Очень понравился интерфейс, но не хватает отчётов."
-          },
-          "email_at_time": {
-            "type": "string",
-            "format": "email",
-            "description": "Email of the user at the time of feedback.",
-            "example": "user@example.com"
-          },
-          "fio_at_time": {
-            "type": "string",
-            "description": "Full name of the user at the time of feedback.",
-            "example": "Иван Петров"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Date/time when feedback was submitted.",
-            "example": "2025-06-20T08:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "user_id",
-          "text",
-          "created_at"
-        ]
-      },
-      "Message": {
-        "type": "object",
-        "description": "Represents a message in a conversation between users.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique message ID.",
-            "example": 501
-          },
-          "conversation_id": {
-            "type": "integer",
-            "description": "ID of the related conversation.",
-            "example": 301
-          },
-          "sender_user_id": {
-            "type": "integer",
-            "description": "ID of the user who sent the message.",
-            "example": 1001
-          },
-          "content": {
-            "type": "string",
-            "description": "Message content.",
-            "example": "Здравствуйте, задание получил."
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Time when the message was sent.",
-            "example": "2025-06-20T14:45:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "conversation_id",
-          "sender_user_id",
-          "content",
-          "timestamp"
-        ]
-      },
-      "Conversation": {
-        "type": "object",
-        "description": "Represents a communication thread between participants.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique conversation ID.",
-            "example": 301
-          },
-          "type": {
-            "type": "string",
-            "description": "Type of the conversation (e.g., student-teacher, admin-user).",
-            "example": "student-teacher"
-          },
-          "related_entity_type": {
-            "type": "string",
-            "description": "Type of entity the conversation relates to.",
-            "example": "assignment"
-          },
-          "related_entity_id": {
-            "type": "integer",
-            "description": "ID of the related entity.",
-            "example": 1001
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp of creation.",
-            "example": "2025-06-19T08:30:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "type",
-          "related_entity_type",
-          "related_entity_id",
-          "created_at"
-        ]
-      },
-      "ActivityLog": {
-        "type": "object",
-        "description": "Tracks student activity across assignments and topics.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique activity log ID.",
-            "example": 1401
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the student whose activity is logged.",
-            "example": 1001
-          },
-          "action_type": {
-            "type": "string",
-            "description": "Type of action performed.",
-            "example": "submitted_assignment"
-          },
-          "entity_type": {
-            "type": "string",
-            "description": "Type of the entity involved.",
-            "example": "assignment"
-          },
-          "assignment_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Related assignment ID if applicable.",
-            "example": 1001
-          },
-          "topic_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Related topic ID if applicable.",
-            "example": 401
-          },
-          "submission_id": {
-            "type": "integer",
-            "nullable": true,
-            "description": "Related submission ID if applicable.",
-            "example": 8001
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Time of the action.",
-            "example": "2025-06-20T16:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "action_type",
-          "entity_type",
-          "timestamp"
-        ]
-      },
-      "LearningProgress": {
-        "type": "object",
-        "description": "Represents a student's mastery level of a topic based on assignments and diagnostics.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the learning progress record.",
-            "example": 801
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the student.",
-            "example": 1001
-          },
-          "topic_id": {
-            "type": "integer",
-            "description": "ID of the topic.",
-            "example": 401
-          },
-          "progress_percent": {
-            "type": "number",
-            "format": "float",
-            "description": "Percentage of mastery for the topic.",
-            "example": 78.5
-          },
-          "last_updated": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Last time this progress was updated.",
-            "example": "2025-06-20T15:00:00Z"
-          }
-        },
-        "required": [
-          "id",
-          "student_profile_id",
-          "topic_id",
-          "progress_percent"
-        ]
-      },
-      "Class": {
-        "type": "object",
-        "description": "A class represents a group of students, often taught by one teacher, within a school.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique class ID.",
-            "example": 101
-          },
-          "school_id": {
-            "type": "integer",
-            "description": "School ID this class belongs to.",
-            "example": 21
-          },
-          "archived": {
-            "type": "boolean",
-            "description": "Whether the class is archived.",
-            "example": false
-          },
-          "grade": {
-            "type": "integer",
-            "description": "Grade level of the class.",
-            "example": 5
-          },
-          "name": {
-            "type": "string",
-            "description": "Class name or letter.",
-            "example": "5А"
-          },
-          "teacher_profile_id": {
-            "type": "integer",
-            "description": "Teacher profile associated with the class.",
-            "example": 301
-          }
-        },
-        "required": [
-          "id",
-          "school_id",
-          "grade",
-          "name",
-          "teacher_profile_id"
-        ]
-      },
-      "ClassStudent": {
-        "type": "object",
-        "description": "Represents the assignment of a student to a specific class.\n",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "description": "Unique ID of the class-student relation.",
-            "example": 401
-          },
-          "class_id": {
-            "type": "integer",
-            "description": "ID of the class the student belongs to.",
-            "example": 101
-          },
-          "student_profile_id": {
-            "type": "integer",
-            "description": "ID of the student profile.",
-            "example": 1001
-          }
-        },
-        "required": [
-          "id",
-          "class_id",
-          "student_profile_id"
-        ]
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
       }
     }
   }
