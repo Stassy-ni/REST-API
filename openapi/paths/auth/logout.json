@@ -1,0 +1,31 @@
+{
+  "/auth/logout": {
+    "post": {
+      "summary": "Logout user",
+      "description": "Invalidates the current refresh token.",
+      "tags": [
+        "Auth"
+      ],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "responses": {
+        "204": {
+          "description": "Successfully logged out (no content)"
+        },
+        "401": {
+          "description": "Invalid or missing token",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../../schemas/shared/ErrorResponse.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

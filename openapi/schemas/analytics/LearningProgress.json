@@ -1,0 +1,41 @@
+{
+  "LearningProgress": {
+    "type": "object",
+    "description": "Represents a student's mastery level of a topic based on assignments and diagnostics.\n",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Unique ID of the learning progress record.",
+        "example": 801
+      },
+      "student_profile_id": {
+        "type": "integer",
+        "description": "ID of the student.",
+        "example": 1001
+      },
+      "topic_id": {
+        "type": "integer",
+        "description": "ID of the topic.",
+        "example": 401
+      },
+      "progress_percent": {
+        "type": "number",
+        "format": "float",
+        "description": "Percentage of mastery for the topic.",
+        "example": 78.5
+      },
+      "last_updated": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Last time this progress was updated.",
+        "example": "2025-06-20T15:00:00Z"
+      }
+    },
+    "required": [
+      "id",
+      "student_profile_id",
+      "topic_id",
+      "progress_percent"
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "MVPTag": {
+    "type": "object",
+    "description": "A special recognition tag given to a student for outstanding performance in a specific assignment.\n",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Unique ID of the MVP tag.",
+        "example": 701
+      },
+      "student_profile_id": {
+        "type": "integer",
+        "description": "ID of the student recognized.",
+        "example": 1001
+      },
+      "assignment_id": {
+        "type": "integer",
+        "description": "ID of the assignment where MVP was earned.",
+        "example": 1001
+      },
+      "timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Time when the tag was awarded.",
+        "example": "2025-06-18T14:20:00Z"
+      }
+    },
+    "required": [
+      "id",
+      "student_profile_id",
+      "assignment_id",
+      "timestamp"
+    ]
+  }
+}

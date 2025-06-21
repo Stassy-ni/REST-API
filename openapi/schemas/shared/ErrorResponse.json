@@ -1,0 +1,21 @@
+{
+  "ErrorResponse": {
+    "type": "object",
+    "description": "Standard error response schema.",
+    "properties": {
+      "detail": {
+        "type": "string",
+        "description": "Error message.",
+        "example": "Not found."
+      },
+      "code": {
+        "type": "string",
+        "description": "Error code (optional).",
+        "example": "not_found"
+      }
+    },
+    "required": [
+      "detail"
+    ]
+  }
+}
