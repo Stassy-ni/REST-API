@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "description": "Defines the access level or identity role for a user.",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the role.",
+      "example": 1
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the role. Common values include teacher, expert, student, admin.",
+      "example": "teacher"
+    }
+  },
+  "required": [
+    "id",
+    "name"
+  ]
+}

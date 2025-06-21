@@ -1,0 +1,24 @@
+{
+  "get": {
+    "summary": "List of cities",
+    "description": "Returns list of cities for school registration.",
+    "tags": [
+      "School"
+    ],
+    "responses": {
+      "200": {
+        "description": "List of cities",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "../../schemas/school/City.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

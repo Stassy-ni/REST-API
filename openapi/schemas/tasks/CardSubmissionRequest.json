@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "description": "Submission of a task card by a teacher for expert review and possible publication.\n",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique ID of the submission request.",
+      "example": 1401
+    },
+    "teacher_profile_id": {
+      "type": "integer",
+      "description": "ID of the teacher submitting the card.",
+      "example": 301
+    },
+    "task_card_id": {
+      "type": "integer",
+      "description": "ID of the task card being submitted.",
+      "example": 2001
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "rejected"
+      ],
+      "description": "Current moderation status of the request.",
+      "example": "pending"
+    },
+    "reviewed_by_admin_id": {
+      "type": "integer",
+      "nullable": true,
+      "description": "ID of the admin who reviewed the request."
+    },
+    "reviewed_at": {
+      "type": "string",
+      "format": "date-time",
+      "nullable": true,
+      "description": "Timestamp of moderation.",
+      "example": "2025-06-21T13:00:00Z"
+    }
+  },
+  "required": [
+    "id",
+    "teacher_profile_id",
+    "task_card_id",
+    "status"
+  ]
+}

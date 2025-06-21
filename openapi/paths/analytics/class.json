@@ -1,0 +1,38 @@
+{
+  "get": {
+    "summary": "Get class analytics",
+    "description": "Returns overview metrics for class performance.",
+    "tags": [
+      "Analytics"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "parameters": [
+      {
+        "name": "class_id",
+        "in": "query",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    ],
+    "responses": {
+      "200": {
+        "description": "Class analytics",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "../../schemas/analytics/LearningProgress.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

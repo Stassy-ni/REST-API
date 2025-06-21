@@ -1,0 +1,31 @@
+{
+  "post": {
+    "summary": "Request manual school entry",
+    "description": "Submits a new school for admin approval.",
+    "tags": [
+      "School"
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../schemas/users/ManualSchoolEntry.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "School request created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../../schemas/users/ManualSchoolEntry.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

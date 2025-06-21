@@ -1,0 +1,36 @@
+{
+  "post": {
+    "summary": "Add theory material to card",
+    "description": "Creates or attaches theory content to a task card.",
+    "tags": [
+      "Tasks"
+    ],
+    "security": [
+      {
+        "bearerAuth": []
+      }
+    ],
+    "requestBody": {
+      "required": true,
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "../../schemas/tasks/TheoryMaterial.json"
+          }
+        }
+      }
+    },
+    "responses": {
+      "201": {
+        "description": "Theory material created",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../../schemas/tasks/TheoryMaterial.json"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "description": "Represents a student's extended profile including personal and academic information.\n",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the student profile.",
+      "example": 1001
+    },
+    "user_id": {
+      "type": "integer",
+      "description": "Foreign key linking to the user.",
+      "example": 301
+    },
+    "fio": {
+      "type": "string",
+      "description": "Full name of the student.",
+      "example": "\u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432"
+    },
+    "school_id": {
+      "type": "integer",
+      "nullable": true,
+      "description": "Associated school ID, if available.",
+      "example": 12
+    },
+    "city_id": {
+      "type": "integer",
+      "nullable": true,
+      "description": "City where the student is located.",
+      "example": 5
+    }
+  },
+  "required": [
+    "id",
+    "user_id",
+    "fio"
+  ]
+}
