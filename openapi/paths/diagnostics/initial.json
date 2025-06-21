@@ -1,0 +1,38 @@
+{
+  "/diagnostics/initial": {
+    "post": {
+      "summary": "Start initial diagnostic",
+      "description": "Starts an initial assessment for a student.",
+      "tags": [
+        "Diagnostics"
+      ],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../../schemas/diagnostics/InitialAssessment.json"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Initial assessment started",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../../schemas/diagnostics/InitialAssessment.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

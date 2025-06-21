@@ -1,0 +1,286 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "MathPlatform API",
+    "version": "1.0.0",
+    "description": "Backend API for managing users, classroom, diagnostics, assignments, gamification, and internal communication."
+  },
+  "servers": [
+    {
+      "url": "https://api.mathplatform.local/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Users"
+    },
+    {
+      "name": "School"
+    },
+    {
+      "name": "Classroom"
+    },
+    {
+      "name": "Tasks"
+    },
+    {
+      "name": "Assignments"
+    },
+    {
+      "name": "Diagnostics"
+    },
+    {
+      "name": "Gamification"
+    },
+    {
+      "name": "Analytics"
+    },
+    {
+      "name": "Communication"
+    }
+  ],
+  "paths": {
+    "/auth/me": {
+      "$ref": "./paths/auth/me.json"
+    },
+    "/auth/refresh": {
+      "$ref": "./paths/auth/refresh.json"
+    },
+    "/auth/access-requests": {
+      "$ref": "./paths/auth/access_requests.json"
+    },
+    "/auth/logout": {
+      "$ref": "./paths/auth/logout.json"
+    },
+    "/auth/register": {
+      "$ref": "./paths/auth/register.json"
+    },
+    "/auth/login": {
+      "$ref": "./paths/auth/login.json"
+    },
+    "/school/cities": {
+      "$ref": "./paths/school/cities.json"
+    },
+    "/school/groups": {
+      "$ref": "./paths/school/school_groups.json"
+    },
+    "/school": {
+      "$ref": "./paths/school/schools.json"
+    },
+    "/school/manual-request": {
+      "$ref": "./paths/school/school_requests.json"
+    },
+    "/users/me": {
+      "$ref": "./paths/users/me.json"
+    },
+    "/users/me/teacher": {
+      "$ref": "./paths/users/teacher_update.json"
+    },
+    "/users/me/expert": {
+      "$ref": "./paths/users/expert_update.json"
+    },
+    "/assignments": {
+      "$ref": "./paths/assignments/assignments.json"
+    },
+    "/assignments/submissions": {
+      "$ref": "./paths/assignments/submissions.json"
+    },
+    "/diagnostics/final": {
+      "$ref": "./paths/diagnostics/final.json"
+    },
+    "/diagnostics/templates": {
+      "$ref": "./paths/diagnostics/templates.json"
+    },
+    "/diagnostics/results": {
+      "$ref": "./paths/diagnostics/results.json"
+    },
+    "/diagnostics/initial": {
+      "$ref": "./paths/diagnostics/initial.json"
+    },
+    "/tasks/trainer": {
+      "$ref": "./paths/tasks/trainer_tasks.json"
+    },
+    "/tasks": {
+      "$ref": "./paths/tasks/tasks.json"
+    },
+    "/tasks/topics": {
+      "$ref": "./paths/tasks/topic.json"
+    },
+    "/tasks/theory": {
+      "$ref": "./paths/tasks/theory.json"
+    },
+    "/tasks/sections": {
+      "$ref": "./paths/tasks/section.json"
+    },
+    "/tasks/card-submissions": {
+      "$ref": "./paths/tasks/card_submissions.json"
+    },
+    "/tasks/task-cards": {
+      "$ref": "./paths/tasks/task_cards.json"
+    },
+    "/gamification": {
+      "$ref": "./paths/gamification/gamification.json"
+    },
+    "/gamification/leaderboard": {
+      "$ref": "./paths/gamification/leaderboard.json"
+    },
+    "/gamification/award": {
+      "$ref": "./paths/gamification/award.json"
+    },
+    "/communication/feedback": {
+      "$ref": "./paths/communication/feedback.json"
+    },
+    "/communication/messages": {
+      "$ref": "./paths/communication/messages.json"
+    },
+    "/communication/conversations": {
+      "$ref": "./paths/communication/conversations.json"
+    },
+    "/analytics/student": {
+      "$ref": "./paths/analytics/student.json"
+    },
+    "/analytics/class": {
+      "$ref": "./paths/analytics/class.json"
+    },
+    "/classroom/classes": {
+      "$ref": "./paths/classroom/classes.json"
+    },
+    "/classroom/class-students": {
+      "$ref": "./paths/classroom/class_students.json"
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "$ref": "./schemas/auth/User.json"
+      },
+      "PasswordResetToken": {
+        "$ref": "./schemas/auth/PasswordResetToken.json"
+      },
+      "Role": {
+        "$ref": "./schemas/auth/Role.json"
+      },
+      "AccessRequest": {
+        "$ref": "./schemas/auth/AccessRequest.json"
+      },
+      "Token": {
+        "$ref": "./schemas/auth/Token.json"
+      },
+      "School": {
+        "$ref": "./schemas/school/School.json"
+      },
+      "City": {
+        "$ref": "./schemas/school/City.json"
+      },
+      "SchoolGroup": {
+        "$ref": "./schemas/school/SchoolGroup.json"
+      },
+      "ExpertProfile": {
+        "$ref": "./schemas/users/ExpertProfile.json"
+      },
+      "StudentProfile": {
+        "$ref": "./schemas/users/StudentProfile.json"
+      },
+      "ManualSchoolEntry": {
+        "$ref": "./schemas/users/ManualSchoolEntry.json"
+      },
+      "TeacherProfile": {
+        "$ref": "./schemas/users/TeacherProfile.json"
+      },
+      "Submission": {
+        "$ref": "./schemas/assignments/Submission.json"
+      },
+      "Assignment": {
+        "$ref": "./schemas/assignments/Assignment.json"
+      },
+      "Pagination": {
+        "$ref": "./schemas/shared/Pagination.json"
+      },
+      "ErrorResponse": {
+        "$ref": "./schemas/shared/ErrorResponse.json"
+      },
+      "Ordering": {
+        "$ref": "./schemas/shared/Ordering.json"
+      },
+      "DiagnosticTemplate": {
+        "$ref": "./schemas/diagnostics/DiagnosticTemplate.json"
+      },
+      "DiagnosticResult": {
+        "$ref": "./schemas/diagnostics/DiagnosticResult.json"
+      },
+      "FinalAssessment": {
+        "$ref": "./schemas/diagnostics/FinalAssessment.json"
+      },
+      "DiagnosticTemplateTask": {
+        "$ref": "./schemas/diagnostics/DiagnosticTemplateTask.json"
+      },
+      "InitialAssessment": {
+        "$ref": "./schemas/diagnostics/InitialAssessment.json"
+      },
+      "Task": {
+        "$ref": "./schemas/tasks/Task.json"
+      },
+      "TrainerTaskSet": {
+        "$ref": "./schemas/tasks/TrainerTaskSet.json"
+      },
+      "TheoryMaterial": {
+        "$ref": "./schemas/tasks/TheoryMaterial.json"
+      },
+      "TaskCard": {
+        "$ref": "./schemas/tasks/TaskCard.json"
+      },
+      "Section": {
+        "$ref": "./schemas/tasks/Section.json"
+      },
+      "CardSubmissionRequest": {
+        "$ref": "./schemas/tasks/CardSubmissionRequest.json"
+      },
+      "Topic": {
+        "$ref": "./schemas/tasks/Topic.json"
+      },
+      "MVPTag": {
+        "$ref": "./schemas/gamification/MVPTag.json"
+      },
+      "ExperiencePoint": {
+        "$ref": "./schemas/gamification/ExperiencePoint.json"
+      },
+      "Rank": {
+        "$ref": "./schemas/gamification/Rank.json"
+      },
+      "Badge": {
+        "$ref": "./schemas/gamification/Badge.json"
+      },
+      "Feedback": {
+        "$ref": "./schemas/communication/Feedback.json"
+      },
+      "Message": {
+        "$ref": "./schemas/communication/Message.json"
+      },
+      "Conversation": {
+        "$ref": "./schemas/communication/Conversation.json"
+      },
+      "ActivityLog": {
+        "$ref": "./schemas/analytics/ActivityLog.json"
+      },
+      "LearningProgress": {
+        "$ref": "./schemas/analytics/LearningProgress.json"
+      },
+      "Class": {
+        "$ref": "./schemas/classroom/Class.json"
+      },
+      "ClassStudent": {
+        "$ref": "./schemas/classroom/ClassStudent.json"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}

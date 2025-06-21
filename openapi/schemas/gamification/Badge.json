@@ -1,0 +1,35 @@
+{
+  "Badge": {
+    "type": "object",
+    "description": "Represents a gamified badge awarded to a student.\n",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Unique ID of the badge.",
+        "example": 1701
+      },
+      "student_profile_id": {
+        "type": "integer",
+        "description": "ID of the student receiving the badge.",
+        "example": 1001
+      },
+      "badge_type": {
+        "type": "string",
+        "description": "Type/category of the badge.",
+        "example": "Speed Master"
+      },
+      "awarded_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Timestamp when badge was awarded.",
+        "example": "2025-06-15T17:30:00Z"
+      }
+    },
+    "required": [
+      "id",
+      "student_profile_id",
+      "badge_type",
+      "awarded_at"
+    ]
+  }
+}

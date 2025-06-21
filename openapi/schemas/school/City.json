@@ -1,0 +1,22 @@
+{
+  "City": {
+    "type": "object",
+    "description": "Represents a city used to categorize schools and users.\n",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Unique city ID.",
+        "example": 11
+      },
+      "name": {
+        "type": "string",
+        "description": "Name of the city.",
+        "example": "\u0421\u0430\u043d\u043a\u0442-\u041f\u0435\u0442\u0435\u0440\u0431\u0443\u0440\u0433"
+      }
+    },
+    "required": [
+      "id",
+      "name"
+    ]
+  }
+}

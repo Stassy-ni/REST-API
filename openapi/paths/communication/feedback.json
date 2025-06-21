@@ -1,0 +1,38 @@
+{
+  "/communication/feedback": {
+    "post": {
+      "summary": "Submit platform feedback",
+      "description": "Allows a user to send feedback to admins.",
+      "tags": [
+        "Communication"
+      ],
+      "security": [
+        {
+          "bearerAuth": []
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "../../schemas/communication/Feedback.json"
+            }
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Feedback submitted",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../../schemas/communication/Feedback.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

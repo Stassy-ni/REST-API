@@ -1,0 +1,50 @@
+{
+  "Submission": {
+    "type": "object",
+    "description": "Represents a student's answer submission for a given assignment.\n",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "description": "Unique submission ID.",
+        "example": 8001
+      },
+      "assignment_id": {
+        "type": "integer",
+        "description": "ID of the assignment.",
+        "example": 1001
+      },
+      "student_profile_id": {
+        "type": "integer",
+        "description": "ID of the submitting student.",
+        "example": 1001
+      },
+      "submitted_at": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Date and time of submission.",
+        "example": "2025-06-12T15:34:22Z"
+      },
+      "result_json": {
+        "type": "string",
+        "description": "JSON result of the submission (task-by-task details).",
+        "example": "{\"task_1\": true, \"task_2\": false}"
+      },
+      "attempt_count": {
+        "type": "integer",
+        "description": "Number of submission attempts.",
+        "example": 2
+      },
+      "time_spent": {
+        "type": "integer",
+        "description": "Time spent on the assignment in seconds.",
+        "example": 780
+      }
+    },
+    "required": [
+      "id",
+      "assignment_id",
+      "student_profile_id",
+      "submitted_at"
+    ]
+  }
+}

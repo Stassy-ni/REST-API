@@ -1,0 +1,59 @@
+{
+  "/auth/refresh": {
+    "post": {
+      "summary": "Refresh access token",
+      "description": "Returns a new access token using a valid refresh token.",
+      "tags": [
+        "Auth"
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "refresh_token": {
+                  "type": "string",
+                  "description": "Refresh token previously issued",
+                  "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                }
+              },
+              "required": [
+                "refresh_token"
+              ]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Token refreshed successfully",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "access_token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "401": {
+          "description": "Invalid or expired refresh token",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "../../schemas/shared/ErrorResponse.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
