@@ -3,7 +3,7 @@
   "info": {
     "title": "MathPlatform API",
     "version": "1.0.0",
-    "description": "Backend API for managing users, classroom, diagnostics, assignments, gamification, and internal communication."
+    "description": "Backend API for managing users, classroom, diagnostics, assignments, gamification, and internal communication.\n\n### Ролевые ограничения доступа:\n- **student**: просмотр и выполнение заданий, теории, участие в геймификации\n- **teacher**: создание и управление классами, заданиями, аналитикой\n- **expert**: создание и модерация карточек, генерация задач через ИИ, экспертная проверка\n- **admin**: управление пользователями, школами, заявками, полная модерация"
   },
   "servers": [
     {
@@ -330,6 +330,75 @@
             }
           }
         }
+      },
+      "get": {
+        "summary": "List access requests",
+        "tags": [
+          "Auth"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "pending",
+                "approved",
+                "rejected"
+              ]
+            },
+            "description": "Фильтрация по статусу заявки"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "teacher",
+                "expert"
+              ]
+            },
+            "description": "Фильтрация по запрашиваемой роли"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "email"
+            },
+            "description": "Поиск по email"
+          },
+          {
+            "name": "created_after",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            },
+            "description": "Показать заявки, созданные после этой даты"
+          },
+          {
+            "name": "ordering",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Сортировка по полю, например: '-created_at'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List access requests"
+          }
+        }
       }
     },
     "/auth/logout": {
@@ -407,11 +476,16 @@
                     "type": "string",
                     "description": "Full name",
                     "example": "Иван Иванов"
+                  },
+                  "captcha_token": {
+                    "type": "string",
+                    "description": "Token для верификации CAPTCHA (например, reCAPTCHA)"
                   }
                 },
                 "required": [
                   "email",
-                  "password"
+                  "password",
+                  "captcha_token"
                 ]
               }
             }
@@ -681,6 +755,26 @@
                 }
               }
             }
+          },
+          "429": {
+            "description": "Слишком много попыток входа",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "example": "Слишком много попыток. Повторите позже."
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "too_many_requests"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -787,6 +881,22 @@
               "type": "integer"
             },
             "description": "Filter schools by city"
+          },
+          {
+            "name": "verified",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Только верифицированные школы"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Поиск по названию школы, города или группы"
           }
         ],
         "responses": {
@@ -1353,6 +1463,19 @@
               "description": "Field by which the result should be ordered. Prefix with '-' for descending.\n",
               "example": "-created_at"
             }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "current",
+                "archived",
+                "upcoming"
+              ]
+            },
+            "description": "Фильтр по статусу задания"
           }
         ],
         "responses": {
@@ -2575,18 +2698,6 @@
         ],
         "parameters": [
           {
-            "name": "status",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "draft",
-                "published"
-              ]
-            },
-            "description": "Filter by card status"
-          },
-          {
             "name": "page",
             "in": "query",
             "schema": {
@@ -2602,6 +2713,68 @@
               "description": "Field by which the result should be ordered. Prefix with '-' for descending.\n",
               "example": "-created_at"
             }
+          },
+          {
+            "name": "topic_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Фильтр по теме"
+          },
+          {
+            "name": "difficulty",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "easy",
+                "medium",
+                "hard"
+              ]
+            },
+            "description": "Фильтр по уровню сложности"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Тип задания (например, 'multiple_choice', 'input')"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active",
+                "archived",
+                "pending_review"
+              ]
+            },
+            "description": "Фильтр по статусу карточки"
+          },
+          {
+            "name": "owner",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "teacher",
+                "expert"
+              ]
+            },
+            "description": "Фильтр по владельцу карточки"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Поиск по заголовку или описанию"
           }
         ],
         "responses": {
@@ -2843,8 +3016,31 @@
                 }
               }
             }
+          },
+          "403": {
+            "description": "Доступ запрещён для данной роли",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "example": "Нет доступа"
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "permission_denied"
+                    }
+                  }
+                }
+              }
+            }
           }
-        }
+        },
+        "x-roles": [
+          "expert"
+        ]
       }
     },
     "/gamification": {
@@ -3699,6 +3895,42 @@
               "type": "integer"
             },
             "example": 20
+          },
+          {
+            "name": "grade",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Фильтрация по параллели (класс ученика)"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "active",
+                "archived"
+              ]
+            },
+            "description": "Показывать только активные или архивные классы"
+          },
+          {
+            "name": "school_id",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Фильтр по школе (для админов)"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Поиск по названию класса"
           }
         ],
         "responses": {
@@ -3983,6 +4215,731 @@
             }
           }
         }
+      }
+    },
+    "/messages/{message_id}": {
+      "patch": {
+        "summary": "Edit message",
+        "description": "Редактирование сообщения (только в течение 5 минут после создания).",
+        "tags": [
+          "Communication"
+        ],
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message updated"
+          },
+          "403": {
+            "description": "Редактирование запрещено — превышен лимит времени",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "detail": {
+                      "type": "string",
+                      "example": "Редактирование доступно только в течение 5 минут после отправки."
+                    },
+                    "code": {
+                      "type": "string",
+                      "example": "edit_window_expired"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete message",
+        "description": "Удаление сообщения с soft-delete, логирование.",
+        "tags": [
+          "Communication"
+        ],
+        "parameters": [
+          {
+            "name": "message_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Message deleted"
+          }
+        }
+      }
+    },
+    "/classes/{id}/archive": {
+      "patch": {
+        "summary": "Archive class",
+        "description": "Переводит класс в архив: запрет на редактирование, но доступ к истории и аналитике.",
+        "tags": [
+          "Classroom"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Class archived"
+          },
+          "409": {
+            "description": "Cannot archive class with active assignments"
+          }
+        }
+      }
+    },
+    "/trainer-tasks": {
+      "post": {
+        "summary": "Generate trainer task set",
+        "description": "Генерация тренажёра по теме и сложности.",
+        "tags": [
+          "Tasks"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "topic_id": {
+                    "type": "integer"
+                  },
+                  "difficulty": {
+                    "type": "string",
+                    "enum": [
+                      "easy",
+                      "medium",
+                      "hard"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Trainer task set created"
+          }
+        }
+      },
+      "get": {
+        "summary": "List trainer task sets",
+        "description": "Список всех сгенерированных тренажёров пользователя.",
+        "tags": [
+          "Tasks"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of trainer task sets"
+          }
+        }
+      }
+    },
+    "/analytics/chat-feedback": {
+      "get": {
+        "summary": "Chat and Feedback analytics",
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Метрики чатов и отзывов: количество сообщений, редактирования, удалений, обратная связь по ролям и др.",
+        "responses": {
+          "200": {
+            "description": "Chat feedback analytics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "conversations_started": {
+                      "type": "integer",
+                      "example": 120
+                    },
+                    "messages_sent_total": {
+                      "type": "integer",
+                      "example": 850
+                    },
+                    "avg_messages_per_conversation": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 7.1
+                    },
+                    "message_edits": {
+                      "type": "integer",
+                      "example": 40
+                    },
+                    "message_deletions": {
+                      "type": "integer",
+                      "example": 15
+                    },
+                    "feedback_submissions": {
+                      "type": "integer",
+                      "example": 50
+                    },
+                    "feedback_by_role": {
+                      "type": "object",
+                      "properties": {
+                        "teacher": {
+                          "type": "integer",
+                          "example": 20
+                        },
+                        "student": {
+                          "type": "integer",
+                          "example": 30
+                        }
+                      }
+                    },
+                    "spam_reports": {
+                      "type": "integer",
+                      "example": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/classroom": {
+      "get": {
+        "summary": "Classroom activity analytics",
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Метрики активности классов: количество логинов, выгрузки, история изменений.",
+        "responses": {
+          "200": {
+            "description": "Classroom analytics data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "class_logins": {
+                      "type": "integer",
+                      "example": 530
+                    },
+                    "pdf_exports": {
+                      "type": "integer",
+                      "example": 70
+                    },
+                    "modification_history_count": {
+                      "type": "integer",
+                      "example": 110
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/gamification": {
+      "get": {
+        "summary": "Gamification metrics",
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Метрики геймификации: XP, достижения, позиции в лидерборде.",
+        "responses": {
+          "200": {
+            "description": "Gamification analytics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total_xp_awarded": {
+                      "type": "integer",
+                      "example": 19000
+                    },
+                    "badges_earned": {
+                      "type": "integer",
+                      "example": 210
+                    },
+                    "unique_students_with_badges": {
+                      "type": "integer",
+                      "example": 95
+                    },
+                    "leaderboard_refreshes": {
+                      "type": "integer",
+                      "example": 35
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/analytics/diagnostics": {
+      "get": {
+        "summary": "Diagnostics performance metrics",
+        "tags": [
+          "Analytics"
+        ],
+        "description": "Метрики диагностики: средние баллы по темам, классу, ученикам.",
+        "parameters": [
+          {
+            "name": "class_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Фильтрация по классу"
+          },
+          {
+            "name": "topic_id",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Фильтрация по теме"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Diagnostic analytics",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "avg_score_by_topic": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "number",
+                        "format": "float",
+                        "example": 78.5
+                      }
+                    },
+                    "avg_score_by_class": {
+                      "type": "number",
+                      "format": "float",
+                      "example": 82.0
+                    },
+                    "low_performers_count": {
+                      "type": "integer",
+                      "example": 5
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Role": {
+        "type": "string",
+        "enum": [
+          "student",
+          "teacher",
+          "expert",
+          "admin"
+        ],
+        "description": "Роль пользователя в системе"
+      },
+      "TrainerTaskSet": {
+        "type": "object",
+        "description": "Набор заданий для тренажера, сгенерированных по теме и уровню сложности.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 101
+          },
+          "user_id": {
+            "type": "integer",
+            "example": 301
+          },
+          "topic_id": {
+            "type": "integer",
+            "example": 12
+          },
+          "difficulty": {
+            "type": "string",
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ],
+            "example": "medium"
+          },
+          "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-10T10:00:00Z"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-20T10:00:00Z"
+          },
+          "task_ids_json": {
+            "type": "string",
+            "example": "[1,2,3,4]"
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "topic_id",
+          "difficulty"
+        ]
+      },
+      "Badge": {
+        "type": "object",
+        "description": "Значок, полученный учеником за достижение.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 201
+          },
+          "student_profile_id": {
+            "type": "integer",
+            "example": 501
+          },
+          "badge_type": {
+            "type": "string",
+            "example": "Persistence"
+          },
+          "awarded_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-10T12:00:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "student_profile_id",
+          "badge_type"
+        ]
+      },
+      "MVPTag": {
+        "type": "object",
+        "description": "Отметка MVP ученика по заданию.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 301
+          },
+          "student_profile_id": {
+            "type": "integer",
+            "example": 502
+          },
+          "assignment_id": {
+            "type": "integer",
+            "example": 1001
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-11T15:30:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "student_profile_id",
+          "assignment_id"
+        ]
+      },
+      "Rank": {
+        "type": "object",
+        "description": "Ранг ученика в системе.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 401
+          },
+          "student_profile_id": {
+            "type": "integer",
+            "example": 503
+          },
+          "rank_name": {
+            "type": "string",
+            "example": "Silver"
+          },
+          "awarded_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-12T08:00:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "student_profile_id",
+          "rank_name"
+        ]
+      },
+      "ActivityLog": {
+        "type": "object",
+        "description": "Лог активности ученика.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 501
+          },
+          "student_profile_id": {
+            "type": "integer",
+            "example": 504
+          },
+          "action_type": {
+            "type": "string",
+            "example": "submit_assignment"
+          },
+          "entity_type": {
+            "type": "string",
+            "example": "assignment"
+          },
+          "assignment_id": {
+            "type": "integer",
+            "example": 1002
+          },
+          "topic_id": {
+            "type": "integer",
+            "example": 15
+          },
+          "submission_id": {
+            "type": "integer",
+            "example": 3001
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-15T13:45:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "student_profile_id",
+          "action_type"
+        ]
+      },
+      "LearningProgress": {
+        "type": "object",
+        "description": "Прогресс ученика по теме.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 601
+          },
+          "student_profile_id": {
+            "type": "integer",
+            "example": 505
+          },
+          "topic_id": {
+            "type": "integer",
+            "example": 13
+          },
+          "progress_percent": {
+            "type": "number",
+            "format": "float",
+            "example": 85.5
+          },
+          "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-18T09:10:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "student_profile_id",
+          "topic_id",
+          "progress_percent"
+        ]
+      },
+      "DiagnosticResult": {
+        "type": "object",
+        "description": "Результат диагностики ученика по теме.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 701
+          },
+          "assessment_id": {
+            "type": "integer",
+            "example": 9001
+          },
+          "topic_id": {
+            "type": "integer",
+            "example": 18
+          },
+          "score": {
+            "type": "integer",
+            "example": 12
+          },
+          "details_json": {
+            "type": "string",
+            "example": "{\"correct\": 3, \"incorrect\": 1}"
+          }
+        },
+        "required": [
+          "id",
+          "assessment_id",
+          "topic_id",
+          "score"
+        ]
+      },
+      "Feedback": {
+        "type": "object",
+        "description": "Обратная связь от пользователя.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 801
+          },
+          "user_id": {
+            "type": "integer",
+            "example": 1001
+          },
+          "text": {
+            "type": "string",
+            "example": "Очень полезная платформа!"
+          },
+          "email_at_time": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "fio_at_time": {
+            "type": "string",
+            "example": "Иван Иванов"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-18T11:00:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "user_id",
+          "text"
+        ]
+      },
+      "Conversation": {
+        "type": "object",
+        "description": "Чат между пользователями.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 901
+          },
+          "type": {
+            "type": "string",
+            "example": "teacher-student"
+          },
+          "related_entity_type": {
+            "type": "string",
+            "example": "assignment"
+          },
+          "related_entity_id": {
+            "type": "integer",
+            "example": 101
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-20T12:15:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "type",
+          "created_at"
+        ]
+      },
+      "Message": {
+        "type": "object",
+        "description": "Сообщение в чате.",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1001
+          },
+          "conversation_id": {
+            "type": "integer",
+            "example": 901
+          },
+          "sender_user_id": {
+            "type": "integer",
+            "example": 1002
+          },
+          "content": {
+            "type": "string",
+            "example": "Здравствуйте! Когда будет дедлайн?"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-06-20T12:20:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "conversation_id",
+          "sender_user_id",
+          "content"
+        ]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
