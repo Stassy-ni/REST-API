@@ -1,0 +1,290 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Math Learning Platform API",
+    "version": "1.0.0",
+    "description": "Спецификация REST API для модуля ролей пользователей и управления ими."
+  },
+  "servers": [
+    {
+      "url": "https://api.mathplatform.example.com/v1",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "User Profile",
+      "description": "Работа с профилем пользователя, школами, городами"
+    }
+  ],
+  "paths": {
+    "/profiles/me": {
+      "patch": {
+        "tags": ["User Profile"],
+        "summary": "Обновить свой профиль (учитель/эксперт)",
+        "description": "Учитель может редактировать ФИО, город и школу. Эксперт — только ФИО и город. Ученик не имеет доступа.",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "oneOf": [
+                  { "$ref": "#/components/schemas/UserProfile.TeacherUpdate" },
+                  { "$ref": "#/components/schemas/UserProfile.ExpertUpdate" }
+                ]
+              },
+              "example": {
+                "fio": "Иван Иванов",
+                "city_id": 7,
+                "school_id": 105
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Профиль успешно обновлён"
+          },
+          "400": {
+            "description": "Неверные данные (например, некорректный ID)"
+          },
+          "403": {
+            "description": "Ученик не может обновлять профиль"
+          },
+          "401": {
+            "description": "Неавторизованный пользователь"
+          }
+        }
+      }
+    },
+    "/schools": {
+      "get": {
+        "tags": ["User Profile"],
+        "summary": "Получить список школ",
+        "parameters": [
+          {"name": "city_id", "in": "query", "schema": {"type": "integer"}},
+          {"name": "verified", "in": "query", "schema": {"type": "boolean"}},
+          {"name": "search", "in": "query", "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Список школ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/UserProfile.School" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cities": {
+      "get": {
+        "tags": ["User Profile"],
+        "summary": "Получить список городов",
+        "parameters": [
+          {"name": "search", "in": "query", "schema": {"type": "string"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Список городов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/UserProfile.City" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/requests": {
+      "post": {
+        "tags": ["User Profile"],
+        "summary": "Создать заявку на новую школу",
+        "security": [{"BearerAuth":[]}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserProfile.SchoolRequestCreate" },
+              "example": {
+                "school_name": "Новая Школа №99",
+                "city_id": 4
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Заявка создана" },
+          "409": { "description": "Активная заявка уже существует" },
+          "403": { "description": "Ученикам запрещено подавать заявки" }
+        }
+      },
+      "get": {
+        "tags": ["User Profile"],
+        "summary": "Получить свои заявки на школу",
+        "security": [{"BearerAuth":[]}],
+        "parameters": [
+          {"name": "status", "in": "query", "schema": {"type": "string"}},
+          {"name": "created_after", "in": "query", "schema": {"type": "string", "format": "date"}}
+        ],
+        "responses": {
+          "200": {
+            "description": "Список заявок",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/UserProfile.SchoolRequest" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/schools/requests/{school_request_id}": {
+      "patch": {
+        "tags": ["User Profile"],
+        "summary": "Модерация заявки на школу (админ)",
+        "security": [{"BearerAuth":[]}],
+        "parameters": [
+          {"name": "school_request_id", "in": "path", "required": true, "schema": {"type": "integer"}}
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserProfile.SchoolRequestModeration" },
+              "example": {
+                "status": "approved",
+                "change_reason": "Проверка пройдена"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Заявка обновлена" },
+          "403": { "description": "Нет прав" },
+          "404": { "description": "Заявка не найдена" }
+        }
+      }
+    },
+        "/school-groups": {
+      "get": {
+        "tags": ["User Profile"],
+        "summary": "Получить список групп школ (только админ)",
+        "security": [{"BearerAuth":[]}],
+        "responses": {
+          "200": {
+            "description": "Список групп школ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/UserProfile.SchoolGroup" }
+                }
+              }
+            }
+          },
+          "403": { "description": "Нет прав доступа" }
+        }
+      },
+      "post": {
+        "tags": ["User Profile"],
+        "summary": "Создать группу школ (только админ)",
+        "security": [{"BearerAuth":[]}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserProfile.SchoolGroupCreate" },
+              "example": {
+                "name": "Московские школы",
+                "description": "Группа для Москвы"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Группа создана" },
+          "403": { "description": "Нет прав" }
+        }
+      }
+    },
+    "/school-groups/{school_group_id}": {
+      "patch": {
+        "tags": ["User Profile"],
+        "summary": "Обновить группу школ (только админ)",
+        "security": [{"BearerAuth":[]}],
+        "parameters": [
+          {
+            "name": "school_group_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserProfile.SchoolGroupCreate" },
+              "example": {
+                "name": "Обновлённое название",
+                "description": "Обновлённое описание"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Группа обновлена" },
+          "404": { "description": "Группа не найдена" },
+          "403": { "description": "Нет прав" }
+        }
+      },
+      "delete": {
+        "tags": ["User Profile"],
+        "summary": "Удалить группу школ (только админ)",
+        "security": [{"BearerAuth":[]}],
+        "parameters": [
+          {
+            "name": "school_group_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "Группа удалена" },
+          "400": { "description": "Невозможно удалить: в группе есть школы" },
+          "403": { "description": "Нет прав" },
+          "404": { "description": "Группа не найдена" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {"BearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
+    },
+    "schemas": {
+      "UserProfile.City":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"}}},
+      "UserProfile.School":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"},"city_id":{"type":"integer"},"verified":{"type":"boolean"}}},
+      "UserProfile.SchoolRequestCreate":{"type":"object","required":["school_name","city_id"],"properties":{"school_name":{"type":"string"},"city_id":{"type":"integer"}}},
+      "UserProfile.SchoolGroup":{"type":"object","properties":{"id":{"type":"integer"},"name":{"type":"string"},"description":{"type":"string"}}},
+      "UserProfile.SchoolGroupCreate":{"type":"object","required":["name"],"properties":{"name":{"type":"string"},"description":{"type":"string"}}},
+      "UserProfile.SchoolRequest":{"type":"object","properties":{"id":{"type":"integer"},"user_id":{"type":"integer"},"school_name":{"type":"string"},"city_id":{"type":"integer"},"status":{"type":"string"},"created_at":{"type":"string","format":"date-time"}}},
+      "UserProfile.SchoolRequestModeration":{"type":"object","required":["status"],"properties":{"status":{"type":"string","enum":["approved","declined"]},"change_reason":{"type":"string"}}},
+      "UserProfile.TeacherUpdate": {"type": "object", "required": ["fio", "city_id", "school_id"], "properties": {"fio": {"type": "string", "example": "Иван Иванов"}, "city_id": {"type": "integer", "example": 7}, "school_id": {"type": "integer","example": 105}}},
+      "UserProfile.ExpertUpdate": {"type": "object", "required": ["fio", "city_id"], "properties": {"fio": {"type": "string", "example": "Анна Смирнова"}, "city_id": {"type": "integer", "example": 4}}}
+    }
+  }
+}
+

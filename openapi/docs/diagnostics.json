@@ -1,0 +1,280 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Math Learning Platform API",
+    "version": "1.0.0",
+    "description": "Спецификация REST API для модуля управления и аналитики входный и выходной диагностики."
+  },
+  "servers": [
+    {
+      "url": "https://api.mathplatform.example.com/v1",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Diagnostics - Шаблоны",
+      "description": "Шаблоны диагностик: создание, просмотр, задачи по шаблону"
+    },
+    {
+      "name": "Diagnostics - Прохождение",
+      "description": "Прохождение диагностик: старт, завершение, результаты"
+    },
+    {
+      "name": "Diagnostics - Аналитика",
+      "description": "Просмотр результатов диагностики по ученику, классу и шаблону"
+    }
+  ],
+  "paths": {
+    "/diagnostic-templates": {
+      "get": {
+        "tags": ["Diagnostics - Шаблоны"],
+        "summary": "Получить список шаблонов диагностики",
+        "description": "Возвращает все шаблоны диагностик с базовой информацией.",
+        "security": [{"BearerAuth": []}],
+        "responses": {
+          "200": {
+            "description": "Список шаблонов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Diagnostics.Template" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Diagnostics - Шаблоны"],
+        "summary": "Создать новый шаблон диагностики",
+        "description": "Администратор создаёт шаблон, указывая уровни, вид (initial/final), предмет и задачи.",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Diagnostics.TemplateCreate" },
+              "example": {
+                "grade_level": 6,
+                "subject": "mathematics",
+                "type": "initial",
+                "version": 1,
+                "is_current": true,
+                "valid_from": "2025-01-01T00:00:00Z"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Шаблон создан" },
+          "400": { "description": "Ошибка валидации" }
+        }
+      }
+    },
+    "/diagnostic-templates/{template_id}": {
+      "patch": {
+        "tags": ["Diagnostics - Шаблоны"],
+        "summary": "Обновить шаблон диагностики",
+        "description": "Админ может обновить шаблон до его использования.",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "template_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Diagnostics.TemplateUpdate" },
+              "example": {
+                "version": 2,
+                "valid_from": "2025-02-01T00:00:00Z"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Шаблон обновлён" },
+          "403": { "description": "Нельзя изменить использованный шаблон" },
+          "404": { "description": "Шаблон не найден" }
+        }
+      },
+      "delete": {
+        "tags": ["Diagnostics - Шаблоны"],
+        "summary": "Удалить шаблон диагностики",
+        "description": "Админ удаляет шаблон, если он ещё не использовался.",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "template_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "Шаблон удалён" },
+          "403": { "description": "Нельзя удалить используемый шаблон" },
+          "404": { "description": "Шаблон не найден" }
+        }
+      }
+    },
+    "/diagnostic-templates/{template_id}/tasks": {
+      "get": {
+        "tags": ["Diagnostics - Шаблоны"],
+        "summary": "Получить задачи по шаблону",
+        "description": "Возвращает задания, предусмотренные в шаблоне диагностики.",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "template_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список задач шаблона",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Diagnostics.TemplateTask" }
+                }
+              }
+            }
+          },
+          "404": { "description": "Шаблон не найден" }
+        }
+      }
+    },
+    "/initial-assessments": {
+      "post": {
+        "tags": ["Diagnostics - Прохождение"],
+        "summary": "Начать входную диагностику",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": {
+            "schema": { "$ref": "#/components/schemas/Diagnostics.AssessmentStart" },
+            "example": { "student_profile_id": 123, "template_id": 5 }
+          }}
+        },
+        "responses": {
+          "201": { "description": "Диагностика начата" },
+          "409": { "description": "Диагностика уже проводилась" },
+          "400": { "description": "Некорректный шаблон" }
+        }
+      }
+    },
+    "/final-assessments": {
+      "post": {
+        "tags": ["Diagnostics - Прохождение"],
+        "summary": "Начать выходную диагностику",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": {
+            "schema": { "$ref": "#/components/schemas/Diagnostics.AssessmentStart" },
+            "example": { "student_profile_id": 123, "template_id": 6 }
+          }}
+        },
+        "responses": {
+          "201": { "description": "Диагностика начата" },
+          "409": { "description": "Диагностика уже проводилась" },
+          "400": { "description": "Некорректный шаблон" }
+        }
+      }
+    },
+    "/diagnostics": {
+      "get": {
+        "tags": ["Diagnostics - Аналитика"],
+        "summary": "Список проведённых диагностик",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "class_id", "in": "query", "schema": { "type": "integer" } },
+          { "name": "student_id", "in": "query", "schema": { "type": "integer" } },
+          { "name": "type", "in": "query", "schema": { "type": "string", "enum": ["initial", "final"] } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список диагностик",
+            "content": { "application/json": {
+              "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Diagnostics.AssessmentSummary" } }
+            }}
+          }
+        }
+      }
+    },
+    "/diagnostic-results": {
+      "post": {
+        "tags": ["Diagnostics - Прохождение"],
+        "summary": "Сохранить результаты диагностики",
+        "security": [{"BearerAuth": []}],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": {
+            "schema": { "$ref": "#/components/schemas/Diagnostics.ResultCreate" },
+            "example": {
+              "assessment_id": 10,
+              "results": [{ "topic_id": 3, "score": 8, "details_json": "{}" }]
+            }
+          }}
+        },
+        "responses": {
+          "201": { "description": "Результаты сохранены" },
+          "403": { "description": "Нет доступа" },
+          "400": { "description": "Валидация ошибок" }
+        }
+      }
+    },
+    "/diagnostic-results/{assessment_id}": {
+      "get": {
+        "tags": ["Diagnostics - Аналитика"],
+        "summary": "Получить результаты диагностики",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "assessment_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "view", "in": "query", "schema": { "type": "string", "enum": ["topic"] }, "description": "Показывать прокомпозированные по темам" }
+        ],
+        "responses": {
+          "200": {
+            "description": "Детализированный отчёт",
+            "content": { "application/json": {
+              "schema": { "$ref": "#/components/schemas/Diagnostics.ResultDetail" }
+            }}
+          },
+          "403": { "description": "Нет доступа" },
+          "404": { "description": "Не найдено" }
+        }
+      }
+    },
+    "/diagnostic-results/student/{student_id}": {
+      "get": {
+        "tags": ["Diagnostics - Аналитика"],
+        "summary": "Получить все результаты ученика",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "student_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список результатов",
+            "content": { "application/json": {
+              "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Diagnostics.ResultSummary" } }
+            }}
+          },
+          "403": { "description": "Нет доступа" },
+          "404": { "description": "Не найдено" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {"BearerAuth": {"type": "http", "scheme": "bearer", "bearerFormat": "JWT"}
+    },
+    "schemas": {
+      "Diagnostics.Template": {"type":"object","properties":{"id":{"type":"integer"},"grade_level":{"type":"integer"},"subject":{"type":"string"},"type":{"type":"string","enum":["initial","final"]},"version":{"type":"integer"},"is_current":{"type":"boolean"},"valid_from":{"type":"string","format":"date-time"},"valid_until":{"type":["string","null"],"format":"date-time"}}},
+      "Diagnostics.TemplateCreate": {"type":"object","required":["grade_level","subject","type","version","valid_from"],"properties":{"grade_level":{"type":"integer"},"subject":{"type":"string"},"type":{"type":"string","enum":["initial","final"]},"version":{"type":"integer"},"is_current":{"type":"boolean"},"valid_from":{"type":"string","format":"date-time"},"valid_until":{"type":["string","null"],"format":"date-time"}}},
+      "Diagnostics.TemplateUpdate": {"type":"object","properties":{"version":{"type":"integer"},"valid_from":{"type":"string","format":"date-time"},"valid_until":{"type":["string","null"],"format":"date-time"},"is_current":{"type":"boolean"}}},
+      "Diagnostics.TemplateTask": {"type":"object","properties":{"id":{"type":"integer"},"prompt":{"type":"string"},"answer_key":{"type":"string"},"difficulty":{"type":"string","enum":["easy","medium","hard"]}}},
+      "Diagnostics.AssessmentStart": {"type":"object","required":["student_profile_id","template_id"],"properties":{"student_profile_id":{"type":"integer"},"template_id":{"type":"integer"}}},
+      "Diagnostics.AssessmentSummary": {"type":"object","properties":{"assessment_id":{"type":"integer"},"student_profile_id":{"type":"integer"},"template_id":{"type":"integer"},"type":{"type":"string","enum":["initial","final"]},"conducted_at":{"type":"string","format":"date-time"}}},
+      "Diagnostics.ResultCreate": {"type":"object","required":["assessment_id","results"],"properties":{"assessment_id":{"type":"integer"},"results":{"type":"array","items":{"type":"object","properties":{"topic_id":{"type":"integer"},"score":{"type":"integer"},"details_json":{"type":"string"}}}}}},
+      "Diagnostics.ResultDetail": {"type":"object","properties":{"assessment_id":{"type":"integer"},"student_profile_id":{"type":"integer"},"template_id":{"type":"integer"},"type":{"type":"string"},"conducted_at":{"type":"string","format":"date-time"},"results":{"type":"array","items":{"type":"object","properties":{"topic_id":{"type":"integer"},"topic_title":{"type":"string"},"score":{"type":"integer"},"details_json":{"type":"string"}}}}}},
+      "Diagnostics.ResultSummary": {"type":"object","properties":{"assessment_id":{"type":"integer"},"type":{"type":"string"},"conducted_at":{"type":"string","format":"date-time"},"overall_score":{"type":"number"}}}
+    }
+  }
+}
