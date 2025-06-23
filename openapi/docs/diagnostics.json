@@ -25,6 +25,10 @@
       "description": "Просмотр результатов диагностики по ученику, классу и шаблону"
     }
   ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
   "paths": {
     "/diagnostic-templates": {
       "get": {

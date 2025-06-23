@@ -21,6 +21,10 @@
       "description": "Управление учениками: добавление, перенос, удаление, просмотр"
     }
   ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
   "paths": {
     "/classes": {
       "get": {
@@ -116,8 +120,8 @@
       },
       "patch": {
         "tags": ["Classroom - Классы"],
-        "summary": "Обновить название класса (grade/letter)",
-        "description": "Позволяет учителю изменить название класса. Только активные классы можно редактировать.",
+        "summary": "Обновить класс (название, статус)",
+        "description": "Позволяет учителю изменить название класса и/или перевести его в архив. Только активные классы можно редактировать.",
         "security": [{"BearerAuth": []}],
         "parameters": [
           { "name": "class_id", "in": "path", "required": true, "schema": { "type": "integer" } }
@@ -129,30 +133,16 @@
               "schema": { "$ref": "#/components/schemas/Classroom.ClassUpdate" },
               "example": {
                 "grade": 6,
-                "letter": "В"
+                "letter": "В",
+                "status": "archived"
               }
             }
           }
         },
         "responses": {
           "200": { "description": "Класс обновлён" },
+          "400": { "description": "Неверное состояние или недопустимое обновление" },
           "403": { "description": "Нельзя редактировать архивный класс или чужой" },
-          "404": { "description": "Класс не найден" }
-        }
-      }
-    },
-    "/classes/{class_id}/archive": {
-      "patch": {
-        "tags": ["Classroom - Классы"],
-        "summary": "Архивировать класс",
-        "description": "Переводит класс в архивный статус. После этого он становится недоступен для редактирования.",
-        "security": [{"BearerAuth": []}],
-        "parameters": [
-          { "name": "class_id", "in": "path", "required": true, "schema": { "type": "integer" } }
-        ],
-        "responses": {
-          "200": { "description": "Класс успешно архивирован" },
-          "403": { "description": "Нет доступа или класс уже архивный" },
           "404": { "description": "Класс не найден" }
         }
       }
@@ -253,7 +243,7 @@
       "Classroom.Class": {"type":"object","properties":{"id":{"type":"integer","example":12},"name":{"type":"string","example":"7Б"},"grade":{"type":"integer","example":7},"letter":{"type":"string","example":"Б"},"school_id":{"type":"integer","example":101},"status":{"type":"string","enum":["active","archived"],"example":"active"},"students_count":{"type":"integer","example":25},"created_at":{"type":"string","format":"date-time","example":"2025-01-15T09:00:00Z"},"updated_at":{"type":"string","format":"date-time","example":"2025-06-20T12:00:00Z"}}},
       "Classroom.ClassCreate": {"type":"object","required":["grade","letter","school_id"],"properties":{"grade":{"type":"integer","example":6},"letter":{"type":"string","example":"А"},"school_id":{"type":"integer","example":101}}},
       "Classroom.ClassDetail": {"allOf": [{ "$ref": "#/components/schemas/Classroom.Class" }, {"type": "object", "properties": {"students": {"type": "array", "items": { "$ref": "#/components/schemas/Classroom.StudentInline"}}}}]},
-      "Classroom.ClassUpdate": {"type":"object","properties":{"grade":{"type":"integer"},"letter":{"type":"string"}}},
+      "Classroom.ClassUpdate": {"type":"object","properties":{"grade":{"type":"integer"},"letter":{"type":"string"}}, "status": {"type": "string", "enum": ["active", "archived"],   "description": "Статус класса: active — активный, archived — архивный"}},
       "Classroom.StudentInline": {"type":"object","properties":{"id":{"type":"integer"},"full_name":{"type":"string"},"username":{"type":"string"},"initial_password":{"type":"string"},"is_active":{"type":"boolean"}}},
       "Classroom.StudentCreateList": {"type":"object","required":["students"],"properties":{"students":{"type":"array","items":{"$ref":"#/components/schemas/Classroom.StudentShort"}}}},
       "Classroom.StudentShort": {"type":"object","required":["full_name","email"],"properties":{"full_name":{"type":"string","example":"Анна Кузнецова"},"email":{"type":"string","format":"email","example":"anna@example.com"}}},

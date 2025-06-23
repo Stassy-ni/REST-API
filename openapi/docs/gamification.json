@@ -16,6 +16,10 @@
     { "name": "Gamification - Начисление", "description": "Начисление XP, бейджей, бонусов (Teacher, System)" },
     { "name": "Gamification - Лидерборды", "description": "Топ учеников по классу с фильтрами" }
   ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
   "paths": {
     "/gamification/{student_id}": {
       "get": {

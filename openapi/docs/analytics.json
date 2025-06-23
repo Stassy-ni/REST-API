@@ -16,6 +16,10 @@
     {"name":"Analytics - Активность","description":"История действий ученика"},
     {"name":"Analytics - Рейтинг и достижения","description":"Очки, бейджи, ранги, MVP-отметки"}
   ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
   "paths":{
     "/learning-progress/{student_id}":{
       "get":{

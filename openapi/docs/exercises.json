@@ -33,6 +33,10 @@
       "description": "Справочники: список тем и разделов, связанных с предметами и параллелями"
     }
   ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
   "paths": {
     "/sections": {
       "get": {
@@ -486,7 +490,10 @@
       "Reference.Topic": {"type":"object","properties":{"id":{"type":"integer","example":12},"section_id":{"type":"integer","example":1},"title":{"type":"string","example":"Деление дробей"},"description":{"type":"string","example":"Изучение деления обыкновенных и десятичных дробей"},"grade_level":{"type":"integer","example":6}}},
       "TaskBank.Exercise": {"type":"object","properties":{"id":{"type":"integer","example":101},"exercise_card_id":{"type":"integer","example":22},"prompt":{"type":"string","example":"Найдите значение: $$\\frac{1}{2} + \\frac{1}{4}$$"},"answer_key":{"type":"string","example":"\\frac{3}{4}"},"difficulty":{"type":"string","enum":["easy","medium","hard"],"example":"easy"},"is_ai_generated":{"type":"boolean","example":true},"created_at":{"type":"string","format":"date-time","example":"2025-06-20T14:00:00Z"},"changed_at":{"type":"string","format":"date-time","example":"2025-06-21T09:00:00Z"}}},
       "TaskBank.ExerciseCreate": {"type":"object","required":["exercise_card_id","prompt","answer_key"],"properties":{"exercise_card_id":{"type":"integer"},"prompt":{"type":"string"},"answer_key":{"type":"string"},"difficulty":{"type":"string","enum":["easy","medium","hard"]},"is_ai_generated":{"type":"boolean"}}},
-      "TaskBank.ExerciseCard": {"type":"object","properties":{"id":{"type":"integer","example":12},"topic_id":{"type":"integer","example":7},"title":{"type":"string","example":"Сложение дробей"},"description":{"type":"string","example":"Карточка для закрепления темы"},"owner_type":{"type":"string","enum":["expert","teacher"],"example":"teacher"},"expert_profile_id":{"type":["integer","null"],"example":null},"teacher_profile_id":{"type":["integer","null"],"example":42},"status":{"type":"string","example":"draft"},"created_at":{"type":"string","format":"date-time","example":"2025-01-10T10:00:00Z"},"changed_at":{"type":"string","format":"date-time","example":"2025-06-10T15:30:00Z"}}},
+      "TaskBank.ExerciseCard": {"type":"object","properties":{"id":{"type":"integer","example":12},"topic_id":{"type":"integer","example":7},"title":{"type":"string","example":"Сложение дробей"},"description":{"type":"string","example":"Карточка для закрепления темы"},"owner_type":{"type":"string","enum":["expert","teacher"],"example":"teacher"},"expert_profile_id":{"type":["integer","null"],"example":null},"teacher_profile_id":{"type":["integer","null"],"example":42},"status":{"type":"string","example":"draft"},"created_at":{"type":"string","format":"date-time","example":"2025-01-10T10:00:00Z"},"changed_at":{"type":"string","format":"date-time","example":"2025-06-10T15:30:00Z"}},
+        "_links": {
+          "topic": { "type": "string", "example": "/topics/17" },
+          "author": { "type": "string", "example": "/profiles/teacher/42" }}, "status": {"type": "string", "enum": ["draft", "pending", "published", "assigned"], "description": "Статус карточки: draft — черновик, pending — на модерации, published — опубликована, assigned — назначена"}},
       "TaskBank.ExerciseCardCreate": {"type":"object","required":["topic_id","title","owner_type"],"properties":{"topic_id":{"type":"integer"},"title":{"type":"string"},"description":{"type":"string"},"owner_type":{"type":"string","enum":["teacher","expert"]},"expert_profile_id":{"type":["integer","null"]},"teacher_profile_id":{"type":["integer","null"]}}},
       "TaskBank.ExerciseCardUpdate": {"type":"object","properties":{"title":{"type":"string"},"description":{"type":"string"}}},
       "TaskBank.AIExerciseCardGenerate": {"type":"object","required":["topic_id","difficulty","count"],"properties":{"topic_id":{"type":"integer"},"difficulty":{"type":"string","enum":["easy","medium","hard"]},"count":{"type":"integer","example":5}}},

@@ -16,6 +16,10 @@
     { "name": "Submission", "description": "Ответы учеников: отправка, просмотры, ограничения" },
     { "name": "Assignment Analytics", "description": "Аналитика: фильтрация ответов и статусов по студентам" }
   ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
   "paths": {
     "/assignment-tasks": {
       "post": {
@@ -382,13 +386,20 @@
     "schemas": {
       "Assignment.Create": {"type":"object","required":["exercise_card_id","class_id","due_date"],"properties":{"exercise_card_id":{"type":"integer"},"class_id":{"type":"integer"},"student_ids":{"type":"array","items":{"type":"integer"}},"assigned_at":{"type":"string","format":"date-time"},"due_date":{"type":"string","format":"date-time"}}},
       "Assignment.Task": {"type":"object","properties":{"id":{"type":"integer","example":55},"exercise_card_id":{"type":"integer","example":42},"class_id":{"type":"integer","example":7},"assigned_at":{"type":"string","format":"date-time","example":"2025-06-21T10:00:00Z"},"due_date":{"type":"string","format":"date-time","example":"2025-06-25T23:59:59Z"},"status":{"type":"string","enum":["active","archived"],"example":"active"}}},
-      "Assignment.TaskDetail": {"allOf":[{"$ref":"#/components/schemas/Assignment.Task"},{"type":"object","properties":{"student_ids":{"type":"array","items":{"type":"integer"}},"responses_count":{"type":"integer","example":3}}}]},
+      "Assignment.TaskDetail": {"allOf":[{"$ref":"#/components/schemas/Assignment.Task"},{"type":"object","properties":{"student_ids":{"type":"array","items":{"type":"integer"}},"responses_count":{"type":"integer","example":3}}}],
+        "_links": {
+          "exercise_card": { "type": "string", "example": "/exercise-cards/12" },
+          "class": { "type": "string", "example": "/classes/3" },
+          "submissions": { "type": "string", "example": "/assignment-tasks/10/task-submissions" }}},
       "Assignment.Update": {"type":"object","properties":{"due_date":{"type":"string","format":"date-time"},"student_ids":{"type":"array","items":{"type":"integer"}}}},
       "Submission.Create": {"type":"object","required":["assignment_task_id","student_profile_id","answers"],"properties":{"assignment_task_id":{"type":"integer"},"student_profile_id":{"type":"integer"},"answers":{"type":"array","items":{"type":"object","properties":{"exercise_id":{"type":"integer"},"student_answer":{"type":"string"},"attempt_number":{"type":"integer"}}}}}},
       "Submission.TaskSubmission": {"type":"object","properties":{"id":{"type":"integer","example":123},"assignment_task_id":{"type":"integer"},"student_profile_id":{"type":"integer"},"submitted_at":{"type":"string","format":"date-time","example":"2025-06-22T14:30:00Z"},"attempt_count":{"type":"integer","example":2},"is_completed":{"type":"boolean","example":false}}},
       "Submission.CreateResponse": {"type":"object","properties":{"submission_id":{"type":"integer"},"status":{"type":"string","example":"submitted"}}},
       "Submission.Retry": {"type":"object","required":["answers"],"properties":{"answers":{"type":"array","items":{"type":"object","properties":{"exercise_id":{"type":"integer"},"student_answer":{"type":"string"},"attempt_number":{"type":"integer"}}}}}},
-      "Submission.TaskSubmissionDetail": {"type":"object","properties":{"id":{"type":"integer","example":123},"assignment_task_id":{"type":"integer"},"student_profile_id":{"type":"integer"},"submitted_at":{"type":"string","format":"date-time"},"attempt_count":{"type":"integer","example":2},"is_completed":{"type":"boolean"},"answers":{"type":"array","items":{"type":"object","properties":{"exercise_id":{"type":"integer"},"student_answer":{"type":"string"},"is_correct":{"type":"boolean"},"attempt_number":{"type":"integer"},"time_spent":{"type":"integer","description":"Время в секундах"}}}}}},
+      "Submission.TaskSubmissionDetail": {"type":"object","properties":{"id":{"type":"integer","example":123},"assignment_task_id":{"type":"integer"},"student_profile_id":{"type":"integer"},"submitted_at":{"type":"string","format":"date-time"},"attempt_count":{"type":"integer","example":2},"is_completed":{"type":"boolean"},"answers":{"type":"array","items":{"type":"object","properties":{"exercise_id":{"type":"integer"},"student_answer":{"type":"string"},"is_correct":{"type":"boolean"},"attempt_number":{"type":"integer"},"time_spent":{"type":"integer","description":"Время в секундах"}}}}},
+        "_links": {
+          "assignment": { "type": "string", "example": "/assignment-tasks/5" },
+          "student": { "type": "string", "example": "/profiles/student/7" }}},
       "Analytics.SubmissionAnalytics": {"type":"object","properties":{"student_id":{"type":"integer"},"full_name":{"type":"string"},"attempt_count":{"type":"integer"},"time_spent_avg":{"type":"number"},"correctness_avg":{"type":"number"}}},
       "Analytics.Histogram": {"type":"object","properties":{"time_bins":{"type":"array","items":{"type":"integer"}},"accuracy_bins":{"type":"array","items":{"type":"number"}}}},
       "Analytics.ClassSummary": {"type":"object","properties":{"class_id":{"type":"integer"},"assignments_count":{"type":"integer"},"avg_accuracy":{"type":"number"},"avg_time_spent":{"type":"number"}}},
