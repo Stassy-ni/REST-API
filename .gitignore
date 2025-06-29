@@ -1,0 +1,7 @@
+__pycache__/
+app/__pycache__
+instance/
+.env
+.env.local
+venv/
+app/feedback/instance/feedback.db

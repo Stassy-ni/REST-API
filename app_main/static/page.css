@@ -1,0 +1,97 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1, h2, h3 {
+    color: #333;
+}
+.example {
+    background: #e8f4f4;
+    padding: 10px;
+    margin: 10px 0;
+    border-left: 4px solid #4caf50;
+}
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #4caf50;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    text-decoration: none;
+    border: none;
+}
+.button:hover {
+    background: #45a049;
+}
+#testOutput {
+    margin-top: 20px;
+    padding: 15px;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.task {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #f0f8ff;
+    border-radius: 5px;
+}
+.task h3 {
+    margin-top: 0;
+}
+input[type="text"] {
+    padding: 8px;
+    width: 200px;
+    margin-right: 10px;
+}
+.check-button {
+    padding: 8px 15px;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.check-button:hover {
+    background: #45a049;
+}
+.feedback {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+}
+.correct {
+    background: #dff0d8;
+    color: #3c763d;
+}
+.incorrect {
+    background: #f2dede;
+    color: #a94442;
+}
+.step {
+    margin-top: 10px;
+    padding: 10px;
+    background: #e7f1ff;
+    border-radius: 4px;
+}
+.step-question {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.hidden {
+    display: none;
+}

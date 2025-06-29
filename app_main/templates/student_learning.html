@@ -1,0 +1,137 @@
+{% extends "student_base.html" %}
+
+{% block title %}Обучение - Ученик{% endblock %}
+{% block page_title %}Обучение{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card shadow-sm border-0 rounded-4 mb-4">
+                <div class="card-body p-4">
+                    <div class="alert alert-info border-0 rounded-3">
+                        <h4 class="alert-heading fw-bold">
+                            <i class="bi bi-info-circle me-2"></i>{{ current_user.first_name }} {{ current_user.last_name }}
+                        </h4>
+                        <p class="mb-0">Здесь вы можете проверить свой уровень знаний по теме "Арифметические действия с дробями"</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-4">📚 Учебный план</h3>
+                
+                <!-- Входной контроль -->
+                <div class="list-group mb-4">
+                    <div class="list-group-item {% if progress.initial_test_completed %}bg-success bg-opacity-10{% else %}border-0{% endif %} rounded-3 mb-2 p-3 shadow-sm">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-1 fw-bold">🔹 Стартовая проверка</h5>
+                                <p class="mb-1 text-gray-600">Проверим, что ты уже знаешь по теме!</p>
+                                {% if progress.initial_test_completed %}
+                                <div class="text-success mt-2">
+                                    <i class="bi bi-check-circle-fill"></i> Завершено
+                                </div>
+                                <div class="mt-2">
+                                    <a href="{{ url_for('student.initial_assessment_details') }}" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>Детали прохождения
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="badge {% if progress.initial_test_completed %}bg-secondary{% else %}bg-indigo-200 text-indigo-800{% endif %} rounded-pill px-3 py-2 me-3">
+                                    12 заданий
+                                </span>
+                                {% if not progress.initial_test_completed %}
+                                <a href="{{ url_for('student.assessment') }}" class="btn btn-primary-custom btn-sm px-3 py-1">
+                                    Начать <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                                {% else %}
+                                <button class="btn btn-outline-secondary btn-sm px-3 py-1" disabled>
+                                    Завершено
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Изучение -->
+                <div class="list-group mb-4">
+                    <div class="list-group-item {% if not progress.initial_test_completed %}bg-light{% else %}bg-success bg-opacity-10{% endif %} rounded-3 mb-2 p-3 shadow-sm">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-1 fw-bold">🔹 Учим и запоминаем</h5>
+                                <p class="mb-1 text-gray-600">Здесь ты найдёшь всё, чтобы разобраться в теме</p>
+                                {% if progress.learning_completed %}
+                                <div class="text-success mt-2">
+                                    <i class="bi bi-check-circle-fill"></i> Обучение завершено
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="badge {% if not progress.initial_test_completed %}bg-light text-secondary{% else %}bg-indigo-200 text-indigo-800{% endif %} rounded-pill px-3 py-2 me-3">
+                                    5 разделов
+                                </span>
+                                {% if progress.initial_test_completed %}
+                                <a href="{{ url_for('student.learning_materials') }}" class="btn btn-primary-custom btn-sm px-3 py-1">
+                                                    {% if progress.learning_completed %}
+                                                        Повторить <i class="bi bi-arrow-repeat ms-1"></i>
+                                                    {% else %}
+                                                        Начать <i class="bi bi-arrow-right ms-1"></i>
+                                                    {% endif %}
+                                                </a>
+                                {% else %}
+                                <button class="btn btn-outline-secondary btn-sm px-3 py-1" disabled>
+                                    Сначала пройдите входной контроль
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Выходной контроль -->
+                <div class="list-group">
+                    <div class="list-group-item {% if not progress.learning_completed %}bg-light{% elif progress.final_test_completed %}bg-success bg-opacity-10{% else %}border-0{% endif %} rounded-3 mb-2 p-3 shadow-sm">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <div>
+                                <h5 class="mb-1 fw-bold">🔹 Финальная проверка</h5>
+                                <p class="mb-1 text-gray-600">Проверим, как хорошо ты усвоил материал!</p>
+                                {% if progress.final_test_completed %}
+                                <div class="text-success mt-2">
+                                    <i class="bi bi-check-circle-fill"></i> Завершено
+                                </div>
+                                <div class="mt-2">
+                                    <a href="{{ url_for('student.final_assessment_details') }}" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-eye-fill me-1"></i>Детали прохождения
+                                    </a>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="badge {% if not progress.learning_completed %}bg-light text-secondary{% elif progress.final_test_completed %}bg-secondary{% else %}bg-indigo-200 text-indigo-800{% endif %} rounded-pill px-3 py-2 me-3">
+                                    12 заданий
+                                </span>
+                                {% if progress.learning_completed and not progress.final_test_completed %}
+                                <a href="{{ url_for('student.final_assessment') }}" class="btn btn-primary-custom btn-sm px-3 py-1">
+                                    Начать <i class="bi bi-arrow-right ms-1"></i>
+                                </a>
+                                {% elif not progress.learning_completed %}
+                                <button class="btn btn-outline-secondary btn-sm px-3 py-1" disabled>
+                                    Сначала изучите материалы
+                                </button>
+                                {% else %}
+                                <button class="btn btn-outline-secondary btn-sm px-3 py-1" disabled>
+                                    Завершено
+                                </button>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

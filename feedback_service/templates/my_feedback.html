@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мои обращения — Обратная связь | Обучающая платформа</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div class="container py-4">
+    <!-- Крошки -->
+    <div class="d-flex align-items-center mb-3">
+        <a href="{{ url_for('teacher.dashboard') }}" class="me-3 text-decoration-none text-gray-600">
+            <i class="bi bi-arrow-left"></i> Вернуться в личный кабинет
+        </a>
+    </div>
+    <!-- Заголовок и кнопка -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="fw-bold fs-3 mb-0">Мои обращения</h1>
+        <a href="{{ url_for('views_feedback.feedback_form') }}" class="btn bg-blue-500 text-white fw-bold px-4 py-2 rounded-2">
+            <i class="bi bi-plus-circle me-2"></i>Новое обращение
+        </a>
+    </div>
+    <!-- Таблица обращений -->
+    <div class="bg-white shadow rounded-3 p-4">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0" id="feedbackTable">
+                <thead>
+                <tr class="text-gray-600">
+                    <th>Дата</th>
+                    <th>Сообщение</th>
+                    <th>Статус</th>
+                    <th>Ответ</th>
+                </tr>
+                </thead>
+                <tbody id="feedbackTableBody">
+                <!-- Заполняется через JS -->
+                </tbody>
+            </table>
+        </div>
+        <div id="noFeedbackBlock" class="alert alert-info text-center my-4 d-none">
+            У вас пока нет обращений.
+            <a href="{{ url_for('views_feedback.feedback_form') }}" class="text-indigo-500 fw-bold">Оставьте первое обращение</a>
+        </div>
+    </div>
+</div>
+
+<!-- Модалка для просмотра обращения -->
+<div class="modal fade" id="feedbackModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-header bg-indigo-200">
+                <h5 class="modal-title fw-bold">Детали обращения</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Дата:</strong> <span id="modalDate"></span></p>
+                <p><strong>Сообщение:</strong><br>
+                    <span id="modalMessage"></span>
+                </p>
+                <hr>
+                <div id="modalAnswerBlock">
+                    <p><strong>Ответ администратора:</strong><br>
+                        <span id="modalAnswer"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Получаем обращения из API
+    fetch('/api/my/feedback')
+        .then(resp => resp.json())
+        .then(data => {
+            const tbody = document.getElementById('feedbackTableBody');
+            const noBlock = document.getElementById('noFeedbackBlock');
+            tbody.innerHTML = '';
+            if (!data.results || data.results.length === 0) {
+                noBlock.classList.remove('d-none');
+                return;
+            }
+            noBlock.classList.add('d-none');
+            data.results.forEach(function(fb) {
+                const tr = document.createElement('tr');
+                tr.style.cursor = 'pointer';
+                tr.dataset.feedbackId = fb.id;
+                tr.innerHTML = `
+                    <td>${new Date(fb.created_at).toLocaleString('ru-RU')}</td>
+                    <td>${fb.message.length > 40 ? fb.message.slice(0, 40) + '…' : fb.message}</td>
+                    <td>
+                        ${fb.is_processed
+                            ? '<span class="badge bg-teal-400">Отвечено</span>'
+                            : '<span class="badge bg-indigo-500">В обработке</span>'}
+                    </td>
+                    <td>
+                        ${fb.answer_text ? (fb.answer_text.length > 40 ? fb.answer_text.slice(0, 40) + '…' : fb.answer_text) : '<span class="text-muted">—</span>'}
+                    </td>
+                `;
+                tr.addEventListener('click', function() {
+                    fetch(`/api/feedback/${fb.id}`)
+                        .then(resp => resp.json())
+                        .then(detail => {
+                            document.getElementById('modalDate').textContent = new Date(detail.created_at).toLocaleString('ru-RU');
+                            document.getElementById('modalMessage').textContent = detail.message;
+                            if (detail.answer_text) {
+                                document.getElementById('modalAnswer').textContent = detail.answer_text;
+                                document.getElementById('modalAnswerBlock').style.display = '';
+                            } else {
+                                document.getElementById('modalAnswerBlock').style.display = 'none';
+                            }
+                            // Открываем модалку
+                            var modal = new bootstrap.Modal(document.getElementById('feedbackModal'));
+                            modal.show();
+                        });
+                });
+                tbody.appendChild(tr);
+            });
+        });
+});
+</script>
+</body>
+</html>

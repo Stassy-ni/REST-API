@@ -1,0 +1,72 @@
+{% extends "student_base.html" %}
+
+{% block title %}Результаты тестирования - Ученик{% endblock %}
+{% block page_title %}Результаты тестирования{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-5 text-center">
+                <div class="mb-4">
+                    <h2 class="fw-bold mb-3">{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+                    <p class="fs-5 text-gray-600">
+                        {% if result.__class__.__name__ == 'FinalAssessment' %}
+                            Результаты выходного контроля знаний
+                        {% else %}
+                            Результаты входного контроля знаний
+                        {% endif %}
+                    </p>
+                
+                
+                    <!-- Детали выполнения -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h4>Детали выполнения {% if result.__class__.__name__ == 'FinalAssessment' %}выходного{% else %}входного{% endif %} контроля знаний</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>№</th>
+                                            <th>Задание</th>
+                                            <th>Ваш ответ</th>
+                                            <th>Правильный ответ</th>
+                                            <th>Результат</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for task in tasks_data %}
+                                        <tr class="{{ 'table-success' if task.score else 'table-danger' }}">
+                                            <td>{{ loop.index }}</td>
+                                            <td>{{ task.text }}</td>
+                                            <td>{{ task.user_answer }}</td>
+                                            <td>{{ task.correct_answer }}</td>
+                                            <td>
+                                                {% if task.score %}
+                                                    <i class="bi bi-check-circle-fill text-success"></i>
+                                                {% else %}
+                                                    <i class="bi bi-x-circle-fill text-danger"></i>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div class="d-grid gap-2 col-md-6 mx-auto mt-4">
+                    <a href="{{ url_for('student.learning') }}" class="btn btn-primary-custom">
+                        <i class="bi bi-arrow-left me-2"></i>Вернуться к обучению
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

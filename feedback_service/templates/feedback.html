@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Связаться с нами | Обучающая платформа</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <div class="min-vh-100 d-flex flex-column align-items-center w-100 overflow-hidden">
+
+        <header class="container d-flex justify-content-between align-items-center w-100 border-bottom border-gray-300 py-3 px-4 bg-white">
+            <div class="fw-bold fs-5">
+                <img src="{{ url_for('static', filename='Логотип.png') }}" alt="Логотип" height="40">
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <a href="/" class="text-gray-600 text-decoration-none">На главную</a>
+                <button class="btn bg-gray-600 text-white px-3 py-1 rounded-2 fw-bold me-2"
+                        data-bs-toggle="modal" data-bs-target="#loginModal">
+                    Войти
+                </button>
+            </div>
+        </header>
+
+        <section class="container py-5 px-4 px-lg-5 d-flex flex-column gap-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="bg-white rounded-3 shadow p-4 p-lg-5">
+                        <h1 class="fw-bold display-5 mb-4">Обратная связь</h1>
+
+                        <!-- Сообщения об ошибке/успехе -->
+                        <div id="feedbackMessage" class="mb-3"></div>
+
+                        <form id="feedbackForm" class="d-flex flex-column gap-4" autocomplete="off">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="last_name" class="form-label">Фамилия*</label>
+                                    <input type="text" class="form-control"
+                                        id="last_name" name="last_name" required
+                                        value="">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="first_name" class="form-label">Имя*</label>
+                                    <input type="text" class="form-control"
+                                        id="first_name" name="first_name" required
+                                        value="">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="middle_name" class="form-label">Отчество</label>
+                                    <input type="text" class="form-control"
+                                        id="middle_name" name="middle_name"
+                                        value="">
+                                </div>
+                                <div>
+                                    <label for="email" class="form-label">Email*</label>
+                                    <input type="email" class="form-control"
+                                        id="email" name="email" required
+                                        value="">
+                                </div>
+
+                            <div>
+                                <label for="message" class="form-label">Сообщение*</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" maxlength="2000" required></textarea>
+                                <small class="text-muted">Не более 2000 символов</small>
+                            </div>
+                            <div>
+                                <label class="form-label mb-2">Где вы хотите получить ответ?*</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="answer_method" id="answer_method_platform" value="platform">
+                                    <label class="form-check-label" for="answer_method_platform">
+                                        На платформе
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="answer_method" id="answer_method_email" value="email" checked>
+                                    <label class="form-check-label" for="answer_method_email">
+                                        На почту
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn bg-blue-500 text-white fw-bold py-2 px-4 align-self-start">
+                                Отправить сообщение
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Контактная информация -->
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-8">
+                    <div class="bg-white rounded-3 shadow p-4 p-lg-5">
+                        <h2 class="fs-4 fw-semibold mb-4">Контактная информация</h2>
+                        <div class="row g-4">
+                            <div class="col-md-4 d-flex align-items-center gap-3">
+                                <i class="bi bi-envelope fs-3 text-indigo-500"></i>
+                                <div>
+                                    <div class="text-gray-600 small">Email</div>
+                                    <div class="fw-medium">support@platforma.ru</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center gap-3">
+                                <i class="bi bi-telephone fs-3 text-indigo-500"></i>
+                                <div>
+                                    <div class="text-gray-600 small">Телефон</div>
+                                    <div class="fw-medium">+7 (123) 456-78-90</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 d-flex align-items-center gap-3">
+                                <i class="bi bi-clock fs-3 text-indigo-500"></i>
+                                <div>
+                                    <div class="text-gray-600 small">Часы работы</div>
+                                    <div class="fw-medium">Пн-Пт: 9:00 - 18:00</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Модалка входа -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow rounded-4">
+        <div class="modal-body p-4 bg-white">
+            <h2 class="text-center fs-4 fw-semibold text-gray-900 mb-4">Вход в личный кабинет</h2>
+            <form action="/login" method="POST" class="d-flex flex-column gap-3">
+            <input type="text" name="username" class="form-control" placeholder="Логин или Email" required>
+            <input type="password" name="password" class="form-control" placeholder="Пароль" required>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="remember" id="remember">
+                <label class="form-check-label" for="remember">Запомнить меня</label>
+            </div>
+            <button type="submit" class="btn bg-gray-900 text-white fw-bold py-2 rounded-2">Войти</button>
+            <a href="/request_code" class="text-gray-600 text-decoration-none small">Забыли пароль?</a>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('feedbackForm').onsubmit = async function(event) {
+            event.preventDefault();
+            const form = event.target;
+            const msgBlock = document.getElementById('feedbackMessage');
+            msgBlock.innerHTML = ''; // очищаем старое сообщение
+
+            const answerMethod = document.querySelector('input[name="answer_method"]:checked')?.value;
+            const payload = {
+                last_name: form.last_name.value.trim(),
+                first_name: form.first_name.value.trim(),
+                middle_name: form.middle_name.value.trim(),
+                email: form.email.value.trim(),
+                message: form.message.value.trim(),
+                answer_method: answerMethod
+            };
+
+
+            // Валидация длины сообщения (максимум 2000 символов)
+            if (payload.message.length > 2000) {
+                msgBlock.innerHTML = '<div class="alert alert-danger">Сообщение слишком длинное (максимум 2000 символов)</div>';
+                return;
+            }
+
+            try {
+                const resp = await fetch('/feedback/api/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await resp.json();
+
+                if (data.success) {
+                    let messageText = '';
+                    if (answerMethod === 'platform') {
+                        messageText = 'Ваше обращение принято! Ответ появится на платформе в разделе "Обратная связь" в течение 1–2 рабочих дней. Следите за уведомлениями.';
+                    } else if (answerMethod === 'email') {
+                        messageText = 'Ваше обращение принято! Ответ придёт на вашу электронную почту в течение 1–2 рабочих дней. Если письмо не пришло — проверьте папку "Спам".';
+                    } else {
+                        messageText = data.message;
+                    }
+                    msgBlock.innerHTML = `<div class="alert alert-info">${messageText}</div>`;
+                    form.reset();
+                } else if (data.user_message) {
+                    // Пользовательская ошибка (требуется регистрация)
+                    msgBlock.innerHTML = `
+                    <div class="alert alert-info d-flex align-items-center">
+                        <span class="me-2 bi bi-info-circle text-indigo-500 fs-4"></span>
+                        <div>
+                        ${data.user_message}
+                        </div>
+                    </div>
+                    `;
+                } else {
+                    msgBlock.innerHTML = `<div class="alert alert-danger">${data.error || 'Ошибка отправки'}</div>`;
+                }
+            } catch (err) {
+                msgBlock.innerHTML = '<div class="alert alert-danger">Ошибка соединения с сервером</div>';
+            }
+        };
+    </script>
+</body>
+</html>

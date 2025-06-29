@@ -1,0 +1,98 @@
+{% extends "student_base.html" %}
+
+{% block title %}Аналитика - Ученик{% endblock %}
+{% block page_title %}Анализ ваших результатов{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-4"> 📈 Общий прогресс</h3>
+                {% if analysis %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card bg-light border-0 rounded-3 p-3 mb-3">
+                                <h5>Входной контроль</h5>
+                                <div class="progress" style="height: 30px;">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {{ initial_percentage }}%; background-color: #6c757d;" 
+                                         aria-valuenow="{{ initial_percentage }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        {{ "%.1f"|format(initial_percentage) }}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-light border-0 rounded-3 p-3 mb-3">
+                                <h5>Выходной контроль</h5>
+                                <div class="progress" style="height: 30px;">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {{ final_percentage }}%; background-color: #198754;" 
+                                         aria-valuenow="{{ final_percentage }}" 
+                                         aria-valuemin="0" 
+                                         aria-valuemax="100">
+                                        {{ "%.1f"|format(final_percentage) }}%
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert {{ 'alert-success' if analysis.percentage_difference > 0 else 'alert-warning' }}">
+                        <h4><i class="bi {{ 'bi-graph-up-arrow' if analysis.percentage_difference > 0 else 'bi-graph-down-arrow' }} me-2"></i> 
+                        Изменение результата: {{ "%.1f"|format(analysis.percentage_difference) }}%</h4>
+                        {% if analysis.percentage_difference > 0 %}
+                            <p class="mb-0">Вы показали отличный прогресс в обучении!</p>
+                        {% else %}
+                            <p class="mb-0">Некоторые темы требуют дополнительного внимания.</p>
+                        {% endif %}
+                    </div>
+                    
+                    <h4 class="mt-4 mb-3">🧩 Детальный анализ по темам</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Тема</th>
+                                    <th>Входной контроль</th>
+                                    <th>Выходной контроль</th>
+                                    <th>Изменение</th>
+                                    <th>Анализ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for category in categories_analysis %}
+                                <tr>
+                                    <td>{{ category.name }}</td>
+                                    <td>{{ "%.1f"|format(category.initial_score) }}%</td>
+                                    <td>{{ "%.1f"|format(category.final_score) }}%</td>
+                                    <td class="{{ 'text-success' if category.progress > 0 else 'text-danger' }}">
+                                        {{ "%+.1f"|format(category.progress) }}%
+                                    </td>
+                                    <td>{{ category.analysis }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    
+                        <h4 class="mt-4 mb-3">📝 Подробный анализ ошибок</h4>
+                        <div class="card border-0 bg-light">
+                            <div class="card-body">
+                                {{ analysis.analysis_text.replace('\n', '<br>')|safe }}
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            <h4><i class="bi bi-info-circle me-2"></i> Данные анализа пока недоступны</h4>
+                            <p class="mb-0">Для просмотра аналитики необходимо завершить обучение и пройти выходной контроль знаний.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

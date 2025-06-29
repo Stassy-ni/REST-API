@@ -1,0 +1,80 @@
+<!-- Modal -->
+<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow rounded-4">
+            <div class="modal-body p-4 bg-white">
+
+                <h2 class="text-center fs-4 fw-semibold text-gray-900 mb-4">Доступ к платформе</h2>
+
+                <!-- Роль -->
+                <div class="mb-3">
+                    <label for="role" class="form-label text-gray-900">Ваша роль*</label>
+                    <select class="form-select" id="role" name="role" required>
+                        <option value="teacher">Учитель</option>
+                        <option value="expert">Эксперт</option>
+                    </select>
+                </div>
+
+                <!-- ФИО -->
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Фамилия</label>
+                    <input type="text" class="form-control" type="text" name="last_name" id="last_name"
+                        placeholder="Иванов" required>
+
+                </div>
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">Имя</label>
+                    <input type="text" class="form-control" type="text" name="first_name" id="first_name"  placeholder="Иван" required>
+
+                </div>
+                <div class="mb-3">
+                    <label for="middle_name" class="form-label">Отчество</label>
+                    <input type="text" class="form-control" type="text" name="middle_name" id="middle_name" placeholder="Иванович" required>
+                </div>
+
+                <!-- Email -->
+                <div class="mb-3">
+                    <label for="email" class="form-label">Электронная почта (будет использоваться как логин)</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="ivan.ivanov@gmail.com"
+                        required>
+                </div>
+
+                <!-- Пароль -->
+                <div class="mb-3">
+                    <label for="password" class="form-label">Придумайте пароль</label>
+                    <input type="password" class="form-control" id="password" name="password" minlength="6" required>
+                </div>
+
+                <!-- Повтор пароля -->
+                <div class="mb-3">
+                    <label for="confirm" class="form-label">Повторите пароль</label>
+                    <input type="password" class="form-control" id="confirm" name="confirm" minlength="6" required>
+                </div>
+
+                <!-- Учебное заведение -->
+                <div class="mb-3">
+                    <label for="institution" class="form-label">Учебное заведение</label>
+                    <input type="text" class="form-control" id="institution" name="institution"
+                        placeholder="Лицей, гимназия или другая организация">
+                </div>
+
+                <!-- Согласие -->
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="consent" required>
+                    <label class="form-check-label small" for="consent">
+                        Согласие на обработку персональных данных
+                    </label>
+                </div>
+
+                <!-- Submit -->
+                <div class="d-grid">
+
+                    <button type="submit" class="btn bg-gray-900 text-white fw-bold">
+                        Зарегистрироваться
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+{% extends "student_base.html" %}
+
+{% block title %}Выходной контроль - Ученик{% endblock %}
+{% block page_title %}Выходной контроль знаний{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <div class="alert alert-info border-0 rounded-3">
+                    <h4 class="alert-heading fw-bold">
+                        <i class="bi bi-info-circle me-2"></i>{{ current_user.first_name }} {{ current_user.last_name }}
+                    </h4>
+                    <p class="mb-0">Вам необходимо выполнить выходной контроль знаний, чтобы проверить усвоение материала по теме "Арифметические действия с дробями"</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-4">
+                <form id="final-assessment-form" method="POST" action="{{ url_for('student.final_assessment') }}">
+                    {% for task in tasks %}
+                    <!-- Добавляем скрытое поле с ID задания для сохранения порядка -->
+                    <input type="hidden" name="task_order[]" value="{{ task.id }}">                    
+
+                    <div class="mb-4 p-3 border rounded-3">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h5 class="mb-0">Задание {{ loop.index }}</h5>
+                            <span class="badge 
+                                {% if task.difficulty == 'easy' %}bg-success
+                                {% elif task.difficulty == 'medium' %}bg-warning text-dark
+                                {% else %}bg-danger
+                                {% endif %}">
+                                {% if task.difficulty == 'easy' %}Легкий
+                                {% elif task.difficulty == 'medium' %}Средний
+                                {% else %}Сложный
+                                {% endif %}
+                            </span>
+                        </div>
+                        <p class="fs-5 mb-3">{{ task.text }}</p>
+                        <div class="form-group">
+                            <label for="answer-{{ task.id }}" class="form-label">Ваш ответ:</label>
+                            <input type="text" class="form-control" id="answer-{{ task.id }}" 
+                                   name="answer-{{ task.id }}" required>
+                        </div>
+                        <input type="hidden" name="task_id-{{ loop.index }}" value="{{ task.id }}">
+                    </div>
+                    {% endfor %}
+                    
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary-custom btn-lg">
+                            <i class="bi bi-check-circle me-2"></i>Завершить тестирование
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
