@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru" data-bs-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MathPlatform API Docs</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+  <style>
+    :root {
+      --base-bg: #1e1e1e;
+      --accent-bg: #2c2c2c;
+      --text-main: #ececec;
+      --text-secondary: #bbbbbb;
+      --primary-color: #89CFF0;
+      --highlight: #292929;
+    }
+
+    body {
+      background: var(--base-bg);
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--text-main);
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--text-main);
+    }
+    p, small, span, label, li, td, th {
+      color: var(--text-secondary);
+    }
+
+    .sidebar {
+      height: 100vh;
+      background: var(--accent-bg);
+      border-right: 1px solid #333;
+      padding: 1rem 0.5rem;
+      overflow-y: auto;
+    }
+    .sidebar .nav-link {
+      color: var(--text-secondary);
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background-color: transparent;
+      transition: all 0.2s ease-in-out;
+    }
+    .sidebar .nav-link:hover {
+      background-color: var(--highlight);
+      color: var(--text-main);
+    }
+    .sidebar .nav-link.active {
+      background-color: #495057;
+      color: #fff;
+      font-weight: 500;
+    }
+    .redoc-container {
+      height: calc(100vh - 64px);
+      overflow: hidden;
+      background-color: var(--base-bg);
+    }
+    .app-title {
+      font-size: 1.25rem;
+      font-weight: bold;
+      color: var(--text-main);
+      margin: 0;
+    }
+    .header {
+      height: 64px;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #333;
+      background-color: var(--accent-bg);
+    }
+    .api-layout {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #redoc-wrapper {
+      padding: 0;
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="api-layout">
+    <nav class="sidebar d-flex flex-column flex-shrink-0 p-2">
+      <p class="app-title text-center mb-3">📘 API Docs</p>
+      <nav class="nav nav-pills flex-column">
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/auth.json', this)"><i class="bi bi-shield-lock"></i><div>Auth</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/user_profile.json', this)"><i class="bi bi-person-circle"></i><div>User Profile</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/classroom.json', this)"><i class="bi bi-people"></i><div>Classroom</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec(`openapi/chat_feedback.json?ts=${Date.now()}`, this)"><i class="bi bi-chat-dots"></i><div>Feedback</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/gamification.json', this)"><i class="bi bi-trophy"></i><div>Gamification</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/diagnostics.json', this)"><i class="bi bi-activity"></i><div>Diagnostics</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/exercises.json', this)"><i class="bi bi-journal-text"></i><div>Task Bank</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/assignment_submission.json', this)"><i class="bi bi-pin-angle"></i><div>Assignments</div></a>
+        <a class="nav-link" href="#" onclick="loadSpec('openapi/analytics.json', this)"><i class="bi bi-bar-chart"></i><div>Analytics</div></a>
+      </nav>
+    </nav>
+    <main class="flex-grow-1 d-flex flex-column">
+      <div class="header d-flex align-items-center">
+        <div class="text-white">
+          <h1 class="h5 mb-0">MathPlatform API Viewer</h1>
+          <small class="text-secondary">Выберите модуль слева</small>
+        </div>
+      </div>
+      <div id="redoc-wrapper" class="redoc-container"></div>
+    </main>
+  </div>
+
+  <script>
+    function loadSpec(url, element) {
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+
+      const wrapper = document.getElementById('redoc-wrapper');
+      wrapper.innerHTML = '';
+
+      Redoc.init(url, {
+        scrollYOffset: 64,
+        hideDownloadButton: true,
+        expandResponses: "all",
+        expandSingleSchemaField: true,
+        hideLoading: false,
+        theme: {
+          colors: {
+            primary: { main: '#89CFF0' },
+            text: { primary: '#eeeeee', secondary: '#cccccc' },
+            background: { default: '#1e1e1e', paper: '#1e1e1e' },
+            success: { main: '#5cb85c' },
+            http: {
+              get: '#61affe',
+              post: '#49cc90',
+              patch: '#fca130',
+              delete: '#f93e3e'
+            }
+          },
+          typography: {
+            fontSize: '15px',
+            fontFamily: 'Segoe UI, sans-serif',
+            headings: {
+              fontWeight: '600',
+              color: '#ffffff'
+            },
+            code: {
+              backgroundColor: '#2c2c2c',
+              color: '#ffffff'
+            }
+          },
+          sidebar: {
+            backgroundColor: '#1f1f1f'
+          }
+        },
+      }, wrapper);
+    }
+  </script>
+</body>
+</html>

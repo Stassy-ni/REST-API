@@ -1,0 +1,522 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Math Learning Platform API",
+    "version": "1.0.0",
+    "description": "Спецификация REST API для модуля Обратной связи."
+  },
+  "servers": [
+    {
+      "url": "https://api.mathplatform.example.com/v1",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    { "name": "Feedback - Обратная связь", "description": "Отзывы и предложения от пользователей" },
+    { "name": "Support Chat", "description": "Диалоговая поддержка для пользователей и админов" },
+    { "name": "Chat - Классные чаты", "description": "Чаты учителя с классами" }
+  ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
+  "paths": {
+    "/feedback": {
+      "get": {
+        "tags": ["Feedback - Обратная связь"],
+        "summary": "Получить список всех обращений (для админа)",
+        "responses": {
+          "200": {
+            "description": "Список обращений",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Feedback.Entry" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Feedback - Обратная связь"],
+        "summary": "Оставить обращение",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Feedback.Create" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Обращение создано" },
+          "400": { "description": "Ошибка валидации" }
+        }
+      }
+    },
+    "/feedback/{id}": {
+      "get": {
+        "tags": ["Feedback - Обратная связь"],
+        "summary": "Получить обращение по ID",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": { "description": "Обращение", "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Feedback.Entry" } } } },
+          "404": { "description": "Не найдено" }
+        }
+      },
+      "patch": {
+        "tags": ["Feedback - Обратная связь"],
+        "summary": "Обновить обращение",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Feedback.Create" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Обновлено" },
+          "404": { "description": "Не найдено" }
+        }
+      }
+    },
+    "/feedback/{id}/reply": {
+      "post": {
+        "tags": ["Feedback - Обратная связь"],
+        "summary": "Ответить на обращение",
+        "parameters": [
+          { "name": "id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/ReplySchema" } }
+          }
+        },
+        "responses": {
+          "200": { "description": "Ответ отправлен" },
+          "400": { "description": "Ошибка" },
+          "404": { "description": "Не найдено" }
+        }
+      }
+    },
+    "/feedback/my": {
+      "get": {
+        "tags": ["Feedback - Обратная связь"],
+        "summary": "Список моих обращений (неархивные)",
+        "responses": {
+          "200": {
+            "description": "Мои обращения",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "results": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Feedback.Entry" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/feedback/stats": {
+      "get": {
+        "tags": ["Feedback - Обратная связь"],
+        "summary": "Статистика по обращениям",
+        "responses": {
+          "200": {
+            "description": "Статистика",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Feedback.Stats" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support-chats": {
+      "post": {
+        "tags": ["Support Chat"],
+        "summary": "Создать новую поддержку (ticket)",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SupportChat.TicketCreate" },
+              "example": {
+                "subject": "Ошибка отправки задания",
+                "initial_message": "Не могу отправить решение, ошибка 500.",
+                "reply_by_email": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Тикет создан" },
+          "400": { "description": "Ошибка валидации" }
+        }
+      }
+    },
+    "/support-chats/messages": {
+      "get": {
+        "tags": ["Support Chat"],
+        "summary": "Получить все сообщения (все тикеты)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "chat_id", "in": "query", "schema": { "type": "integer" }, "required": true },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "offset", "in": "query", "schema": { "type": "integer", "default": 0 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Сообщения тикета",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "next": { "type": "string", "format": "uri", "nullable": true },
+                    "previous": { "type": "string", "format": "uri", "nullable": true },
+                    "results": { "type": "array", "items": { "$ref": "#/components/schemas/SupportChat.Message" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Support Chat"],
+        "summary": "Отправить сообщение в тикет",
+        "security": [{ "BearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SupportChat.MessageCreate" },
+              "example": { "chat_id": 12, "content": "Пожалуйста, уточните, что произошло." }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Сообщение отправлено" },
+          "400": { "description": "Ошибка валидации" }
+        }
+      }
+    },
+    "/support-chats/{chat_id}": {
+      "get": {
+        "tags": ["Support Chat"],
+        "summary": "Получить информацию о конкретном чате (ticket)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "chat_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Данные по чату",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SupportChat.TicketDetail" }
+              }
+            }
+          },
+          "403": { "description": "Нет прав доступа" },
+          "404": { "description": "Чат не найден" }
+        }
+      },
+      "patch": {
+        "summary": "Закрыть чат",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": { "type": "string", "enum": ["closed"] }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/support-chats/{chat_id}/messages": {
+      "get": {
+        "tags": ["Support Chat"],
+        "summary": "Получить сообщения чата с поддержкой",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "chat_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "offset", "in": "query", "schema": { "type": "integer", "default": 0 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Сообщения чат-тинка",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "next": { "type": "string", "format": "uri", "nullable": true },
+                    "previous": { "type": "string", "format": "uri", "nullable": true },
+                    "results": { "type": "array", "items": { "$ref": "#/components/schemas/SupportChat.Message" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Support Chat"],
+        "summary": "Отправить сообщение в чат (ticket)",
+        "security": [{ "BearerAuth": [] }],
+        "parameters": [
+          { "name": "chat_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SupportChat.MessageCreate" },
+              "example": { "content": "Дополнительная информация: вот ссылка..." }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Сообщение отправлено" },
+          "400": { "description": "Ошибка валидации" },
+          "403": { "description": "Нет прав доступа" }
+        }
+      }
+    },
+    "/class-chats": {
+      "get": {
+        "tags": ["Chat - Классные чаты"],
+        "summary": "Получить список чатов по классам учителя",
+        "security": [ { "BearerAuth": [] } ],
+        "responses": {
+          "200": {
+            "description": "Список чатов",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Chat.Chat" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Chat - Классные чаты"],
+        "summary": "Создать чат для класса",
+        "security": [ { "BearerAuth": [] } ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Chat.ChatCreate" },
+              "example": { "class_id": 7 }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Чат создан",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Chat.Chat" }
+              }
+            }
+          },
+          "400": { "description": "Ошибка валидации или чат уже существует" }
+        }
+      }
+    },
+    "/class-chats/{chat_id}": {
+      "get": {
+        "tags": ["Chat - Классные чаты"],
+        "summary": "Получить информацию о чате",
+        "security": [ { "BearerAuth": [] } ],
+        "parameters": [
+          { "name": "chat_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Информация о чате",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Chat.Chat" }
+              }
+            }
+          },
+          "404": { "description": "Чат не найден" }
+        }
+      }
+    },
+    "/class-chats/{chat_id}/messages": {
+      "get": {
+        "tags": ["Chat - Классные чаты"],
+        "summary": "Получить сообщения чата",
+        "security": [ { "BearerAuth": [] } ],
+        "parameters": [
+          { "name": "chat_id", "in": "path", "required": true, "schema": { "type": "integer" } },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 20 } },
+          { "name": "offset", "in": "query", "schema": { "type": "integer", "default": 0 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список сообщений",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "count": { "type": "integer" },
+                    "next": { "type": "string", "format": "uri", "nullable": true },
+                    "previous": { "type": "string", "format": "uri", "nullable": true },
+                    "results": { "type": "array", "items": { "$ref": "#/components/schemas/Chat.Message" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Chat - Классные чаты"],
+        "summary": "Отправить сообщение в чат",
+        "security": [ { "BearerAuth": [] } ],
+        "parameters": [
+          { "name": "chat_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Chat.MessageCreate" },
+              "example": { "content": "Здравствуйте, напомните о домашней работе." }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Сообщение отправлено" },
+          "400": { "description": "Ошибка валидации" }
+        }
+      }
+    },
+    "/class-chat-messages/{message_id}": {
+      "delete": {
+        "tags": ["Chat - Классные чаты"],
+        "summary": "Удалить своё сообщение",
+        "security": [ { "BearerAuth": [] } ],
+        "parameters": [
+          { "name": "message_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "204": { "description": "Сообщение удалено" },
+          "403": { "description": "Попытка удалить чужое сообщение" },
+          "404": { "description": "Сообщение не найдено" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "Feedback.Create": {
+        "type": "object",
+        "required": ["last_name", "first_name", "email", "message"],
+        "properties": {
+          "last_name": { "type": "string" },
+          "first_name": { "type": "string" },
+          "middle_name": { "type": "string" },
+          "role_at_time": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "message": { "type": "string" },
+          "answer_method": { "type": "string", "enum": ["platform", "email"] },
+          "support_chat_id": { "type": "integer" }
+        }
+      },
+      "Feedback.Entry": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Feedback.Create" },
+          {
+            "type": "object",
+            "properties": {
+              "id": { "type": "integer" },
+              "created_at": { "type": "string", "format": "date-time" },
+              "is_processed": { "type": "boolean" },
+              "processed_at": { "type": "string", "format": "date-time" },
+              "is_read": { "type": "boolean" },
+              "answer_text": { "type": "string" },
+              "answer_method": { "type": "string" },
+              "answered_by": { "type": "integer" },
+              "answered_at": { "type": "string", "format": "date-time" },
+              "is_archived": { "type": "boolean" },
+              "archived_at": { "type": "string", "format": "date-time" },
+              "admin_note": { "type": "string" }
+            }
+          }
+        ]
+      },
+      "ReplySchema": {
+        "type": "object",
+        "required": ["reply_message", "answer_method"],
+        "properties": {
+          "reply_message": { "type": "string" },
+          "answer_method": { "type": "string", "enum": ["platform", "email"] }
+        }
+      },
+      "Feedback.Stats": {
+        "type": "object",
+        "properties": {
+          "total": { "type": "integer" },
+          "active": { "type": "integer" },
+          "answered": { "type": "integer" },
+          "archived": { "type": "integer" },
+          "avg_response_time_minutes": { "type": "number" },
+          "roles_percent": {
+            "type": "object",
+            "properties": {
+              "student": { "type": "integer" },
+              "teacher": { "type": "integer" },
+              "guest": { "type": "integer" }
+            }
+          }
+        }
+      },
+      "SupportChat.TicketCreate": {"type":"object","required":["subject","initial_message"],"properties":{"subject":{"type":"string"},"initial_message":{"type":"string"},"reply_by_email":{"type":"boolean"}}},
+      "SupportChat.MessageCreate": {"type":"object","required":["chat_id","content"],"properties":{"chat_id":{"type":"integer"},"content":{"type":"string"}}},
+      "SupportChat.Message": {"type":"object","properties":{"id":{"type":"integer"},"chat_id":{"type":"integer"},"sender_user_id":{"type":"integer"},"content":{"type":"string"},"timestamp":{"type":"string","format":"date-time"}}},
+      "SupportChat.Ticket":{"type":"object","properties":{"id":{"type":"integer"},"user_id":{"type":"integer"},"subject":{"type":"string"},"status":{"type":"string","enum":["open","closed"]},"created_at":{"type":"string","format":"date-time"}}},
+      "SupportChat.TicketDetail":{"allOf":[{"$ref":"#/components/schemas/SupportChat.Ticket"},{"type":"object","properties":{"reply_by_email":{"type":"boolean"},"last_message_at":{"type":"string","format":"date-time"}}}], "status": {"type": "string", "enum": ["open", "closed", "pending"], "description": "Текущий статус тикета"}},
+      "Chat.ChatCreate":{"type":"object","required":["class_id"],"properties":{"class_id":{"type":"integer"}}},
+      "Chat.Chat":{"type":"object","properties":{"id":{"type":"integer"},"class_id":{"type":"integer"},"created_at":{"type":"string","format":"date-time"}}},
+      "Chat.MessageCreate":{"type":"object","required":["content"],"properties":{"content":{"type":"string"}}},
+      "Chat.Message":{"type":"object","properties":{"id":{"type":"integer"},"chat_id":{"type":"integer"},"sender_user_id":{"type":"integer"},"content":{"type":"string"},"timestamp":{"type":"string","format":"date-time"}}}
+    }
+  }
+}
+
+    

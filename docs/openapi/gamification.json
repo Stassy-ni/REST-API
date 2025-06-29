@@ -1,0 +1,113 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Math Learning Platform API",
+    "version": "1.0.0",
+    "description": "Спецификация REST API для модуля игровой системы."
+  },
+  "servers": [
+    {
+      "url": "https://api.mathplatform.example.com/v1",
+      "description": "Production"
+    }
+  ],
+  "tags": [
+    { "name": "Gamification - Статистика", "description": "Просмотр очков, бейджей, рангов ученика" },
+    { "name": "Gamification - Начисление", "description": "Начисление XP, бейджей, бонусов (Teacher, System)" },
+    { "name": "Gamification - Лидерборды", "description": "Топ учеников по классу с фильтрами" }
+  ],
+  "externalDocs": {
+    "description": "Swagger UI / Redoc",
+    "url": "https://api.mathplatform.example.com/docs"
+  },
+  "paths": {
+    "/gamification/{student_id}": {
+      "get": {
+        "tags": ["Gamification - Статистика"],
+        "summary": "Получить gamification профиль ученика",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "student_id", "in": "path", "required": true, "schema": { "type": "integer" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "XP, бейджи, ранги, MVP",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Gamification.Profile" }
+              }
+            }
+          },
+          "403": { "description": "Нет доступа (ученик/класс не совпадают)" },
+          "404": { "description": "Ученик не найден" }
+        }
+      }
+    },
+    "/gamification/award": {
+      "post": {
+        "tags": ["Gamification - Начисление"],
+        "summary": "Начислить XP, бейдж или бонус",
+        "security": [{"BearerAuth": []}],
+        "description": "Teacher или System может начислить ресурсы ученику.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Gamification.Award" },
+              "example": {
+                "student_id": 123,
+                "event_type": "quiz_completion",
+                "points": 50,
+                "badge_type": "Quick Solver",
+                "mvp": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Начислено успешно" },
+          "403": { "description": "Нет прав или ученик вне класса" },
+          "409": { "description": "Повторное начисление по уникальному событию" },
+          "404": { "description": "Ученик не найден" }
+        }
+      }
+    },
+    "/gamification/leaderboard": {
+      "get": {
+        "tags": ["Gamification - Лидерборды"],
+        "summary": "Получить лидерборд по классу",
+        "security": [{"BearerAuth": []}],
+        "parameters": [
+          { "name": "class_id", "in": "query", "schema": { "type": "integer" }, "description": "Фильтр по классу" },
+          { "name": "period", "in": "query", "schema": { "type": "string", "example": "7d" }, "description": "Период: 7d,30d,all" },
+          { "name": "type", "in": "query", "schema": { "type": "string", "enum": ["assignment","activity"] }, "description": "Тип лидерборда" },
+          { "name": "limit", "in": "query", "schema": { "type": "integer", "default": 10 } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Лидерборд класса",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Gamification.LeaderboardEntry" }
+                }
+              }
+            }
+          },
+          "403": { "description": "Нет доступа к классу" }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": { "type": "http", "scheme": "bearer", "bearerFormat": "JWT" }
+    },
+    "schemas": {
+      "Gamification.Profile":{"type":"object","properties":{"student_id":{"type":"integer"},"points_total":{"type":"integer"},"badges":{"type":"array","items":{"type":"string"}},"current_rank":{"type":"string"},"mvp_count":{"type":"integer"}}},
+      "Gamification.Award":{"type":"object","required":["student_id","event_type"],"properties":{"student_id":{"type":"integer"},"event_type":{"type":"string"},"points":{"type":"integer"},"badge_type":{"type":"string"},"mvp":{"type":"boolean","example":false}}},
+      "Gamification.LeaderboardEntry":{"type":"object","properties":{"student_id":{"type":"integer"},"full_name":{"type":"string"},"points":{"type":"integer"},"rank":{"type":"string"},"position":{"type":"integer"}}}
+    }
+  }
+}
