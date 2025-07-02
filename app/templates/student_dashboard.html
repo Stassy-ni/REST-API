@@ -1,0 +1,20 @@
+{% extends "student_base.html" %}
+
+{% block title %}Главная - Ученик{% endblock %}
+{% block page_title %}Главная{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-5 text-center">
+                <h2 class="fw-bold mb-4">Добро пожаловать, {{ current_user.first_name }} {{ current_user.last_name }}!</h2>
+                <p class="fs-5 text-gray-600 mb-4">Начните обучение, выбрав раздел в меню слева</p>
+                <a href="{{ url_for('student.learning') }}" class="btn btn-primary-custom px-4 py-2 fs-5 fw-bold">
+                    <i class="bi bi-book me-2"></i>Перейти к обучению
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

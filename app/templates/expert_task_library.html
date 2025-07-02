@@ -1,0 +1,122 @@
+{% extends "expert_base.html" %}
+
+{% block title %}Библиотека заданий - Эксперт{% endblock %}
+{% block page_title %}Библиотека заданий{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Добавим отладочную информацию -->
+    <div class="alert alert-info d-flex justify-content-between">
+        <div>Текущий пользователь: {{ current_user.id }} - {{ current_user.username }}</div>
+        <div>Всего заданий: {{ tasks|length }}</div>
+        <div>Время: {{ current_time.strftime('%H:%M:%S') }}</div>
+    </div>
+    <div class="card shadow-sm border-0 rounded-4 mb-4">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="mb-0">Мои задания</h3>
+                <div class="d-flex gap-2">
+                    <input type="text" id="search-tasks" class="form-control" placeholder="Поиск..." style="max-width: 250px;">
+                    <select id="filter-category" class="form-select" style="max-width: 200px;">
+                        <option value="">Все категории</option>
+                        <option value="addition">Сложение</option>
+                        <option value="subtraction">Вычитание</option>
+                        <option value="multiplication">Умножение</option>
+                        <option value="division">Деление</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table task-library-table">
+                    <thead>
+                        <tr>
+                            <th class="task-column">Задание</th>
+                            <th class="answer-column">Ответ</th>
+                            <th class="category-column">Категория</th>
+                            <th class="difficulty-column">Сложность</th>
+                            <th class="date-column">Дата создания</th>
+                            <th class="actions-column">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasks-table-body">
+                        {% for task in tasks %}
+                        <tr data-task-id="{{ task.id }}" data-category="{{ task.category }}">
+                            <td class="task-column">
+                                <div class="task-preview">
+                                    {{ task.text|replace('Задание:', '')|replace('Задача:', '')|trim|truncate(100) }}
+                                </div>
+                                <div class="task-full" style="display: none;">
+                                    {{ task.text|replace('Задание:', '')|replace('Задача:', '')|trim }}
+                                </div>
+                            </td>
+                            <td class="answer-column">
+                                {{ task.answer }}
+                            </td>
+                            <td class="category-column">
+                                {% if task.category == 'addition' %}Сложение
+                                {% elif task.category == 'subtraction' %}Вычитание
+                                {% elif task.category == 'multiplication' %}Умножение
+                                {% elif task.category == 'division' %}Деление
+                                {% endif %}
+                            </td>
+                            <td class="difficulty-column">
+                                <span class="badge 
+                                    {% if task.difficulty == 'easy' %}bg-success
+                                    {% elif task.difficulty == 'medium' %}bg-warning text-dark
+                                    {% else %}bg-danger
+                                    {% endif %}">
+                                    {% if task.difficulty == 'easy' %}Легкая
+                                    {% elif task.difficulty == 'medium' %}Средняя
+                                    {% else %}Сложная
+                                    {% endif %}
+                                </span>
+                            </td>
+                            <td class="date-column">
+                                {{ task.created_at.strftime('%d.%m.%Y %H:%M') }}
+                            </td>
+                            <td class="actions-column">
+                                <button class="btn btn-sm btn-outline-primary toggle-task">
+                                    <i class="bi bi-arrows-expand"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline-danger delete-task" data-task-id="{{ task.id }}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                Нет сохраненных заданий
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно подтверждения удаления -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Вы уверены, что хотите удалить это задание?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="confirm-delete-btn">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/expert_task_library.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+{% endblock %}

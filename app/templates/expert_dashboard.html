@@ -1,0 +1,27 @@
+{% extends "expert_base.html" %}
+
+{% block title %}Главная - Эксперт{% endblock %}
+{% block page_title %}Главная{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4">
+            <div class="card-body p-5 text-center">
+                <h2 class="fw-bold mb-4">Добро пожаловать, {{ current_user.first_name }} {{ current_user.middle_name }}!</h2>
+                <p class="fs-5 text-gray-600 mb-4">1. Используйте искусственный интеллект для создания заданий.</p>
+                <p class="fs-5 text-gray-600 mb-4">Для этого, перейдите во вкладку "Создание заданий".</p>
+                <p class="fs-5 text-gray-600 mb-4">2. Создайте не менее 4 заданий на каждый уровень сложности для всех арифметических действий с дробями.</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a href="{{ url_for('expert.create_task') }}" class="btn btn-primary-custom px-4 py-2">
+                        ✏️ Создать задание
+                    </a>
+                    <a href="{{ url_for('expert.task_library') }}" class="btn btn-outline-primary px-4 py-2">
+                        📚 Библиотека заданий
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

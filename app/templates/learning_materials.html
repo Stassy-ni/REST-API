@@ -1,0 +1,82 @@
+{% extends "student_base.html" %}
+
+{% block title %}Материалы для изучения - Ученик{% endblock %}
+{% block page_title %}Материалы для изучения{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card shadow-sm border-0 rounded-4 mb-4">
+            <div class="card-body p-4">
+                <h3 class="fw-bold mb-4">Арифметические действия с дробями</h3>
+                
+                <div class="row g-4">
+                    <!-- Кнопка 1 -->
+                    <div class="col-md-4 col-6">
+                        <a href="{{ url_for('student.learning_page', page_id=1) }}" class="card h-100 border-0 rounded-4 shadow-sm text-decoration-none text-center p-4">
+                            <div class="card-body">
+                                <div class="display-1 mb-3">m/n</div>
+                                <h5 class="card-title">Обыкновенные дроби</h5>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Кнопка 2 -->
+                    <div class="col-md-4 col-6">
+                        <a href="{{ url_for('student.learning_page', page_id=2) }}" class="card h-100 border-0 rounded-4 shadow-sm text-decoration-none text-center p-4">
+                            <div class="card-body">
+                                <div class="display-1 mb-3">+</div>
+                                <h5 class="card-title">Сложение обыкновенных дробей</h5>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Кнопка 3 -->
+                    <div class="col-md-4 col-6">
+                        <a href="{{ url_for('student.learning_page', page_id=3) }}" class="card h-100 border-0 rounded-4 shadow-sm text-decoration-none text-center p-4">
+                            <div class="card-body">
+                                <div class="display-1 mb-3">-</div>
+                                <h5 class="card-title">Вычитание обыкновенных дробей</h5>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Кнопка 4 -->
+                    <div class="col-md-4 col-6">
+                        <a href="{{ url_for('student.learning_page', page_id=4) }}" class="card h-100 border-0 rounded-4 shadow-sm text-decoration-none text-center p-4">
+                            <div class="card-body">
+                                <div class="display-1 mb-3">×</div>
+                                <h5 class="card-title">Умножение обыкновенных дробей</h5>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Кнопка 5 -->
+                    <div class="col-md-4 col-6">
+                        <a href="{{ url_for('student.learning_page', page_id=5) }}" class="card h-100 border-0 rounded-4 shadow-sm text-decoration-none text-center p-4">
+                            <div class="card-body">
+                                <div class="display-1 mb-3">÷</div>
+                                <h5 class="card-title">Деление обыкновенных дробей</h5>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-end mt-4">
+                    {% if not progress.learning_completed %}
+                    <form method="POST" action="{{ url_for('student.complete_learning') }}">
+                        <button type="submit" class="btn btn-primary-custom">
+                            <i class="bi bi-check-circle me-2"></i>Завершить изучение
+                        </button>
+                    </form>
+                    {% else %}
+                    <a href="{{ url_for('student.learning') }}" class="btn btn-outline-primary">
+                        <i class="bi bi-arrow-left me-2"></i>Вернуться к обучению
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

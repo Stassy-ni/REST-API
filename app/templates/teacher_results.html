@@ -1,0 +1,69 @@
+{% extends "teacher_base.html" %}
+
+{% block title %}Результаты учеников{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Результаты учеников</h2>
+            <small class="text-muted">Всего учеников: {{ students|length }}</small>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Класс</th>
+                    <th>ФИО ученика</th>
+                    <th>Последняя активность</th>
+                    <th>Прогресс</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                {% set progress = student.progress[0] if student.progress else None %}
+                <tr>
+                    <td>{{ student.grade }}{{ student.letter }}</td>
+                    <td>{{ student.last_name }} {{ student.first_name }} {{ student.middle_name or '' }}</td>
+                    <td>
+                        {% if not progress or not progress.last_updated %}
+                            —
+                        {% else %}
+                            {{ progress.last_updated.strftime('%d.%m.%Y %H:%M') }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not progress %}
+                            Не приступал к обучению
+                        {% elif not progress.initial_test_completed %}
+                            Не приступал к обучению
+                        {% elif progress.initial_test_completed and not progress.learning_completed %}
+                            Пройден входной контроль
+                        {% elif progress.learning_completed and not progress.final_test_completed %}
+                            Пройден этап изучения тем
+                        {% elif progress.final_test_completed %}
+                            Обучение завершено
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if progress and progress.final_test_completed %}
+                        <a href="{{ url_for('teacher.student_results', student_id=student.id) }}" 
+                           class="btn btn-sm btn-primary">
+                            Результат обучения
+                        </a>
+                        {% else %}
+                        <button class="btn btn-sm btn-secondary" disabled>
+                            Результат обучения
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

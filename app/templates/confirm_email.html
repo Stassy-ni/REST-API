@@ -1,0 +1,11 @@
+
+{% block content %}
+    <h2>Подтверждение почты</h2>
+    <p>На {{ email }} отправлен код подтверждения</p>
+    <form method="POST">
+        <label for="code">Введите код:</label>
+        <input type="text" name="code" maxlength="6" required>
+        <button type="submit">Подтвердить</button>
+    </form>
+
+{% endblock %}  

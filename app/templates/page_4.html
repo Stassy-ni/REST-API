@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Умножение обыкновенных дробей</title>
+    <link href="/static/page.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Умножение обыкновенных дробей</h1>
+
+        <h2>1. Правило умножения обыкновенных дробей</h2>
+        <p>Чтобы найти произведение двух дробей, можно:</p>
+        <ol>
+            <li>Перемножить их числители и перемножить их знаменатели.</li>
+            <li>Первое произведение записать числителем, а второе - знаменателем дроби: \(\frac{a}{b} \cdot \frac{c}{d} = \frac{a \cdot c}{b \cdot d}\)</li>
+            <li>При необходимости сократить дробь.</li>
+        </ol>
+        <div class="example">
+            <p><strong>Пример:</strong> \(\frac{2}{3} \cdot \frac{4}{5} = \frac{2 \cdot 4}{3 \cdot 5} = \frac{8}{15}\).</p>
+        </div>
+        <div class="example">
+            <p><strong>Задача.</strong> В упаковке \(\frac{4}{5}\) кг перловой крупы. Сколько крупы в трёх таких упаковках? </p>
+            <p><strong>Решение:</strong> Для решения задачи надо найти произведение \(\frac{4}{5} \cdot 3\), т.е. найти сумму трёх слагаемых:</p>
+            <p>\(\frac{4}{5} \cdot 3 = \frac{4}{5} + \frac{4}{5} + \frac{4}{5} = \frac{4+4+4}{5} = \frac{4 \cdot 3}{5} = \frac{12}{5} = 2 \frac{2}{5}\).</p>
+            <p><strong>Ответ:</strong> В трёх упаковках \(2 \frac{2}{5}\) кг крупы.</p>
+        </div>
+
+        <h2>2. Правило умножения смешанных чисел</h2>
+        <p>Чтобы найти произведение смешанных чисел, надо:</p>
+        <ol>
+            <li>Преобразовать каждое смешанное число в неправильную дробь.</li>
+            <li>Перемножить числители и знаменатели полученных дробей.</li>
+            <li>Если результат — неправильная дробь, преобразовать её в смешанное число.</li>
+            <li>При необходимости сократить дробь.</li>
+        </ol>
+        <div class="example">
+            <p><strong>Пример:</strong> \(2 \frac{1}{3} \cdot 1 \frac{1}{2}\)</p>
+            <p>Преобразуем в неправильные дроби:</p>
+            <p>\(2 \frac{1}{3} = \frac{2 \cdot 3 + 1}{3} = \frac{7}{3}\)</p>
+            <p>\(1 \frac{1}{2} = \frac{1 \cdot 2 + 1}{2} = \frac{3}{2}\)</p>
+            <p>Умножаем: \(\frac{7}{3} \cdot \frac{3}{2} = \frac{7 \cdot 3}{3 \cdot 2} = \frac{21}{6}\)</p>
+            <p>Сокращаем: \(\frac{21}{6} = \frac{7}{2}\)</p>
+            <p>Преобразуем в смешанную дробь: \(\frac{7}{2} = 3 \frac{1}{2}\)</p>
+        </div>
+        <div class="example">
+            <p><strong>Задача.</strong> Турист идёт со скоростью \(5 \frac{1}{5}\) км/ч. Какое расстояние он пройдёт за \(1 \frac{7}{8}\) ч?</p>
+            <p><strong>Решение:</strong> Чтобы найти пройденное расстояние, надо скорость туриста умножить на время движения, т. е. найти произведение \(5 \frac{1}{5}\) и \(1 \frac{7}{8}\).</p>
+            <p>Каждое из этих чисел представим в виде неправильной дроби и затем выполним умножение дробей:</p>
+            <p>\(5 \frac{1}{5} = \frac{26}{5}\), \(1 \frac{7}{8} = \frac{15}{8}\).</p>
+            <p>\(5 \frac{1}{5} \cdot 1 \frac{7}{8} = \frac{26}{5} \cdot \frac{15}{8} = \frac{26 \cdot 15}{5 \cdot 8} = \frac{390}{40} = \frac{39}{4} = 9 \frac{3}{4}\).</p>
+            <p><strong>Ответ:</strong> За \(1 \frac{7}{8}\) ч турист пройдёт \(9 \frac{3}{4}\) км.</p>
+        </div>
+
+        <h2>Генерация заданий</h2>
+        <p>Нажмите кнопку ниже, чтобы сгенерировать задания.</p>
+        <div class="button" onclick="generateTest()">Сгенерировать задания</div>
+        <div id="testOutput"></div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{{ url_for('student.learning_materials') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i><h4>Назад к списку тем</h4>
+            </a>
+        </div>
+    </div>
+    <script src="/static/js/script_4.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</body>
+</html>

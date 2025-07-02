@@ -1,0 +1,181 @@
+{% extends "teacher_base.html" %}
+
+{% block title %}Класс {{ class_.grade }}{{ class_.letter }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>{{ class_.grade }} «{{ class_.letter }}»</h2>
+            <a href="#" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editClassModal">
+                ✏ Изменить
+            </a>
+            <button class="btn btn-sm btn-outline-primary ms-2" data-bs-toggle="modal" data-bs-target="#downloadCredentialsModal">
+                📋 Логины и пароли
+            </button>
+        </div>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">
+            + Добавить ученика
+        </button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>ФИО ученика</th>
+                    <th>Последняя активность</th>
+                    <th>Прогресс</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                {% set progress = student.progress[0] if student.progress else None %}
+                <tr style="cursor: default;">
+                    <td>
+                        {{ student.last_name }} {{ student.first_name }} {{ student.middle_name or '' }}
+                    </td>
+                    <td>
+                        {% if not progress or not progress.last_updated %}
+                            —
+                        {% else %}
+                            {{ progress.last_updated.strftime('%d.%m.%Y %H:%M') }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if not progress %}
+                            Не приступал к обучению
+                        {% elif not progress.initial_test_completed %}
+                            Не приступал к обучению
+                        {% elif progress.initial_test_completed and not progress.learning_completed %}
+                            Пройден входной контроль
+                        {% elif progress.learning_completed and not progress.final_test_completed %}
+                            Пройден этап изучения тем
+                        {% elif progress.final_test_completed %}
+                            Обучение завершено
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Модальное окно добавления ученика -->
+<div class="modal fade" id="addStudentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Добавить ученика</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <form method="POST" action="{{ url_for('teacher.add_student', class_id=class_.id) }}">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Фамилия</label>
+                        <input type="text" name="last_name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Имя</label>
+                        <input type="text" name="first_name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Отчество (необязательно)</label>
+                        <input type="text" name="middle_name" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно скачивания учетных данных -->
+<div class="modal fade" id="downloadCredentialsModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Учетные данные учеников</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ФИО</th>
+                            <th>Логин</th>
+                            <th>Пароль</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.last_name }} {{ student.first_name }}</td>
+                            <td>{{ student.username }}</td>
+                            <td>{{ student.plain_password }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" onclick="downloadCredentials()">Скачать CSV</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно редактирования класса -->
+<div class="modal fade" id="editClassModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="{{ url_for('teacher.update_class', class_id=class_.id) }}">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Редактировать класс</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Номер класса</label>
+                        <input type="number" name="grade" class="form-control" value="{{ class_.grade }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Буква класса</label>
+                        <input type="text" name="letter" class="form-control" maxlength="1" value="{{ class_.letter }}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function downloadCredentials() {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "ФИО,Логин,Пароль\n";
+    
+    {% for student in students %}
+    csvContent += "{{ student.last_name }} {{ student.first_name }},{{ student.username }},{{ student.plain_password }}\n";
+    {% endfor %}
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "учетные_данные_{{ class_.grade }}{{ class_.letter }}.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+</script>
+{% endblock %}

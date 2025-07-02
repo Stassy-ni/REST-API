@@ -1,0 +1,307 @@
+/* style.css */
+/* Основные стили */
+body {
+  background-color: #F8FAFC;
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  font-size: 1rem;
+}
+
+/* Навигационная панель */
+.navbar {
+  background-color: white !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Карточки */
+.card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header {
+  background-color: white;
+  border-bottom: 1px solid #E2E8F0;
+  padding: 1.5rem;
+}
+
+/* Кнопки */
+.btn-primary-custom {
+  background-color: #7C3AED;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn-primary-custom:hover {
+  background-color: #5B21B6;
+}
+
+/* Таблицы */
+.table {
+  margin-top: 1rem;
+}
+
+.table th {
+  font-weight: 600;
+  color: #4A5568;
+  border-top: none;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+/* Вкладки */
+.nav-tabs .nav-link {
+  color: #4A5568;
+  border: none;
+  padding: 0.75rem 1.5rem;
+}
+
+.nav-tabs .nav-link.active {
+  color: #7C3AED;
+  font-weight: 600;
+  border-bottom: 3px solid #7C3AED;
+  background: transparent;
+}
+
+/* Формы */
+.form-control {
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(102, 16, 242, 0.25);
+  border-color: #6610f2;
+}
+
+/* Модальные окна */
+#replyModal .modal-body textarea[readonly] {
+  background-color: #f8f9fa;
+  cursor: not-allowed;
+}
+
+#replyModal .modal-body .form-control {
+  margin-bottom: 1rem;
+}
+
+/* Уведомления */
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1100;
+}
+
+
+/* Дополнительные стили для ученического кабинета */
+.sidebar {
+    min-height: 100vh;
+    border-right: 1px solid #E2E8F0;
+}
+
+.nav-link.active {
+    font-weight: 600;
+}
+
+.list-group-item {
+    transition: all 0.2s ease;
+    border: 1px solid #E2E8F0;
+}
+
+.list-group-item:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Адаптивные правки */
+@media (max-width: 768px) {
+    .sidebar {
+        min-height: auto;
+        border-right: none;
+        border-bottom: 1px solid #E2E8F0;
+    }
+}
+
+
+/* Стили для генератора заданий */
+.task-content {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    min-height: 150px;
+}
+
+.task-content .math {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}
+
+.btn.disabled {
+    opacity: 0.65;
+    pointer-events: none;
+}
+
+
+/* Стили для библиотеки заданий */
+.task-preview, .task-full {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.task-preview {
+    max-height: 60px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(124, 58, 237, 0.05);
+}
+
+.table th {
+    font-weight: 600;
+    color: #4a5568;
+    border-top: none;
+}
+
+.no-tasks-row {
+    background-color: #f8f9fa;
+}
+
+/* Стили для страницы обратной связи */
+.feedback-form .form-control {
+    padding: 0.75rem 1rem;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.feedback-form .form-control:focus {
+    border-color: #6610f2;
+    box-shadow: 0 0 0 0.25rem rgba(102, 16, 242, 0.1);
+}
+
+.feedback-form label {
+    font-weight: 500;
+    color: #4A5568;
+    margin-bottom: 0.5rem;
+}
+
+.feedback-form textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+
+/* Стили для таблицы заданий */
+.task-library-table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.task-library-table th,
+.task-library-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.task-library-table th {
+  background-color: #F8FAFC;
+  font-weight: 600;
+  color: #4A5568;
+}
+
+.task-library-table td {
+  vertical-align: top;
+}
+
+/* Ширина столбцов */
+.task-column {
+  width: 35%;
+  word-wrap: break-word;
+  white-space: normal;
+  padding-left: 0 !important;
+}
+
+.answer-column {
+  width: 15%;
+  font-family: monospace;
+  word-break: break-word;
+}
+
+.category-column {
+  width: 12%;
+}
+
+.difficulty-column {
+  width: 12%;
+}
+
+.date-column {
+  width: 15%;
+}
+
+.actions-column {
+  width: 11%;
+  white-space: nowrap;
+}
+
+
+/* Стили для остальных столбцов */
+.category-column {
+  width: 15%;
+}
+
+.difficulty-column {
+  width: 20%;
+}
+
+.date-column {
+  width: 15%;
+}
+
+.actions-column {
+  width: 10%;
+}
+
+.card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    height: 100%;
+}
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.progress {
+    height: 8px;
+    margin-top: 10px;
+    background-color: #e9ecef;
+}
+.progress-bar {
+    background-color: #4e73df;
+    transition: width 0.6s ease;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+  .task-library-table {
+    display: block;
+    overflow-x: auto;
+  }
+  
+  .task-column {
+    width: 200px; /* Фиксированная ширина для мобильных */
+  }
+}
